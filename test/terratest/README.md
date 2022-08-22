@@ -7,7 +7,8 @@ function app and related resources which will be tested to ensure they are built
 ## Usage
 
 From the root of the repo run
-go mod init github.com/hmcts/cpp-module-terraform-azurerm-application-gateway
+go mod init github.com/hmcts/cpp-module-terraform-azurerm-functionapp
+
 To execute the tests execute the following from within the test file's folder:
 
 Ensure your go environment is setup.
