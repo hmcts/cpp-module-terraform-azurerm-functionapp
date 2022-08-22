@@ -1,14 +1,12 @@
 package test
 
 import (
-	"fmt"
-	http_helper "github.com/gruntwork-io/terratest/modules/http-helper"
+	"github.com/gruntwork-io/terratest/modules/azure"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	test_structure "github.com/gruntwork-io/terratest/modules/test-structure"
 	"github.com/stretchr/testify/assert"
 	"path/filepath"
 	"testing"
-	"time"
 )
 
 //Testing the secure-file-transfer Module
