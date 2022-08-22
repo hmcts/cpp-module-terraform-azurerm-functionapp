@@ -58,7 +58,7 @@ func TestTerraformAzureFunctionApp(t *testing.T) {
 
 	assert.Equal(t, functionAppId, *site.ID)
 	assert.Equal(t, functionAppName, *site.DefaultHostName)
-	assert.Equal(t, functionAppWorkerCount, *site.siteConfig.NumberOfWorkers)
+	assert.Equal(t, functionAppWorkerCount, *site.SiteConfig.NumberOfWorkers)
 	assert.NotEmpty(t, *site.OutboundIPAddresses)
 	assert.Equal(t, "Running", *site.State)
 }
