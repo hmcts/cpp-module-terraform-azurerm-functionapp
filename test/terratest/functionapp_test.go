@@ -6,6 +6,7 @@ import (
 	test_structure "github.com/gruntwork-io/terratest/modules/test-structure"
 	"github.com/stretchr/testify/assert"
 	"path/filepath"
+	"strconv"
 	"testing"
 )
 
@@ -43,13 +44,13 @@ func TestTerraformAzureFunctionApp(t *testing.T) {
 
 	// Run `terraform output` to get the values of output variables
 	resourceGroupName := terraform.Output(t, terraformPlanOptions, "resource_group_name")
-	storageAccountId := terraform.Output(t, terraformPlanOptions, "storage_account_id")
+	//storageAccountId := terraform.Output(t, terraformPlanOptions, "storage_account_id")
 	storageAccountName := terraform.Output(t, terraformPlanOptions, "storage_account_name")
 	functionAppName := terraform.Output(t, terraformPlanOptions, "function_app_name")
 	functionAppId := terraform.Output(t, terraformPlanOptions, "function_app_id")
-	functionAppWorkerCount := terraform.Output(t, terraformPlanOptions, "function_app_worker_count")
-	appInsightsId := terraform.Output(t, terraformPlanOptions, "app_insights_id")
-	appInsightsInstrumentationKey := terraform.Output(t, terraformPlanOptions, "app_insights_instrumentation_key")
+	functionAppWorkerCount, _ := strconv.ParseInt(terraform.Output(t, terraformPlanOptions, "function_app_worker_count"), 10, 32)
+	//appInsightsId := terraform.Output(t, terraformPlanOptions, "app_insights_id")
+	//appInsightsInstrumentationKey := terraform.Output(t, terraformPlanOptions, "app_insights_instrumentation_key")
 
 	// Assert statements
 	assert.True(t, azure.AppExists(t, functionAppName, resourceGroupName, ""))
@@ -57,8 +58,8 @@ func TestTerraformAzureFunctionApp(t *testing.T) {
 	site := azure.GetAppService(t, functionAppName, resourceGroupName, "")
 
 	assert.Equal(t, functionAppId, *site.ID)
-	assert.Equal(t, functionAppName, *site.DefaultHostName)
-	assert.Equal(t, functionAppWorkerCount, *site.SiteConfig.NumberOfWorkers)
+	assert.Equal(t, functionAppName+".azurewebsites.net", *site.DefaultHostName)
+	assert.Equal(t, int32(functionAppWorkerCount), *site.SiteConfig.NumberOfWorkers)
 	assert.NotEmpty(t, *site.OutboundIPAddresses)
 	assert.Equal(t, "Running", *site.State)
 }
