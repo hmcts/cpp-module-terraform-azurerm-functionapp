@@ -28,5 +28,3 @@ module "functionapp_terratest" {
   application = var.application
   type        = var.type
 }
-
-

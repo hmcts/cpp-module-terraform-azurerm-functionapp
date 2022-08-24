@@ -38,6 +38,3 @@ output "app_insights_instrumentation_key" {
   value       = module.functionapp_terratest.app_insights_instrumentation_key
   sensitive   = true
 }
-
-
-

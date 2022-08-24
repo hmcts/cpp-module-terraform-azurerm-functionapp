@@ -76,7 +76,7 @@ resource "azurerm_linux_function_app" "linux_function" {
   client_certificate_mode     = var.client_certificate_mode
   builtin_logging_enabled     = var.builtin_logging_enabled
   tags                        = module.tag_set.tags
-  # storage_uses_managed_identity = 
+  # storage_uses_managed_identity =
   # storage_key_vault_secret_id =
 
   app_settings = merge(
