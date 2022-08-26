@@ -135,7 +135,6 @@ variable "asp_zone_balancing_enabled" {
 ###############
 # FUNCTIONAPP #
 ###############
-
 variable "function_app_name" {
   description = "Function App Name"
   type        = string

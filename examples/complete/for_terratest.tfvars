@@ -18,7 +18,7 @@ site_config = {
   minimum_tls_version = "1.2"
   worker_count        = 2
   application_stack = {
-    node_version = 14
+    node_version = "~14"
   }
 }
 application_zip_package_path = "path/to/zip_pkg"

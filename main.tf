@@ -38,17 +38,6 @@ resource "azurerm_storage_account" "main" {
   }
 }
 
-# resource "azurerm_storage_blob" "package_blob" {
-#   count = var.application_zip_package_path != null && local.is_local_zip ? 1 : 0
-
-#   name                   = "${local.function_app_name}.zip"
-#   storage_account_name   = azurerm_storage_container.package_container[0].storage_account_name
-#   storage_container_name = azurerm_storage_container.package_container[0].name
-#   type                   = "Block"
-#   source                 = var.application_zip_package_path
-#   content_md5            = filemd5(var.application_zip_package_path)
-# }
-
 
 # App Service Plan
 resource "azurerm_service_plan" "main" {
@@ -65,6 +54,7 @@ resource "azurerm_service_plan" "main" {
 
 # Function App
 resource "azurerm_linux_function_app" "linux_function" {
+  count                       = var.asp_os_type == "Linux" ? 1 : 0
   name                        = var.function_app_name
   service_plan_id             = azurerm_service_plan.main.id
   location                    = var.region
@@ -76,8 +66,6 @@ resource "azurerm_linux_function_app" "linux_function" {
   client_certificate_mode     = var.client_certificate_mode
   builtin_logging_enabled     = var.builtin_logging_enabled
   tags                        = module.tag_set.tags
-  # storage_uses_managed_identity =
-  # storage_key_vault_secret_id =
 
   app_settings = merge(
     local.default_application_settings,
@@ -120,8 +108,61 @@ resource "azurerm_linux_function_app" "linux_function" {
   }
 }
 
-# App Insights
+resource "azurerm_windows_function_app" "windows_function" {
+  count                       = var.asp_os_type == "Windows" ? 1 : 0
+  name                        = var.function_app_name
+  service_plan_id             = azurerm_service_plan.main.id
+  location                    = var.region
+  resource_group_name         = azurerm_resource_group.main.name
+  storage_account_name        = azurerm_storage_account.main.0.name
+  functions_extension_version = "~${var.function_app_version}"
+  https_only                  = var.https_only
+  client_certificate_enabled  = var.client_certificate_enabled
+  client_certificate_mode     = var.client_certificate_mode
+  builtin_logging_enabled     = var.builtin_logging_enabled
+  tags                        = module.tag_set.tags
 
+  app_settings = merge(
+    local.default_application_settings,
+    var.function_app_application_settings,
+  )
+
+  lifecycle {
+    ignore_changes = [
+      app_settings.WEBSITE_RUN_FROM_ZIP,
+      app_settings.WEBSITE_RUN_FROM_PACKAGE,
+      app_settings.MACHINEKEY_DecryptionKey,
+      app_settings.WEBSITE_CONTENTAZUREFILECONNECTIONSTRING,
+      app_settings.WEBSITE_CONTENTSHARE
+    ]
+  }
+
+  dynamic "site_config" {
+    for_each = [var.site_config]
+    content {
+      always_on                = lookup(site_config.value, "always_on", null)
+      app_scale_limit          = lookup(site_config.value, "app_scale_limit", null)
+      http2_enabled            = lookup(site_config.value, "http2_enabled", null)
+      minimum_tls_version      = lookup(site_config.value, "minimum_tls_version", null)
+      elastic_instance_minimum = lookup(site_config.value, "elastic_instance_minimum", null)
+      worker_count             = lookup(site_config.value, "worker_count", null)
+
+      dynamic "application_stack" {
+        for_each = lookup(site_config.value, "application_stack", null) == null ? [] : ["application_stack"]
+        content {
+          dotnet_version              = lookup(var.site_config.application_stack, "dotnet_version", null)
+          use_dotnet_isolated_runtime = lookup(var.site_config.application_stack, "use_dotnet_isolated_runtime", null)
+          java_version                = lookup(var.site_config.application_stack, "java_version", null)
+          node_version                = lookup(var.site_config.application_stack, "node_version", null)
+          powershell_core_version     = lookup(var.site_config.application_stack, "powershell_core_version", null)
+          use_custom_runtime          = lookup(var.site_config.application_stack, "use_custom_runtime", null)
+        }
+      }
+    }
+  }
+}
+
+# App Insights
 data "azurerm_application_insights" "app_insights" {
   count = var.application_insights_enabled && var.application_insights_id != null ? 1 : 0
 
