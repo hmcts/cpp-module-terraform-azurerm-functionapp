@@ -4,13 +4,13 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.2.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | =3.19.1 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | =3.20.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | =3.19.1 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | =3.20.0 |
 
 ## Modules
 
@@ -22,12 +22,12 @@
 
 | Name | Type |
 |------|------|
-| [azurerm_application_insights.app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/application_insights) | resource |
-| [azurerm_linux_function_app.linux_function](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/linux_function_app) | resource |
-| [azurerm_resource_group.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/resource_group) | resource |
-| [azurerm_service_plan.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/service_plan) | resource |
-| [azurerm_storage_account.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/storage_account) | resource |
-| [azurerm_application_insights.app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/data-sources/application_insights) | data source |
+| [azurerm_application_insights.app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/3.20.0/docs/resources/application_insights) | resource |
+| [azurerm_linux_function_app.linux_function](https://registry.terraform.io/providers/hashicorp/azurerm/3.20.0/docs/resources/linux_function_app) | resource |
+| [azurerm_resource_group.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.20.0/docs/resources/resource_group) | resource |
+| [azurerm_service_plan.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.20.0/docs/resources/service_plan) | resource |
+| [azurerm_storage_account.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.20.0/docs/resources/storage_account) | resource |
+| [azurerm_application_insights.app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/3.20.0/docs/data-sources/application_insights) | data source |
 
 ## Inputs
 
