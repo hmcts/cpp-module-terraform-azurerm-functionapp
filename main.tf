@@ -11,7 +11,7 @@ module "tag_set" {
 }
 
 resource "azurerm_resource_group" "main" {
-  name     = var.resource_group_name
+  name     = "rg-${var.environment}-${var.namespace}-${var.application}"
   location = var.region
 }
 
@@ -41,7 +41,7 @@ resource "azurerm_storage_account" "main" {
 
 # App Service Plan
 resource "azurerm_service_plan" "main" {
-  name                     = var.asp_name
+  name                     = "as-${var.environment}-${var.namespace}-${var.application}"
   location                 = var.region
   resource_group_name      = azurerm_resource_group.main.name
   os_type                  = var.asp_os_type
@@ -55,7 +55,7 @@ resource "azurerm_service_plan" "main" {
 # Function App
 resource "azurerm_linux_function_app" "linux_function" {
   count                       = var.asp_os_type == "Linux" ? 1 : 0
-  name                        = var.function_app_name
+  name                        = "fa-${var.environment}-${var.namespace}-${var.application}"
   service_plan_id             = azurerm_service_plan.main.id
   location                    = var.region
   resource_group_name         = azurerm_resource_group.main.name
@@ -110,7 +110,7 @@ resource "azurerm_linux_function_app" "linux_function" {
 
 resource "azurerm_windows_function_app" "windows_function" {
   count                       = var.asp_os_type == "Windows" ? 1 : 0
-  name                        = var.function_app_name
+  name                        = "fa-${var.environment}-${var.namespace}-${var.application}"
   service_plan_id             = azurerm_service_plan.main.id
   location                    = var.region
   resource_group_name         = azurerm_resource_group.main.name
@@ -173,7 +173,7 @@ data "azurerm_application_insights" "app_insights" {
 resource "azurerm_application_insights" "app_insights" {
   count = var.application_insights_enabled && var.application_insights_id == null ? 1 : 0
 
-  name                = var.app_insights_name #TODO change name
+  name                = "ai-${var.environment}-${var.namespace}-${var.application}"
   location            = var.region
   resource_group_name = azurerm_resource_group.main.name
   workspace_id        = var.application_insights_log_analytics_workspace_id

@@ -7,11 +7,6 @@ variable "region" {
   default = "uksouth"
 }
 
-variable "resource_group_name" {
-  type    = string
-  default = null
-}
-
 ###################
 # STORAGE ACCOUNT #
 ###################
@@ -98,11 +93,6 @@ variable "storage_account_authorized_ips" {
 # APP SERVICE PLAN #
 ####################
 
-variable "asp_name" {
-  description = "Name of the App Service Plan for Function App hosting"
-  type        = string
-}
-
 variable "asp_sku" {
   description = "SKU of the App Service Plan for Function App hosting"
   type        = string
@@ -135,11 +125,6 @@ variable "asp_zone_balancing_enabled" {
 ###############
 # FUNCTIONAPP #
 ###############
-variable "function_app_name" {
-  description = "Function App Name"
-  type        = string
-  default     = null
-}
 
 variable "function_app_version" {
   description = "Version of the function app runtime to use (Allowed values 2, 3 or 4)"
@@ -204,12 +189,6 @@ variable "application_zip_package_path" {
 ################
 # APP INSIGHTS #
 ################
-
-variable "app_insights_name" {
-  description = "App Insights Name"
-  type        = string
-  default     = null
-}
 
 variable "application_insights_enabled" {
   description = "Enable or disable the Application Insights deployment"
