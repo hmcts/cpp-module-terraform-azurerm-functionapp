@@ -137,6 +137,12 @@ variable "function_app_application_settings" {
   default     = {}
 }
 
+variable "function_app_application_settings_sensitive" {
+  description = "Function App application settings with sensitive values"
+  type        = map(string)
+  default     = {}
+}
+
 variable "site_config" {
   description = "Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is not managed in this block."
   type        = any
