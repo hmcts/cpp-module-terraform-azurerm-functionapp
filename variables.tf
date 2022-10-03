@@ -219,6 +219,40 @@ variable "application_insights_retention" {
   default     = 90
 }
 
+#############
+# LOGIC APP #
+#############
+
+variable "logicapp_enabled" {
+  description = "Enable or disable a Logic App deployment"
+  type        = bool
+  default     = false
+}
+
+variable "logicapp_template" {
+  description = "The ARM template of the Logic App deployment"
+  type        = string
+  default     = null
+}
+
+variable "logicapp_parameters" {
+  description = "The Logic App ARM template parameters"
+  type        = string
+  default     = null
+}
+
+variable "logicapp_api_connection_template" {
+  description = "The ARM template of the Logic App api connection deployment"
+  type        = string
+  default     = null
+}
+
+variable "logicapp_api_connection_parameters" {
+  description = "The Logic App api connection ARM template parameters"
+  type        = string
+  default     = null
+}
+
 ############
 # TAGGING  #
 ############
