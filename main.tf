@@ -181,3 +181,24 @@ resource "azurerm_application_insights" "app_insights" {
   retention_in_days   = var.application_insights_retention
   tags                = module.tag_set.tags
 }
+
+# Logic App
+resource "azurerm_resource_group_template_deployment" "terraform-arm" {
+  count               = var.logicapp_enabled == true ? 1 : 0
+  name                = "lg-${var.environment}-${var.namespace}-${var.application}"
+  resource_group_name = azurerm_resource_group.main.name
+  template_content    = var.logicapp_template
+  parameters_content  = var.logicapp_parameters
+  deployment_mode     = "Incremental"
+  tags                = module.tag_set.tags
+}
+
+resource "azurerm_resource_group_template_deployment" "smtp_api_connection" {
+  count               = var.logicapp_enabled == true ? 1 : 0
+  name                = "smtp-api-connection"
+  resource_group_name = azurerm_resource_group.main.name
+  template_content    = var.logicapp_api_connection_template
+  parameters_content  = var.logicapp_api_connection_parameters
+  deployment_mode     = "Incremental"
+  tags                = module.tag_set.tags
+}
