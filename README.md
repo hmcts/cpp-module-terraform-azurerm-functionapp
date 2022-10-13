@@ -11,6 +11,7 @@
 | Name | Version |
 |------|---------|
 | <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | =3.19.1 |
+| <a name="provider_null"></a> [null](#provider\_null) | n/a |
 
 ## Modules
 
@@ -30,6 +31,7 @@
 | [azurerm_service_plan.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/service_plan) | resource |
 | [azurerm_storage_account.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/storage_account) | resource |
 | [azurerm_windows_function_app.windows_function](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/windows_function_app) | resource |
+| [null_resource.functionapp_deploy](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [azurerm_application_insights.app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/data-sources/application_insights) | data source |
 
 ## Inputs
@@ -42,7 +44,6 @@
 | <a name="input_application_insights_log_analytics_workspace_id"></a> [application\_insights\_log\_analytics\_workspace\_id](#input\_application\_insights\_log\_analytics\_workspace\_id) | ID of the Log Analytics Workspace to be used with Application Insights | `string` | `null` | no |
 | <a name="input_application_insights_retention"></a> [application\_insights\_retention](#input\_application\_insights\_retention) | Specify retention period (in days) for logs | `number` | `90` | no |
 | <a name="input_application_insights_type"></a> [application\_insights\_type](#input\_application\_insights\_type) | Application Insights type if need to be generated. See documentation https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights#application_type | `string` | `"web"` | no |
-| <a name="input_application_zip_package_path"></a> [application\_zip\_package\_path](#input\_application\_zip\_package\_path) | Local or remote path of a zip package to deploy on the Function App | `string` | `null` | no |
 | <a name="input_asp_instance_size"></a> [asp\_instance\_size](#input\_asp\_instance\_size) | The number of Workers (instances) to be allocated to the ASP | `number` | `1` | no |
 | <a name="input_asp_os_type"></a> [asp\_os\_type](#input\_asp\_os\_type) | OS of the App Service Plan for Function App hosting | `string` | n/a | yes |
 | <a name="input_asp_per_site_scaling_enabled"></a> [asp\_per\_site\_scaling\_enabled](#input\_asp\_per\_site\_scaling\_enabled) | Should Per Site Scaling be enabled | `bool` | `false` | no |
@@ -56,6 +57,7 @@
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment into which resource is deployed | `string` | `""` | no |
 | <a name="input_function_app_application_settings"></a> [function\_app\_application\_settings](#input\_function\_app\_application\_settings) | Function App application settings | `map(string)` | `{}` | no |
 | <a name="input_function_app_version"></a> [function\_app\_version](#input\_function\_app\_version) | Version of the function app runtime to use (Allowed values 2, 3 or 4) | `number` | `4` | no |
+| <a name="input_functionapp_package"></a> [functionapp\_package](#input\_functionapp\_package) | The ZIP file location of the functionapp package | `string` | n/a | yes |
 | <a name="input_https_only"></a> [https\_only](#input\_https\_only) | Disable http procotol and keep only https | `bool` | `true` | no |
 | <a name="input_logicapp_api_connection_parameters"></a> [logicapp\_api\_connection\_parameters](#input\_logicapp\_api\_connection\_parameters) | The Logic App api connection ARM template parameters | `string` | `null` | no |
 | <a name="input_logicapp_api_connection_template"></a> [logicapp\_api\_connection\_template](#input\_logicapp\_api\_connection\_template) | The ARM template of the Logic App api connection deployment | `string` | `null` | no |

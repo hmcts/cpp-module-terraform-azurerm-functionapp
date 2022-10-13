@@ -12,9 +12,9 @@ module "functionapp_terratest" {
   asp_os_type                               = var.asp_os_type
   asp_instance_size                         = var.asp_instance_size
   function_app_application_settings         = var.function_app_application_settings
+  functionapp_package                       = var.functionapp_package
   site_config                               = var.site_config
   application_insights_enabled              = var.application_insights_enabled
-  application_zip_package_path              = var.application_zip_package_path
 
   namespace   = var.namespace
   costcode    = var.costcode

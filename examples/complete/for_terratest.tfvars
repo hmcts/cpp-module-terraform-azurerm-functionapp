@@ -8,6 +8,8 @@ storage_account_identity_ids              = null
 storage_account_account_replication_type  = "LRS"
 asp_os_type                               = "Linux"
 asp_instance_size                         = 2
+
+functionapp_package = "https://libraries-internal.mdv.cpp.nonlive/artifactory/list/repocentral/uk/gov/moj/cpp/notification/notify/notificationnotify-azure-functions/8.0.2/notificationnotify-azure-functions-8.0.2.zip"
 function_app_application_settings = {
   WEBSITE_NODE_DEFAULT_VERSION = "~14"
 }
@@ -18,7 +20,6 @@ site_config = {
     node_version = "14"
   }
 }
-application_zip_package_path = "path/to/zip_pkg"
 app_insights_name            = "ai-lab-fa-01"
 application_insights_enabled = true
 
