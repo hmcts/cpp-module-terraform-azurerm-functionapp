@@ -132,6 +132,10 @@ variable "function_app_version" {
   default     = 4
 }
 
+variable "functionapp_package" {
+  description = "The ZIP file location of the functionapp package"
+  type        = string
+}
 variable "function_app_application_settings" {
   description = "Function App application settings"
   type        = map(string)

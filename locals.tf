@@ -1,17 +1,11 @@
 locals {
-  app_insights    = try(data.azurerm_application_insights.app_insights[0], try(azurerm_application_insights.app_insights[0], {}))
-  is_local_zip    = length(regexall("^(http(s)?|ftp)://", var.application_zip_package_path != null ? var.application_zip_package_path : 0)) == 0
-  zip_package_url = var.application_zip_package_path
+  app_insights = try(data.azurerm_application_insights.app_insights[0], try(azurerm_application_insights.app_insights[0], {}))
 
   default_application_settings = merge(
     var.application_insights_enabled ? {
       APPLICATION_INSIGHTS_IKEY             = try(local.app_insights.instrumentation_key, "")
       APPINSIGHTS_INSTRUMENTATIONKEY        = try(local.app_insights.instrumentation_key, "")
       APPLICATIONINSIGHTS_CONNECTION_STRING = try(local.app_insights.connection_string, "")
-    } : {},
-    var.application_zip_package_path != null ? {
-      # MD5 as query to force function restart on change
-      WEBSITE_RUN_FROM_PACKAGE : local.zip_package_url
     } : {}
   )
 

@@ -131,6 +131,11 @@ variable "function_app_version" {
   default     = 4
 }
 
+variable "functionapp_package" {
+  description = "The ZIP file location of the functionapp package"
+  type        = string
+}
+
 variable "function_app_application_settings" {
   description = "Function App application settings"
   type        = map(string)
@@ -163,12 +168,6 @@ variable "client_certificate_enabled" {
 
 variable "client_certificate_mode" {
   description = "(Optional) The mode of the Function App's client certificates requirement for incoming requests. Possible values are `Required`, `Optional`, and `OptionalInteractiveUser`."
-  type        = string
-  default     = null
-}
-
-variable "application_zip_package_path" {
-  description = "Local or remote path of a zip package to deploy on the Function App"
   type        = string
   default     = null
 }

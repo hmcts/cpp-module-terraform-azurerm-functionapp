@@ -115,6 +115,7 @@ resource "azurerm_windows_function_app" "windows_function" {
   location                    = var.region
   resource_group_name         = azurerm_resource_group.main.name
   storage_account_name        = azurerm_storage_account.main.0.name
+  storage_account_access_key  = azurerm_storage_account.main.0.primary_access_key
   functions_extension_version = "~${var.function_app_version}"
   https_only                  = var.https_only
   client_certificate_enabled  = var.client_certificate_enabled
@@ -162,6 +163,24 @@ resource "azurerm_windows_function_app" "windows_function" {
   }
 }
 
+resource "null_resource" "functionapp_deploy" {
+  triggers = {
+    functionapp_package = var.functionapp_package
+  }
+  provisioner "local-exec" {
+    command = <<EOT
+    curl -k ${var.functionapp_package} -o app.zip
+    az functionapp deployment source config-zip --src app.zip -g ${azurerm_resource_group.main.name} -n ${"fa-${var.environment}-${var.namespace}-${var.application}"}
+    rm app.zip
+    sleep 60
+    EOT
+  }
+  depends_on = [
+    azurerm_linux_function_app.linux_function,
+    azurerm_windows_function_app.windows_function
+  ]
+}
+
 # App Insights
 data "azurerm_application_insights" "app_insights" {
   count = var.application_insights_enabled && var.application_insights_id != null ? 1 : 0
@@ -191,6 +210,9 @@ resource "azurerm_resource_group_template_deployment" "terraform-arm" {
   parameters_content  = var.logicapp_parameters
   deployment_mode     = "Incremental"
   tags                = module.tag_set.tags
+  depends_on = [
+    null_resource.functionapp_deploy
+  ]
 }
 
 resource "azurerm_resource_group_template_deployment" "smtp_api_connection" {
