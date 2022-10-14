@@ -17,7 +17,7 @@ resource "azurerm_resource_group" "main" {
 
 # Storage Account
 resource "azurerm_storage_account" "main" {
-  count                           = var.storage_account_id == null ? 1 : 0
+  count                           = var.create_storage_account ? 1 : 0
   name                            = var.storage_account_name
   location                        = var.region
   resource_group_name             = azurerm_resource_group.main.name
@@ -38,10 +38,18 @@ resource "azurerm_storage_account" "main" {
   }
 }
 
+data "azurerm_storage_account" "st_acc" {
+  name                = var.storage_account_name
+  resource_group_name = azurerm_resource_group.main.name
+  depends_on = [
+    azurerm_storage_account.main
+  ]
+}
 
 # App Service Plan
 resource "azurerm_service_plan" "main" {
-  name                     = "as-${var.environment}-${var.namespace}-${var.application}"
+  count                    = var.create_service_plan ? 1 : 0
+  name                     = var.service_plan_name
   location                 = var.region
   resource_group_name      = azurerm_resource_group.main.name
   os_type                  = var.asp_os_type
@@ -52,14 +60,23 @@ resource "azurerm_service_plan" "main" {
   tags                     = module.tag_set.tags
 }
 
+
+data "azurerm_service_plan" "sp" {
+  name                = var.service_plan_name
+  resource_group_name = azurerm_resource_group.main.name
+  depends_on = [
+    azurerm_service_plan.main
+  ]
+}
+
 # Function App
 resource "azurerm_linux_function_app" "linux_function" {
   count                       = var.asp_os_type == "Linux" ? 1 : 0
   name                        = "fa-${var.environment}-${var.namespace}-${var.application}"
-  service_plan_id             = azurerm_service_plan.main.id
+  service_plan_id             = data.azurerm_service_plan.sp.id
   location                    = var.region
   resource_group_name         = azurerm_resource_group.main.name
-  storage_account_name        = azurerm_storage_account.main.0.name
+  storage_account_name        = var.storage_account_name
   functions_extension_version = "~${var.function_app_version}"
   https_only                  = var.https_only
   client_certificate_enabled  = var.client_certificate_enabled
@@ -114,8 +131,8 @@ resource "azurerm_windows_function_app" "windows_function" {
   service_plan_id             = azurerm_service_plan.main.id
   location                    = var.region
   resource_group_name         = azurerm_resource_group.main.name
-  storage_account_name        = azurerm_storage_account.main.0.name
-  storage_account_access_key  = azurerm_storage_account.main.0.primary_access_key
+  storage_account_name        = var.storage_account_name
+  storage_account_access_key  = data.azurerm_storage_account.st_acc.primary_access_key
   functions_extension_version = "~${var.function_app_version}"
   https_only                  = var.https_only
   client_certificate_enabled  = var.client_certificate_enabled
