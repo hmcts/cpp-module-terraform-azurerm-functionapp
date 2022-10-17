@@ -128,7 +128,7 @@ resource "azurerm_linux_function_app" "linux_function" {
 resource "azurerm_windows_function_app" "windows_function" {
   count                       = var.asp_os_type == "Windows" ? 1 : 0
   name                        = "fa-${var.environment}-${var.namespace}-${var.application}"
-  service_plan_id             = azurerm_service_plan.main.id
+  service_plan_id             = data.azurerm_service_plan.sp.id
   location                    = var.region
   resource_group_name         = azurerm_resource_group.main.name
   storage_account_name        = var.storage_account_name
