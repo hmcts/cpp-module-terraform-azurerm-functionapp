@@ -30,5 +30,5 @@ output "function_app_worker_count" {
 
 output "app_insights_name" {
   description = "The name of the Application Insights component."
-  value       = var.application_insights_name ? var.application_insights_name: azurerm_application_insights.app_insights.0.id
+  value       = var.application_insights_name != null ? var.application_insights_name : azurerm_application_insights.app_insights.0.id
 }
