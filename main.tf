@@ -196,7 +196,7 @@ resource "null_resource" "functionapp_deploy" {
   provisioner "local-exec" {
     command = <<EOT
     curl -k ${var.functionapp_package} -o app.zip
-    az functionapp deployment source config-zip --src app.zip -g ${azurerm_resource_group.main.name} -n ${"fa-${var.environment}-${var.namespace}-${var.application}"}
+    az functionapp deployment source config-zip --src app.zip -g ${data.azurerm_resource_group.main.name} -n ${"fa-${var.environment}-${var.namespace}-${var.application}"}
     rm app.zip
     sleep 60
     EOT
