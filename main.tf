@@ -2,6 +2,7 @@ module "tag_set" {
   source         = "git::https://github.com/hmcts/cpp-module-terraform-azurerm-tag-generator.git?ref=main"
   namespace      = var.namespace
   application    = var.application
+  costcode       = var.costcode
   owner          = var.owner
   version_number = var.version_number
   attribute      = var.attribute

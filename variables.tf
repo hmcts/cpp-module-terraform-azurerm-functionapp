@@ -274,6 +274,12 @@ variable "namespace" {
   description = "Namespace, which could be an organization name or abbreviation, e.g. 'eg' or 'cp'"
 }
 
+variable "costcode" {
+  type        = string
+  description = "Name of theDWP PRJ number (obtained from the project portfolio in TechNow)"
+  default     = ""
+}
+
 variable "owner" {
   type        = string
   description = "Name of the project or sqaud within the PDU which manages the resource. May be a persons name or email also"
