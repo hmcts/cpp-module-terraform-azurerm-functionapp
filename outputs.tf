@@ -5,12 +5,12 @@ output "resource_group_name" {
 
 output "storage_account_id" {
   description = "The ID of the Storage Account."
-  value       = azurerm_storage_account.main.0.id
+  value       = data.azurerm_storage_account.st_acc.id
 }
 
 output "storage_account_name" {
   description = "The name of the Storage Account"
-  value       = azurerm_storage_account.main.0.name
+  value       = data.azurerm_storage_account.st_acc.name
 }
 
 output "function_app_name" {
