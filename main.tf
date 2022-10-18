@@ -77,6 +77,7 @@ resource "azurerm_linux_function_app" "linux_function" {
   location                    = var.region
   resource_group_name         = azurerm_resource_group.main.name
   storage_account_name        = var.storage_account_name
+  storage_account_access_key  = data.azurerm_storage_account.st_acc.primary_access_key
   functions_extension_version = "~${var.function_app_version}"
   https_only                  = var.https_only
   client_certificate_enabled  = var.client_certificate_enabled
