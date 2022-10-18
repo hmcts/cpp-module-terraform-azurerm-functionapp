@@ -298,6 +298,12 @@ variable "application" {
   default     = ""
 }
 
+variable "application_group" {
+  type        = string
+  description = "Application to which the s3 bucket relates"
+  default     = ""
+}
+
 variable "attribute" {
   type        = string
   description = "An attribute of the s3 bucket that makes it unique"

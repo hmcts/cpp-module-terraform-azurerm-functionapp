@@ -11,7 +11,7 @@ module "tag_set" {
 }
 
 resource "azurerm_resource_group" "main" {
-  name     = "rg-${var.environment}-${var.namespace}-${var.application}"
+  name     = "rg-${var.environment}-${var.namespace}-${var.application_group}"
   location = var.region
 }
 
