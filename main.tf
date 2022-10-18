@@ -201,14 +201,14 @@ resource "null_resource" "functionapp_deploy" {
 
 # App Insights
 data "azurerm_application_insights" "app_insights" {
-  count = var.application_insights_enabled && var.application_insights_id != null ? 1 : 0
+  count = var.application_insights_enabled && var.application_insights_name != null ? 1 : 0
 
-  name                = split("/", var.application_insights_id)[8]
-  resource_group_name = split("/", var.application_insights_id)[4]
+  name                = var.application_insights_name
+  resource_group_name = azurerm_resource_group.main.name
 }
 
 resource "azurerm_application_insights" "app_insights" {
-  count = var.application_insights_enabled && var.application_insights_id == null ? 1 : 0
+  count = var.application_insights_enabled && var.application_insights_name == null ? 1 : 0
 
   name                = "ai-${var.environment}-${var.namespace}-${var.application}"
   location            = var.region
