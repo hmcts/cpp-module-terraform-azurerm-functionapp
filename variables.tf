@@ -7,6 +7,12 @@ variable "region" {
   default = "uksouth"
 }
 
+variable "create_resource_group" {
+  description = " If true a new resource group is created"
+  type        = bool
+  default     = true
+}
+
 ###################
 # STORAGE ACCOUNT #
 ###################
