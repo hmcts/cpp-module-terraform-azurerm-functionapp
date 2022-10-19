@@ -17,6 +17,12 @@ variable "storage_account_name" {
   default     = null
 }
 
+variable "service_plan_name" {
+  description = "Service Plan Name"
+  type        = string
+  default     = null
+}
+
 variable "storage_account_id" {
   description = "Access key the storage account to use. If null a new storage account is created"
   type        = string
