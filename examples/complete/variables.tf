@@ -20,7 +20,7 @@ variable "storage_account_name" {
 variable "service_plan_name" {
   description = "Service Plan Name"
   type        = string
-  default     = null
+  default     = "test"
 }
 
 variable "storage_account_id" {
