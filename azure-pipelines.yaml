@@ -8,6 +8,7 @@ resources:
   - repository: cppAzureDevOpsTemplates
     type: github
     name: hmcts/cpp-azure-devops-templates
+    ref: 'terratest_selfagents'
     endpoint: 'cpp-apps'
 
 extends:
