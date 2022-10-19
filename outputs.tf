@@ -1,16 +1,16 @@
 output "resource_group_name" {
   description = "The name of the Resource Group"
-  value       = azurerm_resource_group.main.name
+  value       = data.azurerm_resource_group.main.name
 }
 
 output "storage_account_id" {
   description = "The ID of the Storage Account."
-  value       = azurerm_storage_account.main.0.id
+  value       = data.azurerm_storage_account.st_acc.id
 }
 
 output "storage_account_name" {
   description = "The name of the Storage Account"
-  value       = azurerm_storage_account.main.0.name
+  value       = data.azurerm_storage_account.st_acc.name
 }
 
 output "function_app_name" {
@@ -28,13 +28,7 @@ output "function_app_worker_count" {
   value       = var.asp_os_type == "Linux" ? lookup(azurerm_linux_function_app.linux_function.0.site_config[0], "worker_count", null) : lookup(azurerm_windows_function_app.windows_function.0.site_config[0], "worker_count", null)
 }
 
-output "app_insights_id" {
-  description = "The ID of the Application Insights component."
-  value       = azurerm_application_insights.app_insights.0.id
-}
-
-output "app_insights_instrumentation_key" {
-  description = "The instrumentation key of the Application Insights component."
-  value       = azurerm_application_insights.app_insights.0.instrumentation_key
-  sensitive   = true
+output "app_insights_name" {
+  description = "The name of the Application Insights component."
+  value       = var.application_insights_name != null ? var.application_insights_name : azurerm_application_insights.app_insights.0.id
 }

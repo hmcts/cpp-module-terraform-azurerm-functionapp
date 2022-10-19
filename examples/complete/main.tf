@@ -15,12 +15,12 @@ module "functionapp_terratest" {
   functionapp_package                       = var.functionapp_package
   site_config                               = var.site_config
   application_insights_enabled              = var.application_insights_enabled
-
-  namespace   = var.namespace
-  costcode    = var.costcode
-  attribute   = var.attribute
-  owner       = var.owner
-  environment = var.environment
-  application = var.application
-  type        = var.type
+  service_plan_name                         = var.service_plan_name
+  namespace                                 = var.namespace
+  costcode                                  = var.costcode
+  attribute                                 = var.attribute
+  owner                                     = var.owner
+  environment                               = var.environment
+  application                               = var.application
+  type                                      = var.type
 }

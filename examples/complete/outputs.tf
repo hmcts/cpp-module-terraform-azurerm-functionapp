@@ -28,13 +28,7 @@ output "function_app_worker_count" {
   value       = module.functionapp_terratest.function_app_worker_count
 }
 
-output "app_insights_id" {
-  description = "The ID of the Application Insights component."
-  value       = module.functionapp_terratest.app_insights_id
-}
-
-output "app_insights_instrumentation_key" {
-  description = "The instrumentation key of the Application Insights component."
-  value       = module.functionapp_terratest.app_insights_instrumentation_key
-  sensitive   = true
+output "app_insights_name" {
+  description = "The name of the Application Insights component."
+  value       = var.application_insights_name != null ? var.application_insights_name : module.functionapp_terratest.app_insights_name
 }

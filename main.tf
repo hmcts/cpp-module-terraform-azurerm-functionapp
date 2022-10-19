@@ -11,16 +11,24 @@ module "tag_set" {
 }
 
 resource "azurerm_resource_group" "main" {
-  name     = "rg-${var.environment}-${var.namespace}-${var.application}"
+  count    = var.create_resource_group ? 1 : 0
+  name     = "rg-${var.environment}-${var.namespace}-${var.application_group}"
   location = var.region
+}
+
+data "azurerm_resource_group" "main" {
+  name = "rg-${var.environment}-${var.namespace}-${var.application_group}"
+  depends_on = [
+    azurerm_resource_group.main
+  ]
 }
 
 # Storage Account
 resource "azurerm_storage_account" "main" {
-  count                           = var.storage_account_id == null ? 1 : 0
+  count                           = var.create_storage_account ? 1 : 0
   name                            = var.storage_account_name
   location                        = var.region
-  resource_group_name             = azurerm_resource_group.main.name
+  resource_group_name             = data.azurerm_resource_group.main.name
   account_replication_type        = var.storage_account_account_replication_type
   account_tier                    = var.storage_account_tier
   account_kind                    = var.storage_account_kind
@@ -38,12 +46,20 @@ resource "azurerm_storage_account" "main" {
   }
 }
 
+data "azurerm_storage_account" "st_acc" {
+  name                = var.storage_account_name
+  resource_group_name = data.azurerm_resource_group.main.name
+  depends_on = [
+    azurerm_storage_account.main
+  ]
+}
 
 # App Service Plan
 resource "azurerm_service_plan" "main" {
-  name                     = "as-${var.environment}-${var.namespace}-${var.application}"
+  count                    = var.create_service_plan ? 1 : 0
+  name                     = var.service_plan_name
   location                 = var.region
-  resource_group_name      = azurerm_resource_group.main.name
+  resource_group_name      = data.azurerm_resource_group.main.name
   os_type                  = var.asp_os_type
   sku_name                 = var.asp_sku
   worker_count             = var.asp_instance_size
@@ -52,14 +68,24 @@ resource "azurerm_service_plan" "main" {
   tags                     = module.tag_set.tags
 }
 
+
+data "azurerm_service_plan" "sp" {
+  name                = var.service_plan_name
+  resource_group_name = data.azurerm_resource_group.main.name
+  depends_on = [
+    azurerm_service_plan.main
+  ]
+}
+
 # Function App
 resource "azurerm_linux_function_app" "linux_function" {
   count                       = var.asp_os_type == "Linux" ? 1 : 0
   name                        = "fa-${var.environment}-${var.namespace}-${var.application}"
-  service_plan_id             = azurerm_service_plan.main.id
+  service_plan_id             = data.azurerm_service_plan.sp.id
   location                    = var.region
-  resource_group_name         = azurerm_resource_group.main.name
-  storage_account_name        = azurerm_storage_account.main.0.name
+  resource_group_name         = data.azurerm_resource_group.main.name
+  storage_account_name        = var.storage_account_name
+  storage_account_access_key  = data.azurerm_storage_account.st_acc.primary_access_key
   functions_extension_version = "~${var.function_app_version}"
   https_only                  = var.https_only
   client_certificate_enabled  = var.client_certificate_enabled
@@ -111,11 +137,11 @@ resource "azurerm_linux_function_app" "linux_function" {
 resource "azurerm_windows_function_app" "windows_function" {
   count                       = var.asp_os_type == "Windows" ? 1 : 0
   name                        = "fa-${var.environment}-${var.namespace}-${var.application}"
-  service_plan_id             = azurerm_service_plan.main.id
+  service_plan_id             = data.azurerm_service_plan.sp.id
   location                    = var.region
-  resource_group_name         = azurerm_resource_group.main.name
-  storage_account_name        = azurerm_storage_account.main.0.name
-  storage_account_access_key  = azurerm_storage_account.main.0.primary_access_key
+  resource_group_name         = data.azurerm_resource_group.main.name
+  storage_account_name        = var.storage_account_name
+  storage_account_access_key  = data.azurerm_storage_account.st_acc.primary_access_key
   functions_extension_version = "~${var.function_app_version}"
   https_only                  = var.https_only
   client_certificate_enabled  = var.client_certificate_enabled
@@ -170,7 +196,7 @@ resource "null_resource" "functionapp_deploy" {
   provisioner "local-exec" {
     command = <<EOT
     curl -k ${var.functionapp_package} -o app.zip
-    az functionapp deployment source config-zip --src app.zip -g ${azurerm_resource_group.main.name} -n ${"fa-${var.environment}-${var.namespace}-${var.application}"}
+    az functionapp deployment source config-zip --src app.zip -g ${data.azurerm_resource_group.main.name} -n ${"fa-${var.environment}-${var.namespace}-${var.application}"}
     rm app.zip
     sleep 60
     EOT
@@ -183,18 +209,18 @@ resource "null_resource" "functionapp_deploy" {
 
 # App Insights
 data "azurerm_application_insights" "app_insights" {
-  count = var.application_insights_enabled && var.application_insights_id != null ? 1 : 0
+  count = var.application_insights_enabled && var.application_insights_name != null ? 1 : 0
 
-  name                = split("/", var.application_insights_id)[8]
-  resource_group_name = split("/", var.application_insights_id)[4]
+  name                = var.application_insights_name
+  resource_group_name = data.azurerm_resource_group.main.name
 }
 
 resource "azurerm_application_insights" "app_insights" {
-  count = var.application_insights_enabled && var.application_insights_id == null ? 1 : 0
+  count = var.application_insights_enabled && var.application_insights_name == null ? 1 : 0
 
   name                = "ai-${var.environment}-${var.namespace}-${var.application}"
   location            = var.region
-  resource_group_name = azurerm_resource_group.main.name
+  resource_group_name = data.azurerm_resource_group.main.name
   workspace_id        = var.application_insights_log_analytics_workspace_id
   application_type    = var.application_insights_type
   retention_in_days   = var.application_insights_retention
@@ -205,7 +231,7 @@ resource "azurerm_application_insights" "app_insights" {
 resource "azurerm_resource_group_template_deployment" "terraform-arm" {
   count               = var.logicapp_enabled == true ? 1 : 0
   name                = "lg-${var.environment}-${var.namespace}-${var.application}"
-  resource_group_name = azurerm_resource_group.main.name
+  resource_group_name = data.azurerm_resource_group.main.name
   template_content    = var.logicapp_template
   parameters_content  = var.logicapp_parameters
   deployment_mode     = "Incremental"
@@ -218,7 +244,7 @@ resource "azurerm_resource_group_template_deployment" "terraform-arm" {
 resource "azurerm_resource_group_template_deployment" "smtp_api_connection" {
   count               = var.logicapp_enabled == true ? 1 : 0
   name                = "smtp-api-connection"
-  resource_group_name = azurerm_resource_group.main.name
+  resource_group_name = data.azurerm_resource_group.main.name
   template_content    = var.logicapp_api_connection_template
   parameters_content  = var.logicapp_api_connection_parameters
   deployment_mode     = "Incremental"

@@ -17,6 +17,12 @@ variable "storage_account_name" {
   default     = null
 }
 
+variable "service_plan_name" {
+  description = "Service Plan Name"
+  type        = string
+  default     = "test"
+}
+
 variable "storage_account_id" {
   description = "Access key the storage account to use. If null a new storage account is created"
   type        = string
@@ -200,7 +206,7 @@ variable "application_insights_enabled" {
   default     = true
 }
 
-variable "application_insights_id" {
+variable "application_insights_name" {
   description = "ID of the existing Application Insights to use instead of deploying a new one."
   type        = string
   default     = null
