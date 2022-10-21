@@ -9,7 +9,7 @@ locals {
     } : {}
   )
 
-  largefile_application_settings = (var.application == "LargeFileDownloadCleanup" ? { "material.alfrescoAzureStorageConnectionString" = data.azurerm_storage_account.st_acc.primary_access_key } : {})
+  largefile_application_settings = (var.application == "LargeFileDownloadCleanup" ? { "material.alfrescoAzureStorageConnectionString" = data.azurerm_storage_account.st_acc.primary_connection_string } : {})
 
   # If no subnet integration, allow function-app outbound IPs
   # function_out_ips = var.function_app_vnet_integration_subnet_id == null ? [] : distinct(concat(azurerm_linux_function_app.linux_function.possible_outbound_ip_addresses, azurerm_linux_function_app.linux_function.outbound_ip_addresses))
