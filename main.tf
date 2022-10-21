@@ -152,6 +152,7 @@ resource "azurerm_windows_function_app" "windows_function" {
   app_settings = merge(
     local.default_application_settings,
     var.function_app_application_settings,
+    local.largefile_application_settings
   )
 
   lifecycle {
