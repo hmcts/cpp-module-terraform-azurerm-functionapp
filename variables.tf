@@ -327,3 +327,15 @@ variable "type" {
   description = "Name of service type"
   default     = ""
 }
+
+
+
+######################
+# EVENT GRID TRIGGER #
+######################
+
+variable "eventgrid_topic_enabled" {
+  description = "Enable or disable an Event Grid Topic to trigger"
+  type        = bool
+  default     = false
+}
