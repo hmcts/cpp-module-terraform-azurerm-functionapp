@@ -349,3 +349,9 @@ variable "eventgrid_topic_subscriptions" {
   type        = object({})
   default     = {}
 }
+
+variable "eventgrid_system_topic_subscriptions" {
+  description = "The subscriptions that your function app will receive from your system topic"
+  type        = object({})
+  default     = {}
+}

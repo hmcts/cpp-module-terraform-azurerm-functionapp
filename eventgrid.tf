@@ -46,5 +46,5 @@ resource "azurerm_eventgrid_event_subscription" "function_app_eventgrid" {
   azure_function_endpoint {
     function_id = azurerm_linux_function_app.linux_function[count.index]
   }
-  for_each = var.eventgrid_topic_subscriptions
+  for_each = var.eventgrid_system_topic_subscriptions
 }
