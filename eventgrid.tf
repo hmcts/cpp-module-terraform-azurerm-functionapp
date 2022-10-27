@@ -24,7 +24,7 @@ resource "azurerm_eventgrid_system_topic" "function_app_eventgrid_system_topic" 
   name                   = "EGST-${var.environment}-${var.application}"
   resource_group_name    = data.azurerm_resource_group.main.name
   location               = var.region
-  source_arm_resource_id = azurerm_storage_account.main.id
+  source_arm_resource_id = azurerm_storage_account.main[count.index].id
   topic_type             = var.eventgrid_system_topic_enabled
 }
 
