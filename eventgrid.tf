@@ -13,7 +13,7 @@ resource "azurerm_eventgrid_event_subscription" "function_app_eventgrid_topic" {
   name       = "EGS-${var.environment}-${var.namespace}-${var.application}"
   scope      = data.azurerm_resource_group.main.id
   azure_function_endpoint {
-    function_id = azurerm_windows_function_app.windows_function[count.index].count == 1 ? azurerm_windows_function_app.windows_function[count.index].id : azurerm_linux_function_app.linux_function[count.index].id
+    function_id = azurerm_windows_function_app.windows_function.count == 1 ? azurerm_windows_function_app.windows_function[count.index].id : azurerm_linux_function_app.linux_function[count.index].id
   }
   for_each = var.eventgrid_topic_subscriptions
 }
@@ -34,7 +34,7 @@ resource "azurerm_eventgrid_event_subscription" "function_app_eventgrid_system_t
   name       = "EGSTS-${var.environment}-${var.namespace}-${var.application}"
   scope      = data.azurerm_resource_group.main.id
   azure_function_endpoint {
-    function_id = azurerm_windows_function_app.windows_function[count.index].count == 1 ? azurerm_windows_function_app.windows_function[count.index].id : azurerm_linux_function_app.linux_function[count.index].id
+    function_id = azurerm_windows_function_app.windows_function.count == 1 ? azurerm_windows_function_app.windows_function[count.index].id : azurerm_linux_function_app.linux_function[count.index].id
   }
   for_each = var.eventgrid_system_topic_subscriptions
 }
