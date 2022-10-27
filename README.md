@@ -33,7 +33,6 @@
 | [azurerm_resource_group_template_deployment.smtp_api_connection](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/resource_group_template_deployment) | resource |
 | [azurerm_resource_group_template_deployment.terraform-arm](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/resource_group_template_deployment) | resource |
 | [azurerm_service_plan.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/service_plan) | resource |
-| [azurerm_storage_account.function_app_eventgrid_system_topic](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/storage_account) | resource |
 | [azurerm_storage_account.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/storage_account) | resource |
 | [azurerm_windows_function_app.windows_function](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/windows_function_app) | resource |
 | [null_resource.functionapp_deploy](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
