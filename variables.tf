@@ -327,3 +327,37 @@ variable "type" {
   description = "Name of service type"
   default     = ""
 }
+
+######################
+# EVENT GRID TRIGGER #
+######################
+
+variable "eventgrid_topic_enabled" {
+  description = "Enable or disable a Stand Event Grid Topic to trigger"
+  type        = bool
+  default     = false
+}
+
+variable "eventgrid_system_topic_enabled" {
+  description = "Enable or disable an Event Grid System Topic to trigger the function"
+  type        = bool
+  default     = false
+}
+
+variable "eventgrid_system_topic_type" {
+  description = "The type of system topic your function app requires"
+  type        = string
+  default     = "Microsoft.Storage.StorageAccounts"
+}
+
+variable "eventgrid_topic_subscriptions" {
+  description = "The subscriptions that your function app will receive from your topic"
+  type        = object({})
+  default     = {}
+}
+
+variable "eventgrid_system_topic_subscriptions" {
+  description = "The subscriptions that your function app will receive from your system topic"
+  type        = object({})
+  default     = {}
+}

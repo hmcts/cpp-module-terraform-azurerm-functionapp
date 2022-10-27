@@ -24,6 +24,10 @@
 | Name | Type |
 |------|------|
 | [azurerm_application_insights.app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/application_insights) | resource |
+| [azurerm_eventgrid_event_subscription.function_app_eventgrid_system_topic](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/eventgrid_event_subscription) | resource |
+| [azurerm_eventgrid_event_subscription.function_app_eventgrid_topic](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/eventgrid_event_subscription) | resource |
+| [azurerm_eventgrid_system_topic.function_app_eventgrid_system_topic](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/eventgrid_system_topic) | resource |
+| [azurerm_eventgrid_topic.function_app_eventgrid_topic](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/eventgrid_topic) | resource |
 | [azurerm_linux_function_app.linux_function](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/linux_function_app) | resource |
 | [azurerm_resource_group.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/resource_group) | resource |
 | [azurerm_resource_group_template_deployment.smtp_api_connection](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/resource_group_template_deployment) | resource |
@@ -62,6 +66,11 @@
 | <a name="input_create_service_plan"></a> [create\_service\_plan](#input\_create\_service\_plan) | If true a new service plan is created | `bool` | `true` | no |
 | <a name="input_create_storage_account"></a> [create\_storage\_account](#input\_create\_storage\_account) | If true a new storage account is created | `bool` | `true` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment into which resource is deployed | `string` | `""` | no |
+| <a name="input_eventgrid_system_topic_enabled"></a> [eventgrid\_system\_topic\_enabled](#input\_eventgrid\_system\_topic\_enabled) | Enable or disable an Event Grid System Topic to trigger the function | `bool` | `false` | no |
+| <a name="input_eventgrid_system_topic_subscriptions"></a> [eventgrid\_system\_topic\_subscriptions](#input\_eventgrid\_system\_topic\_subscriptions) | The subscriptions that your function app will receive from your system topic | `object({})` | `{}` | no |
+| <a name="input_eventgrid_system_topic_type"></a> [eventgrid\_system\_topic\_type](#input\_eventgrid\_system\_topic\_type) | The type of system topic your function app requires | `string` | `"Microsoft.Storage.StorageAccounts"` | no |
+| <a name="input_eventgrid_topic_enabled"></a> [eventgrid\_topic\_enabled](#input\_eventgrid\_topic\_enabled) | Enable or disable a Stand Event Grid Topic to trigger | `bool` | `false` | no |
+| <a name="input_eventgrid_topic_subscriptions"></a> [eventgrid\_topic\_subscriptions](#input\_eventgrid\_topic\_subscriptions) | The subscriptions that your function app will receive from your topic | `object({})` | `{}` | no |
 | <a name="input_function_app_application_settings"></a> [function\_app\_application\_settings](#input\_function\_app\_application\_settings) | Function App application settings | `map(string)` | `{}` | no |
 | <a name="input_function_app_version"></a> [function\_app\_version](#input\_function\_app\_version) | Version of the function app runtime to use (Allowed values 2, 3 or 4) | `number` | `4` | no |
 | <a name="input_functionapp_package"></a> [functionapp\_package](#input\_functionapp\_package) | The ZIP file location of the functionapp package | `string` | n/a | yes |
