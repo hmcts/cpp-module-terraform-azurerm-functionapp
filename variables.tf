@@ -344,6 +344,12 @@ variable "eventgrid_system_topic_enabled" {
   default     = false
 }
 
+variable "eventgrid_system_topic_type" {
+  description = "The type of system topic your function app requires"
+  type        = string
+  default     = "Microsoft.Storage.StorageAccounts"
+}
+
 variable "eventgrid_topic_subscriptions" {
   description = "The subscriptions that your function app will receive from your topic"
   type        = object({})

@@ -25,11 +25,11 @@ resource "azurerm_eventgrid_system_topic" "function_app_eventgrid_system_topic" 
   resource_group_name    = data.azurerm_resource_group.main.name
   location               = var.region
   source_arm_resource_id = azurerm_storage_account.main.id
-  topic_type             = "Microsoft.Storage.StorageAccounts"
+  topic_type             = var.eventgrid_system_topic_enabled
 }
 
 # System Topic Storage Account
-resource "azurerm_storage_account" "example" {
+resource "azurerm_storage_account" "function_app_eventgrid_system_topic" {
   name                     = "egst${var.environment}${var.application}"
   resource_group_name      = data.azurerm_resource_group.main.name
   location                 = var.region
@@ -39,7 +39,7 @@ resource "azurerm_storage_account" "example" {
 }
 
 # System Topic Subscription
-resource "azurerm_eventgrid_event_subscription" "function_app_eventgrid" {
+resource "azurerm_eventgrid_event_subscription" "function_app_eventgrid_system_topic" {
   depends_on = [azurerm_eventgrid_system_topic.function_app_eventgrid_system_topic]
   name       = "EGSTS-${var.environment}-${var.namespace}-${var.application}"
   scope      = data.azurerm_resource_group.main.id
