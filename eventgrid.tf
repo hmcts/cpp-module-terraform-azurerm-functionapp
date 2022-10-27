@@ -1,6 +1,5 @@
-# Topic
-
-resource "azurerm_eventgrid_topic" "function_app_eventgrid" {
+# Standard Topic
+resource "azurerm_eventgrid_topic" "function_app_eventgrid_topic" {
   count               = var.eventgrid_topic_enabled == true ? 1 : 0
   name                = "EG-${var.environment}-${var.application}"
   location            = var.region
@@ -8,22 +7,44 @@ resource "azurerm_eventgrid_topic" "function_app_eventgrid" {
   tags                = module.tag_set.tags
 }
 
-# Subscription
-
-resource "azurerm_storage_queue" "function_app_eventgrid" {
-  count                = var.eventgrid_topic_enabled == true ? 1 : 0
-  depends_on           = [azurerm_eventgrid_topic.function_app_eventgrid]
-  name                 = "fa-${var.environment}-${var.namespace}-${var.application}-astq"
-  storage_account_name = var.storage_account_name
+# Standard Topic Subscription
+resource "azurerm_eventgrid_event_subscription" "function_app_eventgrid_topic" {
+  depends_on = [azurerm_eventgrid_topic.function_app_eventgrid_topic]
+  name       = "EGS-${var.environment}-${var.namespace}-${var.application}"
+  scope      = data.azurerm_resource_group.main.id
+  azure_function_endpoint {
+    function_id = azurerm_linux_function_app.linux_function[count.index]
+  }
+  for_each = var.eventgrid_topic_subscriptions
 }
 
+# System Topic
+resource "azurerm_eventgrid_system_topic" "function_app_eventgrid_system_topic" {
+  count                  = var.eventgrid_system_topic_enabled == true ? 1 : 0
+  name                   = "EGST-${var.environment}-${var.application}"
+  resource_group_name    = data.azurerm_resource_group.main.name
+  location               = var.region
+  source_arm_resource_id = azurerm_storage_account.main.id
+  topic_type             = "Microsoft.Storage.StorageAccounts"
+}
+
+# System Topic Storage Account
+resource "azurerm_storage_account" "example" {
+  name                     = "egst${var.environment}${var.application}"
+  resource_group_name      = data.azurerm_resource_group.main.name
+  location                 = var.region
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+  tags                     = module.tag_set.tags
+}
+
+# System Topic Subscription
 resource "azurerm_eventgrid_event_subscription" "function_app_eventgrid" {
-  count      = var.eventgrid_topic_enabled == true ? 1 : 0
-  depends_on = [azurerm_eventgrid_topic.function_app_eventgrid]
-  name       = "fa-${var.environment}-${var.namespace}-${var.application}-aees"
+  depends_on = [azurerm_eventgrid_system_topic.function_app_eventgrid_system_topic]
+  name       = "EGSTS-${var.environment}-${var.namespace}-${var.application}"
   scope      = data.azurerm_resource_group.main.id
-  storage_queue_endpoint {
-    storage_account_id = azurerm_storage_account.main[count.index]
-    queue_name         = azurerm_storage_queue.function_app_eventgrid[count.index].name
+  azure_function_endpoint {
+    function_id = azurerm_linux_function_app.linux_function[count.index]
   }
+  for_each = var.eventgrid_topic_subscriptions
 }

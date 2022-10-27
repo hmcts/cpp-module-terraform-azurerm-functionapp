@@ -328,14 +328,24 @@ variable "type" {
   default     = ""
 }
 
-
-
 ######################
 # EVENT GRID TRIGGER #
 ######################
 
 variable "eventgrid_topic_enabled" {
-  description = "Enable or disable an Event Grid Topic to trigger"
+  description = "Enable or disable a Stand Event Grid Topic to trigger"
   type        = bool
   default     = false
+}
+
+variable "eventgrid_system_topic_enabled" {
+  description = "Enable or disable an Event Grid System Topic to trigger the function"
+  type        = bool
+  default     = false
+}
+
+variable "eventgrid_topic_subscriptions" {
+  description = "The subscriptions that your function app will receive from your topic"
+  type        = object({})
+  default     = {}
 }
