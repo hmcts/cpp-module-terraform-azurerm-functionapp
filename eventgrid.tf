@@ -23,7 +23,7 @@ resource "azurerm_eventgrid_event_subscription" "function_app_eventgrid" {
   name       = "fa-${var.environment}-${var.namespace}-${var.application}-aees"
   scope      = data.azurerm_resource_group.main.id
   storage_queue_endpoint {
-    storage_account_id = azurerm_storage_account.main.id
-    queue_name         = azurerm_storage_queue.function_app_eventgrid.name
+    storage_account_id = azurerm_storage_account.main[count.index]
+    queue_name         = azurerm_storage_queue.function_app_eventgrid[count.index].name
   }
 }
