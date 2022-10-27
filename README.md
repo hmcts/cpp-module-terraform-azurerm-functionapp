@@ -24,16 +24,15 @@
 | Name | Type |
 |------|------|
 | [azurerm_application_insights.app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/application_insights) | resource |
-| [azurerm_eventgrid_event_subscription.function_app](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/eventgrid_event_subscription) | resource |
-| [azurerm_eventgrid_topic.function_app](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/eventgrid_topic) | resource |
+| [azurerm_eventgrid_event_subscription.function_app_eventgrid](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/eventgrid_event_subscription) | resource |
+| [azurerm_eventgrid_topic.function_app_eventgrid](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/eventgrid_topic) | resource |
 | [azurerm_linux_function_app.linux_function](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/linux_function_app) | resource |
 | [azurerm_resource_group.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/resource_group) | resource |
 | [azurerm_resource_group_template_deployment.smtp_api_connection](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/resource_group_template_deployment) | resource |
 | [azurerm_resource_group_template_deployment.terraform-arm](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/resource_group_template_deployment) | resource |
 | [azurerm_service_plan.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/service_plan) | resource |
-| [azurerm_storage_account.function_app](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/storage_account) | resource |
 | [azurerm_storage_account.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/storage_account) | resource |
-| [azurerm_storage_queue.function_app](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/storage_queue) | resource |
+| [azurerm_storage_queue.function_app_eventgrid](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/storage_queue) | resource |
 | [azurerm_windows_function_app.windows_function](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/windows_function_app) | resource |
 | [null_resource.functionapp_deploy](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [azurerm_application_insights.app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/data-sources/application_insights) | data source |
