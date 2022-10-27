@@ -13,7 +13,7 @@ resource "azurerm_eventgrid_event_subscription" "function_app_eventgrid_topic" {
   name       = "EGS-${var.environment}-${var.namespace}-${var.application}"
   scope      = data.azurerm_resource_group.main.id
   azure_function_endpoint {
-    function_id = length(azurerm_windows_function_app.windows_function) == 1 ? azurerm_windows_function_app.windows_function[count.index].id : azurerm_linux_function_app.linux_function[count.index].id
+    function_id = length(azurerm_windows_function_app.windows_function) == 1 ? azurerm_windows_function_app.windows_function.id : azurerm_linux_function_app.linux_function.id
   }
   for_each = var.eventgrid_topic_subscriptions
 }
