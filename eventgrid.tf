@@ -28,16 +28,6 @@ resource "azurerm_eventgrid_system_topic" "function_app_eventgrid_system_topic" 
   topic_type             = var.eventgrid_system_topic_enabled
 }
 
-# System Topic Storage Account
-resource "azurerm_storage_account" "function_app_eventgrid_system_topic" {
-  name                     = "egst${var.environment}${var.application}"
-  resource_group_name      = data.azurerm_resource_group.main.name
-  location                 = var.region
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-  tags                     = module.tag_set.tags
-}
-
 # System Topic Subscription
 resource "azurerm_eventgrid_event_subscription" "function_app_eventgrid_system_topic" {
   depends_on = [azurerm_eventgrid_system_topic.function_app_eventgrid_system_topic]
