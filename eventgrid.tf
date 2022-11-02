@@ -31,7 +31,7 @@ resource "azurerm_eventgrid_system_topic" "function_app_eventgrid_system_topic" 
 # System Topic Subscription Queue
 resource "azurerm_storage_queue" "function_app_eventgrid_system_topic" {
   count                = var.eventgrid_system_topic_enabled == true ? 1 : 0
-  name                 = "EGQ-${var.environment}-${var.namespace}-${var.application}"
+  name                 = "egq-${var.environment}-${var.namespace}-${var.application}"
   storage_account_name = azurerm_storage_account.main[0].name
 }
 
