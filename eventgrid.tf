@@ -42,7 +42,8 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "function_app_event
   name                = "EGSTS-${var.environment}-${var.namespace}-${var.application}"
   system_topic        = azurerm_eventgrid_system_topic.function_app_eventgrid_system_topic[0].name
   resource_group_name = data.azurerm_resource_group.main.name
-  azure_function_endpoint {
-    function_id        = length(azurerm_windows_function_app.windows_function) == 1 ? azurerm_windows_function_app.windows_function[0].id : azurerm_linux_function_app.linux_function[0].id
+  storage_queue_endpoint {
+    storage_account_id = azurerm_storage_account.main[0].id
+    queue_name         = azurerm_storage_queue.function_app_eventgrid_system_topic[0].name
   }
 }
