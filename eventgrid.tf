@@ -42,8 +42,7 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "function_app_event
   name                = "EGSTS-${var.environment}-${var.namespace}-${var.application}"
   system_topic        = azurerm_eventgrid_system_topic.function_app_eventgrid_system_topic[0].name
   resource_group_name = data.azurerm_resource_group.main.name
-  storage_queue_endpoint {
-    storage_account_id = azurerm_storage_account.main[0].id
-    queue_name         = azurerm_storage_queue.function_app_eventgrid_system_topic[0].name
+  azure_function_endpoint {
+    function_id = azurerm_windows_function_app.windows_function[0].id
   }
 }
