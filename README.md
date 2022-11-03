@@ -24,9 +24,9 @@
 | Name | Type |
 |------|------|
 | [azurerm_application_insights.app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/application_insights) | resource |
-| [azurerm_eventgrid_event_subscription.function_app_eventgrid_system_topic](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/eventgrid_event_subscription) | resource |
 | [azurerm_eventgrid_event_subscription.function_app_eventgrid_topic](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/eventgrid_event_subscription) | resource |
 | [azurerm_eventgrid_system_topic.function_app_eventgrid_system_topic](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/eventgrid_system_topic) | resource |
+| [azurerm_eventgrid_system_topic_event_subscription.function_app_eventgrid_system_topic](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/eventgrid_system_topic_event_subscription) | resource |
 | [azurerm_eventgrid_topic.function_app_eventgrid_topic](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/eventgrid_topic) | resource |
 | [azurerm_linux_function_app.linux_function](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/linux_function_app) | resource |
 | [azurerm_resource_group.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/resource_group) | resource |
@@ -34,6 +34,7 @@
 | [azurerm_resource_group_template_deployment.terraform-arm](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/resource_group_template_deployment) | resource |
 | [azurerm_service_plan.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/service_plan) | resource |
 | [azurerm_storage_account.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/storage_account) | resource |
+| [azurerm_storage_queue.function_app_eventgrid_system_topic](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/storage_queue) | resource |
 | [azurerm_windows_function_app.windows_function](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/resources/windows_function_app) | resource |
 | [null_resource.functionapp_deploy](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [azurerm_application_insights.app_insights](https://registry.terraform.io/providers/hashicorp/azurerm/3.19.1/docs/data-sources/application_insights) | data source |
@@ -67,6 +68,7 @@
 | <a name="input_create_storage_account"></a> [create\_storage\_account](#input\_create\_storage\_account) | If true a new storage account is created | `bool` | `true` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment into which resource is deployed | `string` | `""` | no |
 | <a name="input_eventgrid_system_topic_enabled"></a> [eventgrid\_system\_topic\_enabled](#input\_eventgrid\_system\_topic\_enabled) | Enable or disable an Event Grid System Topic to trigger the function | `bool` | `false` | no |
+| <a name="input_eventgrid_system_topic_subscription_storage_queue_endpoints"></a> [eventgrid\_system\_topic\_subscription\_storage\_queue\_endpoints](#input\_eventgrid\_system\_topic\_subscription\_storage\_queue\_endpoints) | The subscriptions that your function app will receive from your system topic | `object({})` | `{}` | no |
 | <a name="input_eventgrid_system_topic_subscriptions"></a> [eventgrid\_system\_topic\_subscriptions](#input\_eventgrid\_system\_topic\_subscriptions) | The subscriptions that your function app will receive from your system topic | `object({})` | `{}` | no |
 | <a name="input_eventgrid_system_topic_type"></a> [eventgrid\_system\_topic\_type](#input\_eventgrid\_system\_topic\_type) | The type of system topic your function app requires | `string` | `"Microsoft.Storage.StorageAccounts"` | no |
 | <a name="input_eventgrid_topic_enabled"></a> [eventgrid\_topic\_enabled](#input\_eventgrid\_topic\_enabled) | Enable or disable a Stand Event Grid Topic to trigger | `bool` | `false` | no |
