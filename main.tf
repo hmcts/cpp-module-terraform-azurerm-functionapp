@@ -263,7 +263,7 @@ resource "azurerm_eventgrid_topic" "function_app_eventgrid_topic" {
 resource "azurerm_eventgrid_event_subscription" "function_app_eventgrid_topic" {
   depends_on = [azurerm_eventgrid_topic.function_app_eventgrid_topic, azurerm_windows_function_app.windows_function, azurerm_linux_function_app.linux_function]
   name       = "EGS-${var.environment}-${var.namespace}-${var.application}"
-  scope      = data.azurerm_resource_group.main.id
+  scope      = azurerm_eventgrid_topic.function_app_eventgrid_topic[0].id
   azure_function_endpoint {
     function_id = length(azurerm_windows_function_app.windows_function) == 1 ? azurerm_windows_function_app.windows_function[0].id : azurerm_linux_function_app.linux_function[0].id
   }
