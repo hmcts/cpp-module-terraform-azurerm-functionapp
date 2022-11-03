@@ -43,6 +43,6 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "function_app_event
   system_topic        = azurerm_eventgrid_system_topic.function_app_eventgrid_system_topic[0].name
   resource_group_name = data.azurerm_resource_group.main.name
   azure_function_endpoint {
-    function_id = azurerm_windows_function_app.windows_function[0].id
+    function_id = azurerm_linux_function_app.linux_function[0].id
   }
 }
