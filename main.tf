@@ -275,7 +275,7 @@ resource "azurerm_eventgrid_system_topic" "function_app_eventgrid_system_topic" 
   name                   = "EGST-${var.environment}-${var.application}"
   resource_group_name    = data.azurerm_resource_group.main.name
   location               = var.region
-  source_arm_resource_id = azurerm_storage_account.main[count.index].id
+  source_arm_resource_id = azurerm_storage_account.main[0].id
   topic_type             = var.eventgrid_system_topic_type
 }
 
@@ -292,6 +292,6 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "function_app_event
   system_topic        = azurerm_eventgrid_system_topic.function_app_eventgrid_system_topic[0].name
   resource_group_name = data.azurerm_resource_group.main.name
   azure_function_endpoint {
-    function_id = azurerm_linux_function_app.linux_function[0].id
+    function_id = length(azurerm_windows_function_app.windows_function) == 1 ? azurerm_windows_function_app.windows_function[0].id : azurerm_linux_function_app.linux_function[0].id
   }
 }
