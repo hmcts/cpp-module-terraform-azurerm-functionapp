@@ -219,7 +219,7 @@ data "azurerm_application_insights" "app_insights" {
 resource "azurerm_application_insights" "app_insights" {
   count = var.application_insights_enabled && var.application_insights_name == null ? 1 : 0
 
-  name                = "ai-${var.environment}-${var.namespace}-${var.application}"
+  name                = "ai-${var.environment}-${var.namespace}-${var.application_group}"
   location            = var.region
   resource_group_name = data.azurerm_resource_group.main.name
   workspace_id        = var.application_insights_log_analytics_workspace_id
