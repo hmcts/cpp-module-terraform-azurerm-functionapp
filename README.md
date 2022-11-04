@@ -52,7 +52,7 @@
 | <a name="input_asp_os_type"></a> [asp\_os\_type](#input\_asp\_os\_type) | OS of the App Service Plan for Function App hosting | `string` | n/a | yes |
 | <a name="input_asp_per_site_scaling_enabled"></a> [asp\_per\_site\_scaling\_enabled](#input\_asp\_per\_site\_scaling\_enabled) | Should Per Site Scaling be enabled | `bool` | `false` | no |
 | <a name="input_asp_sku"></a> [asp\_sku](#input\_asp\_sku) | SKU of the App Service Plan for Function App hosting | `string` | `"S1"` | no |
-| <a name="input_asp_zone_balancing_enabled"></a> [asp\_zone\_balancing\_enabled](#input\_asp\_zone\_balancing\_enabled) | Should the Service Plan balance across Availability Zones in the region | `bool` | `false` | no |
+| <a name="input_asp_zone_balancing_enabled"></a> [asp\_zone\_balancing\_enabled](#input\_asp\_zone\_balancing\_enabled) | Should the Service Plan balance across Availability Zones in the location | `bool` | `false` | no |
 | <a name="input_attribute"></a> [attribute](#input\_attribute) | An attribute of the s3 bucket that makes it unique | `string` | `""` | no |
 | <a name="input_builtin_logging_enabled"></a> [builtin\_logging\_enabled](#input\_builtin\_logging\_enabled) | Should built in logging be enabled | `bool` | `true` | no |
 | <a name="input_client_certificate_enabled"></a> [client\_certificate\_enabled](#input\_client\_certificate\_enabled) | Should the function app use Client Certificates | `bool` | `null` | no |
@@ -62,7 +62,7 @@
 | <a name="input_create_service_plan"></a> [create\_service\_plan](#input\_create\_service\_plan) | If true a new service plan is created | `bool` | `true` | no |
 | <a name="input_create_storage_account"></a> [create\_storage\_account](#input\_create\_storage\_account) | If true a new storage account is created | `bool` | `true` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment into which resource is deployed | `string` | `""` | no |
-| <a name="input_function_app_application_settings"></a> [function\_app\_application\_settings](#input\_function\_app\_application\_settings) | Function App application settings | `map(string)` | `{}` | no |
+| <a name="input_application_settings"></a> [function\_app\_application\_settings](#input\_function\_app\_application\_settings) | Function App application settings | `map(string)` | `{}` | no |
 | <a name="input_function_app_version"></a> [function\_app\_version](#input\_function\_app\_version) | Version of the function app runtime to use (Allowed values 2, 3 or 4) | `number` | `4` | no |
 | <a name="input_functionapp_package"></a> [functionapp\_package](#input\_functionapp\_package) | The ZIP file location of the functionapp package | `string` | n/a | yes |
 | <a name="input_https_only"></a> [https\_only](#input\_https\_only) | Disable http procotol and keep only https | `bool` | `true` | no |
@@ -73,7 +73,7 @@
 | <a name="input_logicapp_template"></a> [logicapp\_template](#input\_logicapp\_template) | The ARM template of the Logic App deployment | `string` | `null` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace, which could be an organization name or abbreviation, e.g. 'eg' or 'cp' | `string` | `""` | no |
 | <a name="input_owner"></a> [owner](#input\_owner) | Name of the project or sqaud within the PDU which manages the resource. May be a persons name or email also | `string` | `""` | no |
-| <a name="input_region"></a> [region](#input\_region) | n/a | `string` | `"uksouth"` | no |
+| <a name="input_location"></a> [location](#input\_location) | n/a | `string` | `"uksouth"` | no |
 | <a name="input_service_plan_name"></a> [service\_plan\_name](#input\_service\_plan\_name) | Service Plan Name | `string` | `null` | no |
 | <a name="input_site_config"></a> [site\_config](#input\_site\_config) | Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is not managed in this block. | `any` | `{}` | no |
 | <a name="input_storage_account_account_replication_type"></a> [storage\_account\_account\_replication\_type](#input\_storage\_account\_account\_replication\_type) | Storage Account Replication Type | `string` | `"LRS"` | no |
