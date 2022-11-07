@@ -1,32 +1,31 @@
-storage_account_name                      = "salabfa01"
-storage_account_kind                      = "StorageV2"
-storage_account_tier                      = "Standard"
-storage_account_min_tls_version           = "TLS1_2"
-storage_account_enable_https_traffic_only = true
-storage_account_identity_type             = "SystemAssigned"
-storage_account_identity_ids              = null
-storage_account_account_replication_type  = "LRS"
-asp_os_type                               = "Linux"
-asp_instance_size                         = 2
+asp_sku                      = "P1v2"
+asp_os_type                  = "Windows"
+asp_instance_size            = 1
+asp_per_site_scaling_enabled = false
+asp_zone_balancing_enabled   = false
+functionapp_package          = "https://libraries-internal.mdv.cpp.nonlive/artifactory/list/repocentral/uk/gov/moj/cpp/notification/notify/notificationnotify-azure-functions/8.0.2/notificationnotify-azure-functions-8.0.2.zip"
 
-functionapp_package = "https://libraries-internal.mdv.cpp.nonlive/artifactory/list/repocentral/uk/gov/moj/cpp/notification/notify/notificationnotify-azure-functions/8.0.2/notificationnotify-azure-functions-8.0.2.zip"
-function_app_application_settings = {
-  WEBSITE_NODE_DEFAULT_VERSION = "~14"
+application_settings = {
+  FUNCTIONS_EXTENSION_VERSION        = "~2"
+  ENABLE_ORYX_BUILD                  = false
+  SCM_DO_BUILD_DURING_DEPLOYMENT     = false
+  FUNCTIONS_WORKER_RUNTIME           = "java"
+  WEBSITE_HTTPLOGGING_RETENTION_DAYS = 3
 }
 site_config = {
-  minimum_tls_version = "1.2"
-  worker_count        = 2
-  application_stack = {
-    node_version = "14"
-  }
+  use_32_bit_worker_process = true
 }
-app_insights_name            = "ai-lab-fa-01"
-application_insights_enabled = true
+resource_group_name  = "rg-lab-cpp-faterratest"
+function_app_name    = "fa-lab-cpp-faterratest"
+service_plan_name    = "as-lab-cpp-faterratest"
+storage_account_name = "salabcppfaterratest"
+create_service_plan  = true
 
+location    = "uksouth"
 namespace   = "cpp"
 costcode    = "terratest"
 attribute   = ""
 owner       = "EI"
 environment = "nonlive"
-application = "atlassian"
+application = "test"
 type        = "functionapp"

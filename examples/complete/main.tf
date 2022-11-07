@@ -1,26 +1,49 @@
+module "tag_set" {
+  source         = "git::https://github.com/hmcts/cpp-module-terraform-azurerm-tag-generator.git?ref=main"
+  namespace      = var.namespace
+  application    = var.application
+  costcode       = var.costcode
+  owner          = var.owner
+  version_number = var.version_number
+  attribute      = var.attribute
+  environment    = var.environment
+  type           = var.type
+}
+
+resource "azurerm_resource_group" "test" {
+  name     = var.resource_group_name
+  location = var.location
+  tags     = module.tag_set.tags
+}
+
+resource "azurerm_storage_account" "test" {
+  name                     = var.storage_account_name
+  resource_group_name      = azurerm_resource_group.test.name
+  location                 = var.location
+  account_tier             = "Standard"
+  account_replication_type = "GRS"
+
+  tags = {
+    environment = "test"
+  }
+}
+
 module "functionapp_terratest" {
-  source                                    = "../../"
-  storage_account_name                      = var.storage_account_name
-  region                                    = var.region
-  storage_account_tier                      = var.storage_account_tier
-  storage_account_kind                      = var.storage_account_kind
-  storage_account_account_replication_type  = var.storage_account_account_replication_type
-  storage_account_min_tls_version           = var.storage_account_min_tls_version
-  storage_account_enable_https_traffic_only = var.storage_account_enable_https_traffic_only
-  storage_account_identity_type             = var.storage_account_identity_type
-  storage_account_identity_ids              = var.storage_account_identity_ids
-  asp_os_type                               = var.asp_os_type
-  asp_instance_size                         = var.asp_instance_size
-  function_app_application_settings         = var.function_app_application_settings
-  functionapp_package                       = var.functionapp_package
-  site_config                               = var.site_config
-  application_insights_enabled              = var.application_insights_enabled
-  service_plan_name                         = var.service_plan_name
-  namespace                                 = var.namespace
-  costcode                                  = var.costcode
-  attribute                                 = var.attribute
-  owner                                     = var.owner
-  environment                               = var.environment
-  application                               = var.application
-  type                                      = var.type
+  source                       = "../../"
+  location                     = var.location
+  function_app_name            = var.function_app_name
+  resource_group_name          = azurerm_resource_group.test.name
+  asp_os_type                  = var.asp_os_type
+  asp_instance_size            = var.asp_instance_size
+  asp_sku                      = var.asp_sku
+  asp_per_site_scaling_enabled = var.asp_per_site_scaling_enabled
+  asp_zone_balancing_enabled   = var.asp_zone_balancing_enabled
+  application_settings         = var.application_settings
+  functionapp_package          = var.functionapp_package
+  site_config                  = var.site_config
+  service_plan_name            = var.service_plan_name
+  storage_account_name         = var.storage_account_name
+  storage_account_access_key   = azurerm_storage_account.test.primary_access_key
+  create_service_plan          = var.create_service_plan
+  tags                         = module.tag_set.tags
 }

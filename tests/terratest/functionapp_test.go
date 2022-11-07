@@ -44,14 +44,12 @@ func TestTerraformAzureFunctionApp(t *testing.T) {
 
 	// Run `terraform output` to get the values of output variables
 	resourceGroupName := terraform.Output(t, terraformPlanOptions, "resource_group_name")
-	storageAccountName := terraform.Output(t, terraformPlanOptions, "storage_account_name")
 	functionAppName := terraform.Output(t, terraformPlanOptions, "function_app_name")
 	functionAppId := terraform.Output(t, terraformPlanOptions, "function_app_id")
 	functionAppWorkerCount, _ := strconv.ParseInt(terraform.Output(t, terraformPlanOptions, "function_app_worker_count"), 10, 32)
 
 	// Assert statements
 	assert.True(t, azure.AppExists(t, functionAppName, resourceGroupName, ""))
-	assert.True(t, azure.AppExists(t, storageAccountName, resourceGroupName, ""))
 	site := azure.GetAppService(t, functionAppName, resourceGroupName, "")
 
 	assert.Equal(t, functionAppId, *site.ID)
