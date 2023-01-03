@@ -81,6 +81,12 @@ resource "azurerm_linux_function_app" "linux_function" {
   }
 }
 
+resource "azurerm_app_service_virtual_network_swift_connection" "linux" {
+  count          = var.use_private_net && var.asp_os_type == "Linux" ? 1 : 0
+  app_service_id = azurerm_linux_function_app.linux_function
+  subnet_id      = var.subnet_id
+}
+
 resource "azurerm_windows_function_app" "windows_function" {
   count                       = var.asp_os_type == "Windows" ? 1 : 0
   name                        = var.function_app_name
@@ -138,6 +144,13 @@ resource "azurerm_windows_function_app" "windows_function" {
     }
   }
 }
+
+resource "azurerm_app_service_virtual_network_swift_connection" "windows" {
+  count          = var.use_private_net && var.asp_os_type == "Windows" ? 1 : 0
+  app_service_id = azurerm_linux_function_app.windows_function
+  subnet_id      = var.subnet_id
+}
+
 
 resource "null_resource" "functionapp_deploy" {
   triggers = {

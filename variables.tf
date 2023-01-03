@@ -131,3 +131,9 @@ variable "tags" {
   type    = map(string)
   default = {}
 }
+
+ variable "subnet_id" {
+   description = "Subnet Id of Vnet for Private Subnets"
+   type        = string
+   default     = null
+ }
