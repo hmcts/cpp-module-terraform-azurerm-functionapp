@@ -147,7 +147,7 @@ resource "azurerm_windows_function_app" "windows_function" {
 
 resource "azurerm_app_service_virtual_network_swift_connection" "windows" {
   count          = var.use_private_net && var.asp_os_type == "Windows" ? 1 : 0
-  app_service_id = azurerm_linux_function_app.windows_function
+  app_service_id = azurerm_windows_function_app.windows_function
   subnet_id      = var.subnet_id
 }
 
