@@ -132,8 +132,14 @@ variable "tags" {
   default = {}
 }
 
- variable "subnet_id" {
-   description = "Subnet Id of Vnet for Private Subnets"
-   type        = string
-   default     = null
- }
+variable "use_private_net" {
+  description = "Should Use Private net"
+  type        = bool
+  default     = false
+}
+
+variable "subnet_id" {
+  description = "Subnet Id of Vnet for Private Subnets"
+  type        = string
+  default     = null
+}
