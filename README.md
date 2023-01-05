@@ -13,6 +13,8 @@
 
 | Name | Type |
 |------|------|
+| [azurerm_app_service_virtual_network_swift_connection.linux](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_virtual_network_swift_connection) | resource |
+| [azurerm_app_service_virtual_network_swift_connection.windows](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_virtual_network_swift_connection) | resource |
 | [azurerm_linux_function_app.linux_function](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_function_app) | resource |
 | [azurerm_service_plan.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/service_plan) | resource |
 | [azurerm_windows_function_app.windows_function](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_function_app) | resource |
@@ -49,7 +51,9 @@
 | <a name="input_site_config"></a> [site\_config](#input\_site\_config) | Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is not managed in this block. | `any` | `{}` | no |
 | <a name="input_storage_account_access_key"></a> [storage\_account\_access\_key](#input\_storage\_account\_access\_key) | Storage account access key to be used by function app | `string` | n/a | yes |
 | <a name="input_storage_account_name"></a> [storage\_account\_name](#input\_storage\_account\_name) | Storage account to associate with function app | `string` | n/a | yes |
+| <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | Subnet Id of Vnet for Private Subnets | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(string)` | `{}` | no |
+| <a name="input_use_private_net"></a> [use\_private\_net](#input\_use\_private\_net) | Should Use Private net | `bool` | `false` | no |
 
 ## Outputs
 
