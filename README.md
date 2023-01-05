@@ -17,11 +17,13 @@
 | [azurerm_app_service_virtual_network_swift_connection.windows](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_virtual_network_swift_connection) | resource |
 | [azurerm_linux_function_app.linux_function](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_function_app) | resource |
 | [azurerm_service_plan.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/service_plan) | resource |
+| [azurerm_subnet.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
 | [azurerm_windows_function_app.windows_function](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_function_app) | resource |
 | [null_resource.functionapp_deploy](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [azurerm_function_app_host_keys.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/function_app_host_keys) | data source |
 | [azurerm_key_vault_secret.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_service_plan.sp](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/service_plan) | data source |
+| [azurerm_virtual_network.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_network) | data source |
 | [vault_generic_secret.main](https://registry.terraform.io/providers/hashicorp/vault/latest/docs/data-sources/generic_secret) | data source |
 
 ## Inputs
@@ -52,7 +54,7 @@
 | <a name="input_site_config"></a> [site\_config](#input\_site\_config) | Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is not managed in this block. | `any` | `{}` | no |
 | <a name="input_storage_account_access_key"></a> [storage\_account\_access\_key](#input\_storage\_account\_access\_key) | Storage account access key to be used by function app | `string` | n/a | yes |
 | <a name="input_storage_account_name"></a> [storage\_account\_name](#input\_storage\_account\_name) | Storage account to associate with function app | `string` | n/a | yes |
-| <a name="input_subnet_cidr"></a> [subnet\_cidr](#input\_subnet\_cidr) | Vnet Subnet CIDR | `string` | `""` | no |
+| <a name="input_subnet_cidr"></a> [subnet\_cidr](#input\_subnet\_cidr) | Vnet Subnet CIDR | `list(string)` | `[]` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(string)` | `{}` | no |
 | <a name="input_vnet_name"></a> [vnet\_name](#input\_vnet\_name) | Vnet Name for Private Subnets | `string` | `""` | no |
 | <a name="input_vnet_rg_name"></a> [vnet\_rg\_name](#input\_vnet\_rg\_name) | Vnet Resource Group Name for Private Subnets | `string` | `""` | no |
