@@ -147,10 +147,9 @@ variable "vnet_rg_name" {
 
 variable "subnet_cidr" {
   description = "Vnet Subnet CIDR"
-  type        = string
-  default     = ""
+  type    = list(string)
+  default     = []
 }
-
 
 variable "create_subnet" {
   description = "Should Create Subnet"

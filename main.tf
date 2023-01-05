@@ -80,10 +80,20 @@ resource "azurerm_linux_function_app" "linux_function" {
   }
 }
 
+
+resource "azurerm_subnet" "main" {
+  count               = var.create_subnet && length(var.subnet_cidr) != 0 ? 1 : 0
+  name                = "subnet-${var.function_app_name}"
+  virtual_network_name = var.vnet_name
+  address_prefixes       = var.subnet_cidr
+  resource_group_name = var.vnet_rg_name
+}
+
+
 resource "azurerm_app_service_virtual_network_swift_connection" "linux" {
-  count          = var.use_private_net && var.asp_os_type == "Linux" ? 1 : 0
+  count          = var.create_subnet &&  length(var.subnet_cidr) != 0 && var.asp_os_type == "Linux" ? 1 : 0
   app_service_id = azurerm_linux_function_app.linux_function
-  subnet_id      = var.subnet_id
+  subnet_id      = azurerm_subnet.main[0].id
 }
 
 resource "azurerm_windows_function_app" "windows_function" {
@@ -145,9 +155,9 @@ resource "azurerm_windows_function_app" "windows_function" {
 }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "windows" {
-  count          = var.use_private_net && var.asp_os_type == "Windows" ? 1 : 0
+  count          = var.create_subnet &&  length(var.subnet_cidr) != 0 && var.asp_os_type == "Windows" ? 1 : 0
   app_service_id = azurerm_windows_function_app.windows_function
-  subnet_id      = var.subnet_id
+  subnet_id      = azurerm_subnet.main[0].id
 }
 
 
