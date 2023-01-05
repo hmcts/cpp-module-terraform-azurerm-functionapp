@@ -12,7 +12,6 @@ resource "azurerm_service_plan" "main" {
   tags                     = var.tags
 }
 
-
 data "azurerm_service_plan" "sp" {
   name                = var.service_plan_name
   resource_group_name = var.resource_group_name
