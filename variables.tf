@@ -157,13 +157,6 @@ variable "create_subnet" {
   default     = false
 }
 
-
-variable "revision" {
-  description = "Revision of Functional App"
-  type        = string
-  default     = ""
-}
-
 variable "environment" {
   type        = string
   description = "Environment into which resource is deployed"

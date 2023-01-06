@@ -23,7 +23,7 @@ data "azurerm_service_plan" "sp" {
 # Function App
 resource "azurerm_linux_function_app" "linux_function" {
   count                       = var.asp_os_type == "Linux" ? 1 : 0
-  name                        = "${var.function_app_name}${var.revision}"
+  name                        = var.function_app_name
   service_plan_id             = data.azurerm_service_plan.sp.id
   location                    = var.location
   resource_group_name         = var.resource_group_name
@@ -83,7 +83,7 @@ resource "azurerm_linux_function_app" "linux_function" {
 
 resource "azurerm_subnet" "main" {
   count                = var.create_subnet && length(var.subnet_cidr) != 0 ? 1 : 0
-  name                 = "SN-${var.function_app_name}${var.revision}"
+  name                 = "SN-${var.function_app_name}"
   virtual_network_name = var.vnet_name
   address_prefixes     = var.subnet_cidr
   resource_group_name  = var.vnet_rg_name

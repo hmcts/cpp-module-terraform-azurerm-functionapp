@@ -5,9 +5,9 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | n/a |
-| <a name="provider_null"></a> [null](#provider\_null) | n/a |
-| <a name="provider_vault"></a> [vault](#provider\_vault) | n/a |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.38.0 |
+| <a name="provider_null"></a> [null](#provider\_null) | 3.2.1 |
+| <a name="provider_vault"></a> [vault](#provider\_vault) | 3.12.0 |
 
 ## Resources
 
@@ -50,9 +50,7 @@
 | <a name="input_https_only"></a> [https\_only](#input\_https\_only) | Disable http procotol and keep only https | `bool` | `true` | no |
 | <a name="input_key_vault_id"></a> [key\_vault\_id](#input\_key\_vault\_id) | keyvault id to lookup secret settings | `string` | `null` | no |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `string` | `"uksouth"` | no |
-| <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace, which could be an organization name or abbreviation, e.g. 'eg' or 'cp' | `string` | `""` | no |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | n/a | `string` | n/a | yes |
-| <a name="input_revision"></a> [revision](#input\_revision) | Revision of Functional App | `string` | `""` | no |
 | <a name="input_service_plan_name"></a> [service\_plan\_name](#input\_service\_plan\_name) | Service Plan Name | `string` | `null` | no |
 | <a name="input_site_config"></a> [site\_config](#input\_site\_config) | Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is not managed in this block. | `any` | `{}` | no |
 | <a name="input_storage_account_access_key"></a> [storage\_account\_access\_key](#input\_storage\_account\_access\_key) | Storage account access key to be used by function app | `string` | n/a | yes |
