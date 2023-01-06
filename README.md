@@ -50,7 +50,6 @@
 | <a name="input_https_only"></a> [https\_only](#input\_https\_only) | Disable http procotol and keep only https | `bool` | `true` | no |
 | <a name="input_key_vault_id"></a> [key\_vault\_id](#input\_key\_vault\_id) | keyvault id to lookup secret settings | `string` | `null` | no |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `string` | `"uksouth"` | no |
-| <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace, which could be an organization name or abbreviation, e.g. 'eg' or 'cp' | `string` | `""` | no |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | n/a | `string` | n/a | yes |
 | <a name="input_revision"></a> [revision](#input\_revision) | Revision of Functional App | `string` | `""` | no |
 | <a name="input_service_plan_name"></a> [service\_plan\_name](#input\_service\_plan\_name) | Service Plan Name | `string` | `null` | no |
