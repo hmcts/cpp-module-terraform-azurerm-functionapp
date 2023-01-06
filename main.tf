@@ -87,6 +87,15 @@ resource "azurerm_subnet" "main" {
   virtual_network_name = var.vnet_name
   address_prefixes       = var.subnet_cidr
   resource_group_name = var.vnet_rg_name
+
+  delegation {
+    name = "delegation"
+
+    service_delegation {
+      name    = "Microsoft.Web/serverFarms"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/join/action", "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action"]
+    }
+  }
 }
 
 
