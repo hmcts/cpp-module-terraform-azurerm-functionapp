@@ -147,7 +147,7 @@ variable "vnet_rg_name" {
 
 variable "subnet_cidr" {
   description = "Vnet Subnet CIDR"
-  type    = list(string)
+  type        = list(string)
   default     = []
 }
 
@@ -159,20 +159,19 @@ variable "create_subnet" {
 
 
 variable "revision" {
-   description = "Revision of Functional App"
-   type        = string
-   default     = ""
+  description = "Revision of Functional App"
+  type        = string
+  default     = ""
 }
 
 variable "namespace" {
-   type        = string
-   default     = ""
-   description = "Namespace, which could be an organization name or abbreviation, e.g. 'eg' or 'cp'"
+  type        = string
+  default     = ""
+  description = "Namespace, which could be an organization name or abbreviation, e.g. 'eg' or 'cp'"
 }
 
 variable "environment" {
-   type        = string
-   description = "Environment into which resource is deployed"
-   default     = ""
+  type        = string
+  description = "Environment into which resource is deployed"
+  default     = ""
 }
-
