@@ -164,12 +164,6 @@ variable "revision" {
   default     = ""
 }
 
-variable "namespace" {
-  type        = string
-  default     = ""
-  description = "Namespace, which could be an organization name or abbreviation, e.g. 'eg' or 'cp'"
-}
-
 variable "environment" {
   type        = string
   description = "Environment into which resource is deployed"
