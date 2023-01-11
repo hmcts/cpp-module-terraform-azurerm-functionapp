@@ -99,6 +99,7 @@ resource "azurerm_subnet" "main" {
 }
 
 data "azurerm_subnet" "main" {
+  count                = length(var.subnet_name) != 0 ? 1 : 0
   name                 = var.subnet_name
   virtual_network_name = var.vnet_name
   resource_group_name  = var.vnet_rg_name
@@ -109,7 +110,7 @@ resource "azurerm_app_service_virtual_network_swift_connection" "linux" {
   # count          = var.create_subnet && length(var.subnet_cidr) != 0 && length(var.subnet_name) == 0 && var.asp_os_type == "Linux" ? 1 : 0
   count          = var.asp_os_type == "Linux" ? 1 : 0
   app_service_id = azurerm_linux_function_app.linux_function[0].id
-  subnet_id      = length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : data.azurerm_subnet.main
+  subnet_id      = length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : data.azurerm_subnet.main[0].id
 }
 
 resource "azurerm_windows_function_app" "windows_function" {
@@ -174,7 +175,7 @@ resource "azurerm_app_service_virtual_network_swift_connection" "windows" {
   # count          = var.create_subnet && length(var.subnet_cidr) != 0  && length(var.subnet_name) == 0 && var.asp_os_type == "Windows" ? 1 : 0
   count          = var.asp_os_type == "Windows" ? 1 : 0
   app_service_id = azurerm_windows_function_app.windows_function[0].id
-  subnet_id      = length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : data.azurerm_subnet.main
+  subnet_id      = length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : data.azurerm_subnet.main[0].id
 }
 
 
