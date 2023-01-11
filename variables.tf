@@ -151,6 +151,13 @@ variable "subnet_cidr" {
   default     = []
 }
 
+variable "subnet_name" {
+  description = "Subnet Name to reuse"
+  type        = string
+  default     = ""
+}
+
+
 variable "create_subnet" {
   description = "Should Create Subnet"
   type        = bool
