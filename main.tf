@@ -93,7 +93,7 @@ resource "azurerm_subnet" "main" {
 
     service_delegation {
       name    = "Microsoft.Web/serverFarms"
-      actions = ["Microsoft.Network/virtualNetworks/subnets/action", "Microsoft.Network/virtualNetworks/subnets/join/action", "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action"]
+      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
     }
   }
 }
@@ -103,6 +103,9 @@ data "azurerm_subnet" "main" {
   name                 = var.subnet_name
   virtual_network_name = var.vnet_name
   resource_group_name  = var.vnet_rg_name
+  depends_on = [
+    azurerm_subnet.main
+  ]
 }
 
 
