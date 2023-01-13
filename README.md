@@ -1,7 +1,7 @@
 
 # AzureRM FunctionApp Module
 
-When developing new features to this module. Do not forget to update [for_terratest.tfvars](examples/complete/for_terratest.tfvars) file and you can read [README.md](tests/terratest/README.md) for more details
+When developing new features to this module, do not forget to update [for_terratest.tfvars](examples/complete/for_terratest.tfvars) file so terratest does not fail. You can read [README.md](tests/terratest/README.md) for more details
 
 <!-- BEGIN_TF_DOCS -->
 
