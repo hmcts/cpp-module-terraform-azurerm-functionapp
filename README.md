@@ -10,9 +10,9 @@ When developing new features to this module. Do not forget to update [for_terrat
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.38.0 |
-| <a name="provider_null"></a> [null](#provider\_null) | 3.2.1 |
-| <a name="provider_vault"></a> [vault](#provider\_vault) | 3.12.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | n/a |
+| <a name="provider_null"></a> [null](#provider\_null) | n/a |
+| <a name="provider_vault"></a> [vault](#provider\_vault) | n/a |
 
 ## Resources
 
