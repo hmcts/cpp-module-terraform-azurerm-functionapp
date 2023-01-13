@@ -13,6 +13,7 @@ resource "azurerm_service_plan" "main" {
 }
 
 data "azurerm_service_plan" "sp" {
+  #count               = length(azurerm_service_plan.main[0].id) != 0 ? 1 : 0
   name                = var.service_plan_name
   resource_group_name = var.resource_group_name
   depends_on = [
@@ -22,9 +23,10 @@ data "azurerm_service_plan" "sp" {
 
 # Function App
 resource "azurerm_linux_function_app" "linux_function" {
-  count                       = var.asp_os_type == "Linux" ? 1 : 0
-  name                        = var.function_app_name
-  service_plan_id             = data.azurerm_service_plan.sp.id
+  count           = var.asp_os_type == "Linux" ? 1 : 0
+  name            = var.function_app_name
+  service_plan_id = data.azurerm_service_plan.sp.id
+  #service_plan_id             = data.azurerm_service_plan.sp[0].id
   location                    = var.location
   resource_group_name         = var.resource_group_name
   storage_account_name        = var.storage_account_name
@@ -83,7 +85,7 @@ resource "azurerm_linux_function_app" "linux_function" {
 
 resource "azurerm_subnet" "main" {
   count                = var.create_subnet && length(var.subnet_cidr) != 0 && length(var.subnet_name) == 0 ? 1 : 0
-  name                 = "SN-upper(var.function_app_name)"
+  name                 = "SN-${upper(var.function_app_name)}"
   virtual_network_name = var.vnet_name
   address_prefixes     = var.subnet_cidr
   resource_group_name  = var.vnet_rg_name
@@ -99,12 +101,13 @@ resource "azurerm_subnet" "main" {
 }
 
 data "azurerm_subnet" "main" {
-  count                = length(var.subnet_name) != 0 ? 1 : 0
+  count = length(var.subnet_name) != 0 ? 1 : 0
+  #count                = length(var.subnet_name) != 0 && length(azurerm_subnet.main[0].id) !=0  ? 1 : 0
   name                 = var.subnet_name
   virtual_network_name = var.vnet_name
   resource_group_name  = var.vnet_rg_name
   depends_on = [
-    azurerm_subnet.main
+    azurerm_subnet.main[0]
   ]
 }
 
@@ -117,9 +120,10 @@ resource "azurerm_app_service_virtual_network_swift_connection" "linux" {
 }
 
 resource "azurerm_windows_function_app" "windows_function" {
-  count                       = var.asp_os_type == "Windows" ? 1 : 0
-  name                        = var.function_app_name
-  service_plan_id             = data.azurerm_service_plan.sp.id
+  count           = var.asp_os_type == "Windows" ? 1 : 0
+  name            = var.function_app_name
+  service_plan_id = data.azurerm_service_plan.sp.id
+  # service_plan_id             = data.azurerm_service_plan.sp[0].id
   location                    = var.location
   resource_group_name         = var.resource_group_name
   storage_account_name        = var.storage_account_name
