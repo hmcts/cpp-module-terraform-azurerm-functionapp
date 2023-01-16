@@ -9,7 +9,9 @@ data "vault_generic_secret" "main" {
   path     = each.value
 }
 
+/*
 data "azurerm_virtual_network" "main" {
   name                = var.vnet_name
   resource_group_name = var.vnet_rg_name
 }
+*/
