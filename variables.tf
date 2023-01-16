@@ -131,3 +131,41 @@ variable "tags" {
   type    = map(string)
   default = {}
 }
+
+
+variable "vnet_name" {
+  description = "Vnet Name for Private Subnets"
+  type        = string
+  default     = ""
+}
+
+variable "vnet_rg_name" {
+  description = "Vnet Resource Group Name for Private Subnets"
+  type        = string
+  default     = ""
+}
+
+variable "subnet_cidr" {
+  description = "Vnet Subnet CIDR"
+  type        = list(string)
+  default     = []
+}
+
+variable "subnet_name" {
+  description = "Subnet Name to reuse"
+  type        = string
+  default     = ""
+}
+
+
+variable "create_subnet" {
+  description = "Should Create Subnet"
+  type        = bool
+  default     = false
+}
+
+variable "environment" {
+  type        = string
+  description = "Environment into which resource is deployed"
+  default     = ""
+}

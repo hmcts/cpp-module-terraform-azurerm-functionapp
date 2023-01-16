@@ -180,3 +180,16 @@ variable "type" {
   description = "Name of service type"
   default     = ""
 }
+
+variable "vnet_name" {
+  type        = string
+  description = "Vnet name"
+  default     = ""
+}
+
+
+variable "vnet_rg_name" {
+  type        = string
+  description = "Vnet RG name"
+  default     = ""
+}

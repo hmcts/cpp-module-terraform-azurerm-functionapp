@@ -11,7 +11,12 @@ go mod init github.com/hmcts/cpp-module-terraform-azurerm-functionapp
 
 To execute the tests execute the following from within the test file's folder:
 
-Ensure your go environment is setup.
+Ensure your go environment is setup with the required go version running on pipeline. You can check [cpp-azure-devops-templates](https://github.com/hmcts/cpp-azure-devops-templates/blob/main/pipelines/terratest.yaml#L13) repo
+
+```bash
+ brew unlink go
+ brew link go@1.18 --overwrite
+ ```
 
 ```bash
 go test -v pre_test.go
