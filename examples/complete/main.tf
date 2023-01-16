@@ -46,4 +46,6 @@ module "functionapp_terratest" {
   storage_account_access_key   = azurerm_storage_account.test.primary_access_key
   create_service_plan          = var.create_service_plan
   tags                         = module.tag_set.tags
+  vnet_name                    = var.vnet_name
+  vnet_rg_name                 = var.vnet_rg_name
 }
