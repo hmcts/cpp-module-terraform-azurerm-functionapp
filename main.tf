@@ -98,6 +98,9 @@ resource "azurerm_subnet" "main" {
       actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
     }
   }
+  depends_on = [
+    azurerm_service_plan.main
+  ]
 }
 
 data "azurerm_subnet" "main" {
