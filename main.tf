@@ -98,6 +98,9 @@ resource "azurerm_subnet" "main" {
       actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
     }
   }
+  depends_on = [
+    azurerm_service_plan.main
+  ]
 }
 
 data "azurerm_subnet" "main" {
@@ -117,9 +120,6 @@ resource "azurerm_app_service_virtual_network_swift_connection" "linux" {
   count          = (var.create_subnet || length(var.subnet_name) != 0) && var.asp_os_type == "Linux" ? 1 : 0
   app_service_id = azurerm_linux_function_app.linux_function[0].id
   subnet_id      = length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : data.azurerm_subnet.main[0].id
-  depends_on = [
-    azurerm_subnet.main[0]
-  ]
 }
 
 resource "azurerm_windows_function_app" "windows_function" {
@@ -179,9 +179,6 @@ resource "azurerm_windows_function_app" "windows_function" {
       }
     }
   }
-  depends_on = [
-    azurerm_subnet.main[0]
-  ]
 }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "windows" {
@@ -189,9 +186,6 @@ resource "azurerm_app_service_virtual_network_swift_connection" "windows" {
   count          = (var.create_subnet || length(var.subnet_name) != 0) && var.asp_os_type == "Windows" ? 1 : 0
   app_service_id = azurerm_windows_function_app.windows_function[0].id
   subnet_id      = length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : data.azurerm_subnet.main[0].id
-  depends_on = [
-    azurerm_subnet.main[0]
-  ]
 }
 
 
