@@ -54,6 +54,14 @@ resource "azurerm_linux_function_app" "linux_function" {
     ]
   }
 
+  dynamic "identity" {
+    for_each = var.identity == {} ? [] : [var.identity]
+    content {
+      type         = lookup(identity.value, "type", null)
+      identity_ids = lookup(identity.value, "identity_ids", null)
+    }
+  }
+
   dynamic "site_config" {
     for_each = [var.site_config]
     content {
@@ -152,6 +160,14 @@ resource "azurerm_windows_function_app" "windows_function" {
       app_settings.WEBSITE_CONTENTAZUREFILECONNECTIONSTRING,
       app_settings.WEBSITE_CONTENTSHARE
     ]
+  }
+
+  dynamic "identity" {
+    for_each = var.identity == {} ? [] : [var.identity]
+    content {
+      type         = lookup(identity.value, "type", null)
+      identity_ids = lookup(identity.value, "identity_ids", null)
+    }
   }
 
   dynamic "site_config" {

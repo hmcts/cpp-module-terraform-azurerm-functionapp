@@ -22,3 +22,8 @@ output "function_app_primary_key" {
   description = "Primary Key for Function App"
   value       = data.azurerm_function_app_host_keys.main.primary_key
 }
+
+output "principal_id" {
+  description = "Principal ID of the Function APP"
+  value       = var.identity == {} ? null : var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.identity.0.principal_id : azurerm_windows_function_app.windows_function.0.identity.0.principal_id
+}

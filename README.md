@@ -53,6 +53,7 @@ When developing new features to this module, do not forget to update [for_terrat
 | <a name="input_function_app_version"></a> [function\_app\_version](#input\_function\_app\_version) | Version of the function app runtime to use (Allowed values 2, 3 or 4) | `number` | `4` | no |
 | <a name="input_functionapp_package"></a> [functionapp\_package](#input\_functionapp\_package) | The ZIP file location of the functionapp package | `string` | n/a | yes |
 | <a name="input_https_only"></a> [https\_only](#input\_https\_only) | Disable http procotol and keep only https | `bool` | `true` | no |
+| <a name="input_identity"></a> [identity](#input\_identity) | Identity block Specifies the identity to assign to function app | `any` | `{}` | no |
 | <a name="input_key_vault_id"></a> [key\_vault\_id](#input\_key\_vault\_id) | keyvault id to lookup secret settings | `string` | `null` | no |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `string` | `"uksouth"` | no |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | n/a | `string` | n/a | yes |
@@ -74,5 +75,6 @@ When developing new features to this module, do not forget to update [for_terrat
 | <a name="output_function_app_name"></a> [function\_app\_name](#output\_function\_app\_name) | The name of the Function App. |
 | <a name="output_function_app_primary_key"></a> [function\_app\_primary\_key](#output\_function\_app\_primary\_key) | Primary Key for Function App |
 | <a name="output_function_app_worker_count"></a> [function\_app\_worker\_count](#output\_function\_app\_worker\_count) | The number of workers of the Function App. |
+| <a name="output_principal_id"></a> [principal\_id](#output\_principal\_id) | Principal ID of the Function APP |
 | <a name="output_resource_group_name"></a> [resource\_group\_name](#output\_resource\_group\_name) | The name of the Resource Group |
 <!-- END_TF_DOCS -->
