@@ -103,6 +103,12 @@ variable "site_config" {
   default     = {}
 }
 
+variable "identity" {
+  description = "Identity block Specifies the identity to assign to function app"
+  type        = any
+  default     = {}
+}
+
 variable "https_only" {
   description = "Disable http procotol and keep only https"
   type        = bool
