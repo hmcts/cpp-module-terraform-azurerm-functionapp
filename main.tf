@@ -230,3 +230,12 @@ data "azurerm_function_app_host_keys" "main" {
     null_resource.functionapp_deploy
   ]
 }
+
+resource "azurerm_app_service_public_certificate" "example" {
+  for_each             = var.cert_contents
+  resource_group_name  = var.resource_group_name
+  app_service_name     = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.name : azurerm_windows_function_app.windows_function.0.name
+  certificate_name     = each.key
+  certificate_location = "Unknown"
+  blob                 = each.value
+}
