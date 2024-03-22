@@ -177,6 +177,6 @@ variable "environment" {
 }
 
 variable "cert_contents" {
-  type    = map(string)
+  type        = map(string)
   description = "Root ca cert content"
 }
