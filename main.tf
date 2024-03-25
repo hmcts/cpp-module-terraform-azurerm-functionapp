@@ -63,7 +63,7 @@ resource "azurerm_linux_function_app" "linux_function" {
   }
 
   dynamic "storage_account" {
-    for_each = var.storage_account_mount == {} ? [] : [var.storage_account_mount]
+    for_each = var.storage_account == {} ? [] : [var.storage_account]
     content {
       access_key   = lookup(storage_account.value, "access_key", null)
       account_name = lookup(storage_account.value, "account_name", null)
