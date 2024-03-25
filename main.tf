@@ -63,14 +63,14 @@ resource "azurerm_linux_function_app" "linux_function" {
   }
 
   dynamic "storage_account" {
-    for_each = var.storage_account == {} ? [] : [var.storage_account]
+    for_each = var.storage_account_mount == {} ? [] : [var.storage_account_mount]
     content {
-      access_key   = lookup(storage_account.value, "access_key", null)
-      account_name = lookup(storage_account.value, "account_name", null)
-      name         = lookup(storage_account.value, "name", "cert")
-      share_name   = lookup(storage_account.value, "share_name", null)
-      type         = lookup(storage_account.value, "type", null)
-      mount_path   = lookup(storage_account.value, "mount_path", null)
+      access_key   = lookup(storage_account_mount.value, "access_key", null)
+      account_name = lookup(storage_account_mount.value, "account_name", null)
+      name         = lookup(storage_account_mount.value, "name", "cert")
+      share_name   = lookup(storage_account_mount.value, "share_name", null)
+      type         = lookup(storage_account_mount.value, "type", null)
+      mount_path   = lookup(storage_account_mount.value, "mount_path", null)
     }
   }
 
