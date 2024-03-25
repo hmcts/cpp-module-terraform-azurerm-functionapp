@@ -175,3 +175,9 @@ variable "environment" {
   description = "Environment into which resource is deployed"
   default     = ""
 }
+
+variable "cert_contents" {
+  type        = map(string)
+  description = "Root ca cert content"
+  default     = {}
+}
