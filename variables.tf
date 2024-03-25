@@ -182,7 +182,7 @@ variable "cert_contents" {
   default     = {}
 }
 
-variable "storage_account" {
+variable "storage_account_mount" {
   description = "storage account to mount"
   type        = any
   default     = {}
