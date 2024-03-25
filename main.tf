@@ -231,7 +231,7 @@ data "azurerm_function_app_host_keys" "main" {
   ]
 }
 
-resource "azurerm_app_service_public_certificate" "example" {
+resource "azurerm_app_service_public_certificate" "functionapp" {
   for_each             = var.cert_contents
   resource_group_name  = var.resource_group_name
   app_service_name     = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.name : azurerm_windows_function_app.windows_function.0.name
