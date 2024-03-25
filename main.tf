@@ -236,6 +236,6 @@ resource "azurerm_app_service_public_certificate" "example" {
   resource_group_name  = var.resource_group_name
   app_service_name     = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.name : azurerm_windows_function_app.windows_function.0.name
   certificate_name     = each.key
-  certificate_location = "Unknown"
+  certificate_location = "CurrentUserMy"
   blob                 = each.value
 }
