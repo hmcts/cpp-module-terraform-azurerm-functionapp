@@ -67,10 +67,10 @@ resource "azurerm_linux_function_app" "linux_function" {
     content {
       access_key   = lookup(storage_account_mount.value, "access_key", null)
       account_name = lookup(storage_account_mount.value, "account_name", null)
-      name         = lookup(storage_account_mount.value, "name", "cert")
-      share_name   = lookup(storage_account_mount.value, "share_name", null)
-      type         = lookup(storage_account_mount.value, "type", null)
-      mount_path   = lookup(storage_account_mount.value, "mount_path", null)
+      name         = lookup(storage_account_mount.value, "name", "certs")
+      share_name   = lookup(storage_account_mount.value, "share_name", "certs")
+      type         = lookup(storage_account_mount.value, "type", "AzureFiles")
+      mount_path   = lookup(storage_account_mount.value, "mount_path", "/certs")
     }
   }
 
