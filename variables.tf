@@ -181,3 +181,9 @@ variable "cert_contents" {
   description = "Root ca cert content"
   default     = {}
 }
+
+variable "storage_account" {
+  description = "storage account to mount"
+  type        = any
+  default     = {}
+}

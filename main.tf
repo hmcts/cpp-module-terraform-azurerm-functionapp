@@ -62,6 +62,15 @@ resource "azurerm_linux_function_app" "linux_function" {
     }
   }
 
+  storage_account {
+    access_key   = lookup(var.storage_account, "access_key", null)
+    account_name = lookup(var.storage_account, "account_name", null)
+    name         = lookup(var.storage_account, "name", "certs")
+    share_name   = lookup(var.storage_account, "share_name", "certs")
+    type         = lookup(var.storage_account, "type", "AzureFiles")
+    mount_path   = lookup(var.storage_account, "mount_path", "/certs")
+  }
+
   dynamic "site_config" {
     for_each = [var.site_config]
     content {
