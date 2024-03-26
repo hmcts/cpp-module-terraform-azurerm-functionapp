@@ -62,16 +62,13 @@ resource "azurerm_linux_function_app" "linux_function" {
     }
   }
 
-  dynamic "storage_account" {
-    for_each = var.storage_account == {} ? [] : [var.storage_account]
-    content {
-      access_key   = lookup(storage_account.value, "access_key", null)
-      account_name = lookup(storage_account.value, "account_name", null)
-      name         = lookup(storage_account.value, "name", "certs")
-      share_name   = lookup(storage_account.value, "share_name", "certs")
-      type         = lookup(storage_account.value, "type", "AzureFiles")
-      mount_path   = lookup(storage_account.value, "mount_path", "/certs")
-    }
+   "storage_account" {
+      access_key   = lookup(var.storage_account, "access_key", null)
+      account_name = lookup(var.storage_account, "account_name", null)
+      name         = lookup(var.storage_account, "name", "certs")
+      share_name   = lookup(var.storage_account, "share_name", "certs")
+      type         = lookup(var.storage_account, "type", "AzureFiles")
+      mount_path   = lookup(var.storage_account, "mount_path", "/certs")
   }
 
   dynamic "site_config" {
