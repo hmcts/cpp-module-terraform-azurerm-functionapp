@@ -62,7 +62,7 @@ resource "azurerm_linux_function_app" "linux_function" {
     }
   }
 
-   "storage_account" {
+   storage_account {
       access_key   = lookup(var.storage_account, "access_key", null)
       account_name = lookup(var.storage_account, "account_name", null)
       name         = lookup(var.storage_account, "name", "certs")
