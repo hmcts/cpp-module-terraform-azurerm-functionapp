@@ -63,4 +63,6 @@ module "functionapp_terratest" {
   tags                         = module.tag_set.tags
   vnet_name                    = var.vnet_name
   vnet_rg_name                 = var.vnet_rg_name
+  identity_ids                 = var.identity_ids
+  identity_type                = var.identity_type
 }

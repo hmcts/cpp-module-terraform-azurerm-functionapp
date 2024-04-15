@@ -109,6 +109,18 @@ variable "identity" {
   default     = {}
 }
 
+variable "identity_type" {
+  description = "Specifies the type of identity to assign to the function app"
+  type        = string
+}
+
+variable "identity_ids" {
+  description = "Specifies the identity IDs to assign to the function app"
+  type        = string
+}
+
+
+
 variable "https_only" {
   description = "Disable http procotol and keep only https"
   type        = bool

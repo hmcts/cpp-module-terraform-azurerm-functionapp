@@ -56,10 +56,10 @@ resource "azurerm_linux_function_app" "linux_function" {
   }
 
   dynamic "identity" {
-    for_each = var.identity == {} ? [] : [var.identity]
+    for_each = var.identity_type != null || var.identity_ids != null ? [1] : []
     content {
-      type         = lookup(identity.value, "type", null)
-      identity_ids = lookup(identity.value, "identity_ids", null)
+      type         = var.identity_type
+      identity_ids = [var.identity_ids]
     }
   }
 
@@ -167,10 +167,10 @@ resource "azurerm_windows_function_app" "windows_function" {
   }
 
   dynamic "identity" {
-    for_each = var.identity == {} ? [] : [var.identity]
+    for_each = var.identity_type != null && var.identity_ids != null ? [1] : []
     content {
-      type         = lookup(identity.value, "type", null)
-      identity_ids = lookup(identity.value, "identity_ids", null)
+      type         = var.identity_type
+      identity_ids = [var.identity_ids]
     }
   }
 
