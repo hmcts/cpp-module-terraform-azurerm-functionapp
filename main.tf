@@ -170,7 +170,7 @@ resource "azurerm_windows_function_app" "windows_function" {
     for_each = var.identity_type != null && var.identity_ids != null ? [1] : []
     content {
       type         = var.identity_type
-      identity_ids = [var.identity_ids]
+      identity_ids = var.identity_ids
     }
   }
 
@@ -200,6 +200,12 @@ resource "azurerm_windows_function_app" "windows_function" {
     }
   }
 }
+
+#resource "azurerm_role_assignment" "identity_role" {
+#  scope        = ""
+#  role_definition_name = ""
+#  principal_id = var.principal_id
+#}
 
 resource "null_resource" "functionapp_deploy" {
   triggers = {

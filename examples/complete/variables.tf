@@ -112,8 +112,8 @@ variable "identity_type" {
 
 variable "identity_ids" {
   description = "Specifies the identity IDs to assign to the function app"
-  type        = string
-  default     = null
+  type        = list(string)
+  default     = []
 }
 
 variable "builtin_logging_enabled" {
