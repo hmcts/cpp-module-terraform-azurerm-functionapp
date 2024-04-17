@@ -170,7 +170,7 @@ resource "azurerm_windows_function_app" "windows_function" {
     for_each = var.identity_type != null ? [1] : []
     content {
       type         = var.identity_type
-      identity_ids = var.identity_type == "UserAssigned" ? var.identity_ids : []
+      identity_ids = var.identity_type == "UserAssigned" ? [var.identity_ids] : []
     }
   }
 
