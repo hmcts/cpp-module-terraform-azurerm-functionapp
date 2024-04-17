@@ -56,10 +56,10 @@ resource "azurerm_linux_function_app" "linux_function" {
   }
 
   dynamic "identity" {
-    for_each = var.identity_type != null || var.identity_ids != null ? [1] : []
+    for_each = var.identity_type != null ? [1] : []
     content {
       type         = var.identity_type
-      identity_ids = [var.identity_ids]
+      identity_ids = var.identity_type == "UserAssigned" ? var.identity_ids : []
     }
   }
 
@@ -167,10 +167,10 @@ resource "azurerm_windows_function_app" "windows_function" {
   }
 
   dynamic "identity" {
-    for_each = var.identity_type == "UserAssigned" && var.identity_ids != [] ? var.identity_ids : []
+    for_each = var.identity_type != null ? [1] : []
     content {
       type         = var.identity_type
-      identity_ids = var.identity_ids
+      identity_ids = var.identity_type == "UserAssigned" ? var.identity_ids : []
     }
   }
 
