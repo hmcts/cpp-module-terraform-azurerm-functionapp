@@ -104,18 +104,6 @@ variable "https_only" {
   default     = true
 }
 
-variable "identity_type" {
-  description = "Specifies the type of identity to assign to the function app"
-  type        = string
-  default     = null
-}
-
-variable "identity_ids" {
-  description = "Specifies the identity IDs to assign to the function app"
-  type        = list(string)
-  default     = []
-}
-
 variable "builtin_logging_enabled" {
   description = "Should built in logging be enabled"
   type        = bool

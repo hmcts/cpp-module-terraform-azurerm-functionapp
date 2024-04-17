@@ -109,21 +109,6 @@ variable "identity" {
   default     = {}
 }
 
-variable "identity_type" {
-  description = "Specifies the type of identity to assign to the function app"
-  type        = string
-}
-
-#variable "principal_id" {
-#  description = "principal id of user assigned identity"
-#  type        = string
-#}
-
-variable "identity_ids" {
-  description = "Specifies the identity IDs to assign to the function app"
-  type        = list(string)
-}
-
 
 
 variable "https_only" {
