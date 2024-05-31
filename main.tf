@@ -36,7 +36,7 @@ resource "azurerm_linux_function_app" "linux_function" {
   client_certificate_enabled  = var.client_certificate_enabled
   client_certificate_mode     = var.client_certificate_mode
   builtin_logging_enabled     = var.builtin_logging_enabled
-  virtual_network_subnet_id   = var.create_subnet && length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : null
+  virtual_network_subnet_id   = length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : var.subnet_id
   tags                        = var.tags
 
   app_settings = merge(
@@ -147,7 +147,7 @@ resource "azurerm_windows_function_app" "windows_function" {
   client_certificate_enabled  = var.client_certificate_enabled
   client_certificate_mode     = var.client_certificate_mode
   builtin_logging_enabled     = var.builtin_logging_enabled
-  virtual_network_subnet_id   = var.create_subnet && length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : null
+  virtual_network_subnet_id   = length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : var.subnet_id
   tags                        = var.tags
 
   app_settings = merge(

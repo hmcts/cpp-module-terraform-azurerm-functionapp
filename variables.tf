@@ -163,6 +163,11 @@ variable "subnet_name" {
   default     = ""
 }
 
+variable "subnet_id" {
+  description = "Subnet ID to use"
+  type        = string
+  default     = ""
+}
 
 variable "create_subnet" {
   description = "Should Create Subnet"
