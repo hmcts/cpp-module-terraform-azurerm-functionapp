@@ -58,29 +58,6 @@ variable "function_app_version" {
   default     = 4
 }
 
-variable "functionapp_package" {
-  description = "The ZIP file location of the functionapp package"
-  type        = string
-}
-
-variable "application_settings" {
-  description = "Function App application settings"
-  type        = map(string)
-  default     = {}
-}
-
-variable "application_settings_sensitive_keyvault_lookup" {
-  description = "Function App application settings lookup from keyvault"
-  type        = map(string)
-  default     = {}
-}
-
-variable "application_settings_sensitive_hashicorp_vault_lookup" {
-  description = "Function App application settings lookup from Hashicorp vault"
-  type        = map(string)
-  default     = {}
-}
-
 variable "storage_account_name" {
   type        = string
   description = "Storage account to associate with function app"

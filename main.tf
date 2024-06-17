@@ -39,22 +39,6 @@ resource "azurerm_linux_function_app" "linux_function" {
   virtual_network_subnet_id   = length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : var.subnet_id
   tags                        = var.tags
 
-  app_settings = merge(
-    var.application_settings,
-    local.application_settings_sensitive_keyvault_lookup,
-    local.application_settings_sensitive_hashicorp_vault_lookup
-  )
-
-  lifecycle {
-    ignore_changes = [
-      app_settings.WEBSITE_RUN_FROM_ZIP,
-      app_settings.WEBSITE_RUN_FROM_PACKAGE,
-      app_settings.MACHINEKEY_DecryptionKey,
-      app_settings.WEBSITE_CONTENTAZUREFILECONNECTIONSTRING,
-      app_settings.WEBSITE_CONTENTSHARE
-    ]
-  }
-
   dynamic "identity" {
     for_each = var.identity == {} ? [] : [var.identity]
     content {
@@ -97,6 +81,12 @@ resource "azurerm_linux_function_app" "linux_function" {
         }
       }
     }
+  }
+
+  lifecycle {
+    ignore_changes = [
+      app_settings,
+    ]
   }
 }
 
@@ -150,22 +140,6 @@ resource "azurerm_windows_function_app" "windows_function" {
   virtual_network_subnet_id   = length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : var.subnet_id
   tags                        = var.tags
 
-  app_settings = merge(
-    var.application_settings,
-    local.application_settings_sensitive_keyvault_lookup,
-    local.application_settings_sensitive_hashicorp_vault_lookup
-  )
-
-  lifecycle {
-    ignore_changes = [
-      app_settings.WEBSITE_RUN_FROM_ZIP,
-      app_settings.WEBSITE_RUN_FROM_PACKAGE,
-      app_settings.MACHINEKEY_DecryptionKey,
-      app_settings.WEBSITE_CONTENTAZUREFILECONNECTIONSTRING,
-      app_settings.WEBSITE_CONTENTSHARE
-    ]
-  }
-
   dynamic "identity" {
     for_each = var.identity == {} ? [] : [var.identity]
     content {
@@ -199,32 +173,16 @@ resource "azurerm_windows_function_app" "windows_function" {
       }
     }
   }
-}
-
-resource "null_resource" "functionapp_deploy" {
-  triggers = {
-    functionapp_package = var.functionapp_package
+  lifecycle {
+    ignore_changes = [
+      app_settings,
+    ]
   }
-  provisioner "local-exec" {
-    command = <<EOT
-    curl -k ${var.functionapp_package} -o ${var.function_app_name}.zip
-    az functionapp deployment source config-zip --src ${var.function_app_name}.zip -g ${var.resource_group_name} -n ${var.function_app_name}
-    rm ${var.function_app_name}.zip
-    sleep 60
-    EOT
-  }
-  depends_on = [
-    azurerm_linux_function_app.linux_function,
-    azurerm_windows_function_app.windows_function
-  ]
 }
 
 data "azurerm_function_app_host_keys" "main" {
   name                = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.name : azurerm_windows_function_app.windows_function.0.name
   resource_group_name = var.resource_group_name
-  depends_on = [
-    null_resource.functionapp_deploy
-  ]
 }
 
 resource "azurerm_app_service_public_certificate" "functionapp" {

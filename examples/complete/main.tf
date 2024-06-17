@@ -22,13 +22,7 @@ resource "azurerm_virtual_network" "test" {
   resource_group_name = azurerm_resource_group.test.name
   address_space       = ["10.0.0.0/16"]
   dns_servers         = ["10.0.0.4", "10.0.0.5"]
-
-  subnet {
-    name           = "test"
-    address_prefix = "10.0.1.0/24"
-  }
-
-  tags = module.tag_set.tags
+  tags                = module.tag_set.tags
 }
 
 resource "azurerm_storage_account" "test" {
@@ -53,8 +47,6 @@ module "functionapp_terratest" {
   asp_sku                      = var.asp_sku
   asp_per_site_scaling_enabled = var.asp_per_site_scaling_enabled
   asp_zone_balancing_enabled   = var.asp_zone_balancing_enabled
-  application_settings         = var.application_settings
-  functionapp_package          = var.functionapp_package
   site_config                  = var.site_config
   service_plan_name            = var.service_plan_name
   storage_account_name         = var.storage_account_name
@@ -63,4 +55,10 @@ module "functionapp_terratest" {
   tags                         = module.tag_set.tags
   vnet_name                    = var.vnet_name
   vnet_rg_name                 = var.vnet_rg_name
+  create_subnet                = true
+  subnet_cidr                  = ["10.0.1.0/24"]
+
+  depends_on = [
+    azurerm_virtual_network.test
+  ]
 }
