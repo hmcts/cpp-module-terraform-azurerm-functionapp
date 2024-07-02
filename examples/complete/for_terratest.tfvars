@@ -3,7 +3,6 @@ asp_os_type                  = "Windows"
 asp_instance_size            = 1
 asp_per_site_scaling_enabled = false
 asp_zone_balancing_enabled   = false
-functionapp_package          = "https://libraries-internal.mdv.cpp.nonlive/artifactory/list/repocentral/uk/gov/moj/cpp/notification/notify/notificationnotify-azure-functions/8.0.2/notificationnotify-azure-functions-8.0.2.zip"
 
 application_settings = {
   FUNCTIONS_EXTENSION_VERSION        = "~2"

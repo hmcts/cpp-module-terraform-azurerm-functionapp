@@ -58,11 +58,6 @@ variable "function_app_version" {
   default     = 4
 }
 
-variable "functionapp_package" {
-  description = "The ZIP file location of the functionapp package"
-  type        = string
-}
-
 variable "application_settings" {
   description = "Function App application settings"
   type        = map(string)
@@ -182,14 +177,13 @@ variable "type" {
 }
 
 variable "vnet_name" {
+  description = "Vnet Name for Private Subnets"
   type        = string
-  description = "Vnet name"
   default     = ""
 }
 
-
 variable "vnet_rg_name" {
+  description = "Vnet Resource Group Name for Private Subnets"
   type        = string
-  description = "Vnet RG name"
   default     = ""
 }
