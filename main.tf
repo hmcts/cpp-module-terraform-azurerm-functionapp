@@ -65,8 +65,8 @@ resource "azurerm_linux_function_app" "linux_function" {
       minimum_tls_version                    = lookup(site_config.value, "minimum_tls_version", null)
       elastic_instance_minimum               = lookup(site_config.value, "elastic_instance_minimum", null)
       worker_count                           = lookup(site_config.value, "worker_count", null)
-      application_insights_connection_string = lookup(site_config.value, "worker_app_insights_connection_stringcount", null)
-      application_insights_key               = lookup(site_config.value, "app_insights_instrumentation_key", null)
+      application_insights_connection_string = lookup(site_config.value, "application_insights_connection_string", null)
+      application_insights_key               = lookup(site_config.value, "application_insights_key", null)
 
       dynamic "application_stack" {
         for_each = lookup(site_config.value, "application_stack", null) == null ? [] : ["application_stack"]
@@ -157,8 +157,8 @@ resource "azurerm_windows_function_app" "windows_function" {
       minimum_tls_version                    = lookup(site_config.value, "minimum_tls_version", null)
       elastic_instance_minimum               = lookup(site_config.value, "elastic_instance_minimum", null)
       worker_count                           = lookup(site_config.value, "worker_count", null)
-      application_insights_connection_string = lookup(site_config.value, "worker_app_insights_connection_stringcount", null)
-      application_insights_key               = lookup(site_config.value, "app_insights_instrumentation_key", null)
+      application_insights_connection_string = lookup(site_config.value, "application_insights_connection_string", null)
+      application_insights_key               = lookup(site_config.value, "application_insights_key", null)
 
       dynamic "application_stack" {
         for_each = lookup(site_config.value, "application_stack", null) == null ? [] : ["application_stack"]
