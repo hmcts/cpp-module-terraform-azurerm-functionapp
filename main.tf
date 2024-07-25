@@ -47,6 +47,51 @@ resource "azurerm_linux_function_app" "linux_function" {
     }
   }
 
+  resource "azurerm_private_endpoint "linux_private_endpoint" {
+    count           = var.asp_os_type == "Linux" ? 1 : 0
+    name = var.private_endpoint
+    location = var.location
+    resource_group_name         = var.resource_group_name
+    subnet_id = azurerm_subnet.main.id
+
+    private_service_connection {
+      name = var.private_service_connection
+      private_connection_resource_id = azurerm_linux_function_app.linux_function.id
+
+      subresource_name = ["site"]
+      is_manual_connection = false
+    }    
+  }
+
+  resource "azurerm_private_endpoint "windows_private_endpoint" {
+    count           = var.asp_os_type == "Windows" ? 1 : 0
+    name = var.private_endpoint
+    location = var.location
+    resource_group_name         = var.resource_group_name
+    subnet_id = azurerm_subnet.main.id
+
+    private_service_connection {
+      name = var.private_service_connection
+      private_connection_resource_id = azurerm_windows_function_app.windows_function.id
+
+      subresource_name = ["site"]
+      is_manual_connection = false
+    }    
+  }
+
+# To add
+# Private DNS zone - I think this already exists. TBC
+# Link of private DNS zone to Vnet
+
+resource "azurerm_private_dns_zone_virtual_network_link" "dns_vnet_link" {
+  name = "var.dns_link"
+  resource_group_name         = var.resource_group_name
+  private_dns_zone_name = var.private_dns_zone_name
+  virtual_network_id = var.private_endpoint_virtual_network_id
+}
+
+# Creation of DNS A record
+
   storage_account {
     access_key   = lookup(var.storage_account, "access_key", null)
     account_name = lookup(var.storage_account, "account_name", null)
