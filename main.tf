@@ -78,17 +78,12 @@ resource "azurerm_linux_function_app" "linux_function" {
       is_manual_connection = false
     }    
   }
-
+  
+# Integrate with VNet
 resource "azurerm_app_service_virtual_network_swift_connection" "private_function_vnet_link" {
   app_service_id = var.function_app_name.id
   subnet_id      = azurerm_subnet.main.id
 }
-
-# To add
-# Integrate with VNet
-# Private DNS zone - I think this already exists. TBC
-# Link of private DNS zone to Vnet
-# Creation of DNS A record
 
 resource "azurerm_private_dns_zone_virtual_network_link" "dns_vnet_link" {
   name = "var.dns_link"
@@ -96,6 +91,8 @@ resource "azurerm_private_dns_zone_virtual_network_link" "dns_vnet_link" {
   private_dns_zone_name = var.private_dns_zone_name
   virtual_network_id = var.private_endpoint_virtual_network_id
 }
+
+
 
 
   storage_account {
