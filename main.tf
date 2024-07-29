@@ -47,8 +47,10 @@ resource "azurerm_linux_function_app" "linux_function" {
     }
   }
 
+  # Check app_service_plan; for example, azurerm_app_service_plan.example.id
+
   resource "azurerm_private_endpoint "linux_private_endpoint" {
-    count           = var.asp_os_type == "Linux" ? 1 : 0
+    count           = var.asp_os_type == "Linux" && var.app_service_plan_type == "PremiumV2" ? 1 : 0
     name = var.private_endpoint
     location = var.location
     resource_group_name         = var.resource_group_name
@@ -64,7 +66,7 @@ resource "azurerm_linux_function_app" "linux_function" {
   }
 
   resource "azurerm_private_endpoint "windows_private_endpoint" {
-    count           = var.asp_os_type == "Windows" ? 1 : 0
+    count           = var.asp_os_type == "Windows" && var.app_service_plan_type == "PremiumV2" ? 1 : 0
     name = var.private_endpoint
     location = var.location
     resource_group_name         = var.resource_group_name
