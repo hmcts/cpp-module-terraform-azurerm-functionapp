@@ -23,9 +23,9 @@ data "azurerm_service_plan" "sp" {
 
 # Function App
 resource "azurerm_linux_function_app" "linux_function" {
-  count                       = var.asp_os_type == "Linux" ? 1 : 0
-  name                        = var.function_app_name
-  service_plan_id             = data.azurerm_service_plan.sp.id
+  count           = var.asp_os_type == "Linux" ? 1 : 0
+  name            = var.function_app_name
+  service_plan_id = data.azurerm_service_plan.sp.id
   #service_plan_id             = data.azurerm_service_plan.sp[0].id
   location                    = var.location
   resource_group_name         = var.resource_group_name
@@ -92,51 +92,51 @@ resource "azurerm_linux_function_app" "linux_function" {
 
 # Check app_service_plan; for example, azurerm_app_service_plan.example.id
 resource "azurerm_private_endpoint" "linux_private_endpoint" {
-  count = var.asp_os_type == "Linux" && var.asp_sku == "PremiumV2" ? 1 : 0
-  name = var.private_endpoint
-  location = var.location
+  count               = var.asp_os_type == "Linux" && var.asp_sku == "PremiumV2" ? 1 : 0
+  name                = var.private_endpoint
+  location            = var.location
   resource_group_name = var.resource_group_name
-  subnet_id = azurerm_subnet.main.id
+  subnet_id           = azurerm_subnet.main.id
 
 
   private_service_connection {
-    name = var.private_service_connection
+    name                           = var.private_service_connection
     private_connection_resource_id = azurerm_linux_function_app.linux_function.id
 
-    subresource_name = ["site"]
+    subresource_name     = ["site"]
     is_manual_connection = false
   }
 }
 
-resource "azurerm_private_endpoint "windows_private_endpoint" {
-  count = var.asp_os_type == "Windows" && var.asp_sku == "PremiumV2" ? 1 : 0
-  name = var.private_endpoint
-  location = var.location
-  resource_group_name         = var.resource_group_name
-  subnet_id = azurerm_subnet.main.id
+resource "azurerm_private_endpoint" "windows_private_endpoint" {
+  count               = var.asp_os_type == "Windows" && var.asp_sku == "PremiumV2" ? 1 : 0
+  name                = var.private_endpoint
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  subnet_id           = azurerm_subnet.main.id
 
   private_service_connection {
-    name = var.private_service_connection
+    name                           = var.private_service_connection
     private_connection_resource_id = azurerm_windows_function_app.windows_function.id
 
-    subresource_name = ["site"]
+    subresource_name     = ["site"]
     is_manual_connection = false
   }
 }
 
 # Integrate with VNet
 resource "azurerm_app_service_virtual_network_swift_connection" "private_function_vnet_link" {
-  count           = var.asp_sku == "PremiumV2" ? 1 : 0
+  count          = var.asp_sku == "PremiumV2" ? 1 : 0
   app_service_id = var.function_app_name.id
   subnet_id      = azurerm_subnet.main.id
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "dns_vnet_link" {
-  count           = var.asp_sku == "PremiumV2" ? 1 : 0
-  name = "var.dns_link"
-  resource_group_name         = var.resource_group_name
+  count                 = var.asp_sku == "PremiumV2" ? 1 : 0
+  name                  = "var.dns_link"
+  resource_group_name   = var.resource_group_name
   private_dns_zone_name = var.private_dns_zone_name
-  virtual_network_id = var.private_endpoint_virtual_network_id
+  virtual_network_id    = var.private_endpoint_virtual_network_id
 }
 
 
