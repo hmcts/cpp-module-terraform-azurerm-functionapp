@@ -188,6 +188,12 @@ variable "private_dns_zone_name" {
   default     = ""
 }
 
+variable "dns_link" {
+  type        = string
+  description = "Name of DNS link connecting private DNS zone to VNet"
+  default     = ""
+}
+
 variable "private_endpoint_virtual_network_id" {
   type        = string
   description = "vnet id for private endpoint"
