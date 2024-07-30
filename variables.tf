@@ -169,3 +169,27 @@ variable "storage_account" {
   type        = any
   default     = {}
 }
+
+variable "private_endpoint" {
+  type        = string
+  description = "NAme of private endpoint"
+  default     = ""
+}
+
+variable "private_service_connection" {
+  type        = string
+  description = "Name for private service connection"
+  default     = ""
+}
+
+variable "private_dns_zone_name" {
+  type        = string
+  description = "Name for private dns zone"
+  default     = ""
+}
+
+variable "private_endpoint_virtual_network_id" {
+  type        = string
+  description = "vnet id for private endpoint"
+  default     = ""
+}
