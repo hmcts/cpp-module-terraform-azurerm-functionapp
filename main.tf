@@ -56,6 +56,7 @@ resource "azurerm_linux_function_app" "linux_function" {
     resource_group_name         = var.resource_group_name
     subnet_id = azurerm_subnet.main.id
 
+
     private_service_connection {
       name = var.private_service_connection
       private_connection_resource_id = azurerm_linux_function_app.linux_function.id
@@ -83,11 +84,13 @@ resource "azurerm_linux_function_app" "linux_function" {
   
 # Integrate with VNet
 resource "azurerm_app_service_virtual_network_swift_connection" "private_function_vnet_link" {
+  count           = var.app_service_plan_type == "PremiumV2" ? 1 : 0
   app_service_id = var.function_app_name.id
   subnet_id      = azurerm_subnet.main.id
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "dns_vnet_link" {
+  count           = var.app_service_plan_type == "PremiumV2" ? 1 : 0
   name = "var.dns_link"
   resource_group_name         = var.resource_group_name
   private_dns_zone_name = var.private_dns_zone_name
