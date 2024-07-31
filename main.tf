@@ -127,14 +127,14 @@ resource "azurerm_private_endpoint" "windows_private_endpoint" {
 # Integrate with VNet
 resource "azurerm_app_service_virtual_network_swift_connection" "private_function_vnet_link" {
   count               = var.asp_os_type == "Linux" && var.asp_sku == "PremiumV2" ? 1 : 0
-  app_service_id = var.function_app_name.id
+  #app_service_id = var.function_app_name.id
   app_service_id = azurerm_private_endpoint.linux_private_endpoint.id
   subnet_id      = azurerm_subnet.main[0].id
 }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "private_function_vnet_link2" {
   count               = var.asp_os_type == "Windows" && var.asp_sku == "PremiumV2" ? 1 : 0
-  app_service_id = var.function_app_name.id
+  #app_service_id = var.function_app_name.id
   app_service_id = azurerm_private_endpoint.windows_private_endpoint.id
   subnet_id      = azurerm_subnet.main[0].id
 }
