@@ -103,7 +103,7 @@ resource "azurerm_private_endpoint" "linux_private_endpoint" {
     name                           = var.private_service_connection
     private_connection_resource_id = azurerm_linux_function_app.linux_function[0].id
 
-    subresource_name     = ["site"]
+    subresource_names     = ["site"]
     is_manual_connection = false
   }
 }
@@ -119,7 +119,7 @@ resource "azurerm_private_endpoint" "windows_private_endpoint" {
     name                           = var.private_service_connection
     private_connection_resource_id = azurerm_windows_function_app.windows_function[0].id
 
-    subresource_name     = ["site"]
+    subresource_names     = ["site"]
     is_manual_connection = false
   }
 }
