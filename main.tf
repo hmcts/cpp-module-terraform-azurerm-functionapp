@@ -96,12 +96,12 @@ resource "azurerm_private_endpoint" "linux_private_endpoint" {
   name                = var.private_endpoint
   location            = var.location
   resource_group_name = var.resource_group_name
-  subnet_id           = azurerm_subnet.main.id
+  subnet_id           = azurerm_subnet.main[0].id
 
 
   private_service_connection {
     name                           = var.private_service_connection
-    private_connection_resource_id = azurerm_linux_function_app.linux_function.id
+    private_connection_resource_id = azurerm_linux_function_app.linux_function[0].id
 
     subresource_name     = ["site"]
     is_manual_connection = false
@@ -113,11 +113,11 @@ resource "azurerm_private_endpoint" "windows_private_endpoint" {
   name                = var.private_endpoint
   location            = var.location
   resource_group_name = var.resource_group_name
-  subnet_id           = azurerm_subnet.main.id
+  subnet_id           = azurerm_subnet.main[0].id
 
   private_service_connection {
     name                           = var.private_service_connection
-    private_connection_resource_id = azurerm_windows_function_app.windows_function.id
+    private_connection_resource_id = azurerm_windows_function_app.windows_function[0].id
 
     subresource_name     = ["site"]
     is_manual_connection = false
@@ -128,7 +128,7 @@ resource "azurerm_private_endpoint" "windows_private_endpoint" {
 resource "azurerm_app_service_virtual_network_swift_connection" "private_function_vnet_link" {
   count          = var.asp_sku == "PremiumV2" ? 1 : 0
   app_service_id = var.function_app_name.id
-  subnet_id      = azurerm_subnet.main.id
+  subnet_id      = azurerm_subnet.main[0].id
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "dns_vnet_link" {
