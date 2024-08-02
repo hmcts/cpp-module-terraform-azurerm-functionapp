@@ -18,17 +18,17 @@ When developing new features to this module, do not forget to update [for_terrat
 |------|------|
 | [azurerm_app_service_public_certificate.functionapp](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_public_certificate) | resource |
 | [azurerm_app_service_virtual_network_swift_connection.private_function_vnet_link](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_virtual_network_swift_connection) | resource |
-| [azurerm_app_service_virtual_network_swift_connection.private_function_vnet_link2](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_virtual_network_swift_connection) | resource |
 | [azurerm_linux_function_app.linux_function](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_function_app) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.dns_vnet_link](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
-| [azurerm_private_endpoint.linux_private_endpoint](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_endpoint) | resource |
-| [azurerm_private_endpoint.windows_private_endpoint](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_endpoint) | resource |
+| [azurerm_private_endpoint.private_endpoint](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_endpoint) | resource |
 | [azurerm_service_plan.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/service_plan) | resource |
 | [azurerm_subnet.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
 | [azurerm_windows_function_app.windows_function](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_function_app) | resource |
 | [azurerm_function_app_host_keys.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/function_app_host_keys) | data source |
 | [azurerm_service_plan.sp](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/service_plan) | data source |
+| [azurerm_subnet.ingress](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subnet) | data source |
 | [azurerm_subnet.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subnet) | data source |
+| [azurerm_virtual_network.vnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_network) | data source |
 
 ## Inputs
 
@@ -51,13 +51,13 @@ When developing new features to this module, do not forget to update [for_terrat
 | <a name="input_function_app_version"></a> [function\_app\_version](#input\_function\_app\_version) | Version of the function app runtime to use (Allowed values 2, 3 or 4) | `number` | `4` | no |
 | <a name="input_https_only"></a> [https\_only](#input\_https\_only) | Disable http procotol and keep only https | `bool` | `true` | no |
 | <a name="input_identity"></a> [identity](#input\_identity) | Identity block Specifies the identity to assign to function app | `any` | `{}` | no |
+| <a name="input_ingress_subnet_name"></a> [ingress\_subnet\_name](#input\_ingress\_subnet\_name) | Subnet Name to reuse | `string` | `""` | no |
 | <a name="input_key_vault_id"></a> [key\_vault\_id](#input\_key\_vault\_id) | keyvault id to lookup secret settings | `string` | `null` | no |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `string` | `"uksouth"` | no |
-| <a name="input_private_dns_zone_name"></a> [private\_dns\_zone\_name](#input\_private\_dns\_zone\_name) | Name for private dns zone | `string` | `""` | no |
+| <a name="input_private_dns_zone_name"></a> [private\_dns\_zone\_name](#input\_private\_dns\_zone\_name) | Name for private dns zone | `string` | `"privatelink.azurewebsites.azure.net"` | no |
 | <a name="input_private_endpoint"></a> [private\_endpoint](#input\_private\_endpoint) | NAme of private endpoint | `string` | `""` | no |
-| <a name="input_private_endpoint_skus"></a> [private\_endpoint\_skus](#input\_private\_endpoint\_skus) | n/a | `list` | <pre>[<br>  "EP1",<br>  "EP2",<br>  "EP3",<br>  "Y1",<br>  "FC1"<br>]</pre> | no |
-| <a name="input_private_endpoint_virtual_network_id"></a> [private\_endpoint\_virtual\_network\_id](#input\_private\_endpoint\_virtual\_network\_id) | vnet id for private endpoint | `string` | `""` | no |
-| <a name="input_private_service_connection"></a> [private\_service\_connection](#input\_private\_service\_connection) | Name for private service connection | `string` | `""` | no |
+| <a name="input_private_endpoint_skus"></a> [private\_endpoint\_skus](#input\_private\_endpoint\_skus) | n/a | `list(any)` | <pre>[<br>  "EP1",<br>  "EP2",<br>  "EP3",<br>  "Y1",<br>  "FC1"<br>]</pre> | no |
+| <a name="input_private_service_connection"></a> [private\_service\_connection](#input\_private\_service\_connection) | Name for private service connection | `string` | `"test"` | no |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | n/a | `string` | n/a | yes |
 | <a name="input_service_plan_name"></a> [service\_plan\_name](#input\_service\_plan\_name) | Service Plan Name | `string` | `null` | no |
 | <a name="input_site_config"></a> [site\_config](#input\_site\_config) | Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is not managed in this block. | `any` | `{}` | no |
