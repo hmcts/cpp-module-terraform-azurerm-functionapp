@@ -37,7 +37,7 @@ resource "azurerm_linux_function_app" "linux_function" {
   client_certificate_enabled  = var.client_certificate_enabled
   client_certificate_mode     = var.client_certificate_mode
   builtin_logging_enabled     = var.builtin_logging_enabled
-  virtual_network_subnet_id   = length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : var.subnet_id
+  virtual_network_subnet_id   = length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : data.azurerm_subnet.main.0.id
   tags                        = var.tags
 
   dynamic "identity" {
@@ -92,62 +92,47 @@ resource "azurerm_linux_function_app" "linux_function" {
 }
 
 # Check app_service_plan; for example, azurerm_app_service_plan.example.id
-resource "azurerm_private_endpoint" "linux_private_endpoint" {
-  count               = var.asp_os_type == "Linux" && contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
+resource "azurerm_private_endpoint" "private_endpoint" {
+  count               = contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
   name                = var.private_endpoint
   location            = var.location
   resource_group_name = var.resource_group_name
-  subnet_id           = azurerm_subnet.main[0].id
-
-
-  private_service_connection {
-    name                           = var.private_service_connection
-    private_connection_resource_id = azurerm_linux_function_app.linux_function[0].id
-
-    subresource_names    = ["site"]
-    is_manual_connection = false
-  }
-}
-
-resource "azurerm_private_endpoint" "windows_private_endpoint" {
-  count               = var.asp_os_type == "Windows" && contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
-  name                = var.private_endpoint
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  subnet_id           = azurerm_subnet.main[0].id
+  subnet_id           = data.azurerm_subnet.ingress.id
 
   private_service_connection {
     name                           = var.private_service_connection
-    private_connection_resource_id = azurerm_windows_function_app.windows_function[0].id
-
-    subresource_names    = ["site"]
-    is_manual_connection = false
+    private_connection_resource_id = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.id : azurerm_windows_function_app.windows_function.0.id
+    subresource_names              = ["site"]
+    is_manual_connection           = false
   }
 }
 
 # Integrate with VNet
-resource "azurerm_app_service_virtual_network_swift_connection" "private_function_vnet_link" {
-  count = var.asp_os_type == "Linux" && contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
-  #app_service_id = var.function_app_name.id
-  app_service_id = azurerm_private_endpoint.linux_private_endpoint[0].id
-  subnet_id      = azurerm_subnet.main[0].id
+data "azurerm_subnet" "ingress" {
+  name                 = var.ingress_subnet_name
+  virtual_network_name = var.vnet_name
+  resource_group_name  = var.vnet_rg_name
 }
 
-resource "azurerm_app_service_virtual_network_swift_connection" "private_function_vnet_link2" {
-  count = var.asp_os_type == "Windows" && contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
-  #app_service_id = var.function_app_name.id
-  app_service_id = azurerm_private_endpoint.windows_private_endpoint[0].id
-  subnet_id      = azurerm_subnet.main[0].id
+data "azurerm_virtual_network" "vnet" {
+  name                = var.vnet_name
+  resource_group_name = var.vnet_rg_name
+}
+
+resource "azurerm_app_service_virtual_network_swift_connection" "private_function_vnet_link" {
+  count          = contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
+  app_service_id = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.id : azurerm_windows_function_app.windows_function.0.id
+  subnet_id      = data.azurerm_subnet.ingress.id
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "dns_vnet_link" {
   count                 = contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
-  name                  = "var.dns_link"
+  name                  = var.dns_link
   resource_group_name   = var.resource_group_name
+  registration_enabled  = true
   private_dns_zone_name = var.private_dns_zone_name
-  virtual_network_id    = var.private_endpoint_virtual_network_id
+  virtual_network_id    = data.azurerm_virtual_network.vnet.id
 }
-
 
 resource "azurerm_subnet" "main" {
   count                = var.create_subnet && length(var.subnet_cidr) != 0 && length(var.subnet_name) == 0 ? 1 : 0
@@ -180,7 +165,6 @@ data "azurerm_subnet" "main" {
   ]
 }
 
-
 resource "azurerm_windows_function_app" "windows_function" {
   count           = var.asp_os_type == "Windows" ? 1 : 0
   name            = var.function_app_name
@@ -195,7 +179,7 @@ resource "azurerm_windows_function_app" "windows_function" {
   client_certificate_enabled  = var.client_certificate_enabled
   client_certificate_mode     = var.client_certificate_mode
   builtin_logging_enabled     = var.builtin_logging_enabled
-  virtual_network_subnet_id   = length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : var.subnet_id
+  virtual_network_subnet_id   = length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : data.azurerm_subnet.main.0.id
   tags                        = var.tags
 
   dynamic "identity" {

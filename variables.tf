@@ -1,5 +1,5 @@
 variable "private_endpoint_skus" {
-  type = list
+  type    = list(any)
   default = ["EP1", "EP2", "EP3", "Y1", "FC1"]
 }
 
@@ -145,6 +145,12 @@ variable "subnet_name" {
   default     = ""
 }
 
+variable "ingress_subnet_name" {
+  description = "Subnet Name to reuse"
+  type        = string
+  default     = ""
+}
+
 variable "subnet_id" {
   description = "Subnet ID to use"
   type        = string
@@ -184,23 +190,17 @@ variable "private_endpoint" {
 variable "private_service_connection" {
   type        = string
   description = "Name for private service connection"
-  default     = ""
+  default     = "test"
 }
 
 variable "private_dns_zone_name" {
   type        = string
   description = "Name for private dns zone"
-  default     = ""
+  default     = "privatelink.azurewebsites.azure.net"
 }
 
 variable "dns_link" {
   type        = string
   description = "Name of DNS link connecting private DNS zone to VNet"
-  default     = ""
-}
-
-variable "private_endpoint_virtual_network_id" {
-  type        = string
-  description = "vnet id for private endpoint"
   default     = ""
 }
