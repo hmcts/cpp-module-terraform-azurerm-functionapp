@@ -126,21 +126,21 @@ resource "azurerm_private_endpoint" "windows_private_endpoint" {
 
 # Integrate with VNet
 resource "azurerm_app_service_virtual_network_swift_connection" "private_function_vnet_link" {
-  count = var.asp_os_type == "Linux" && (var.asp_sku == "EP1" || var.asp_sku == "EP2" || var.asp_sku == "EP3" || var.asp_sku == "Y1" || var.asp_sku == "FC1") ? 1 : 0
+  count = var.asp_os_type == "Linux" && var.asp_sku == "EP1" || var.asp_sku == "EP2" || var.asp_sku == "EP3" || var.asp_sku == "Y1" || var.asp_sku == "FC1" ? 1 : 0
   #app_service_id = var.function_app_name.id
   app_service_id = azurerm_private_endpoint.linux_private_endpoint[0].id
   subnet_id      = azurerm_subnet.main[0].id
 }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "private_function_vnet_link2" {
-  count = var.asp_os_type == "Windows" && (var.asp_sku == "EP1" || var.asp_sku == "EP2" || var.asp_sku == "EP3" || var.asp_sku == "Y1" || var.asp_sku == "FC1") ? 1 : 0
+  count = var.asp_os_type == "Windows" && var.asp_sku == "EP1" || var.asp_sku == "EP2" || var.asp_sku == "EP3" || var.asp_sku == "Y1" || var.asp_sku == "FC1" ? 1 : 0
   #app_service_id = var.function_app_name.id
   app_service_id = azurerm_private_endpoint.windows_private_endpoint[0].id
   subnet_id      = azurerm_subnet.main[0].id
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "dns_vnet_link" {
-  count                 = (var.asp_sku == "EP1" || var.asp_sku == "EP2" || var.asp_sku == "EP3" || var.asp_sku == "Y1" || var.asp_sku == "FC1") ? 1 : 0
+  count                 = var.asp_sku == "EP1" || var.asp_sku == "EP2" || var.asp_sku == "EP3" || var.asp_sku == "Y1" || var.asp_sku == "FC1" ? 1 : 0
   name                  = "var.dns_link"
   resource_group_name   = var.resource_group_name
   private_dns_zone_name = var.private_dns_zone_name
