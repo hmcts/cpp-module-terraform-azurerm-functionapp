@@ -1,3 +1,8 @@
+variable "private_endpoint_skus" {
+  type = list
+  default = ["EP1", "EP2", "EP3", "Y1", "FC1"]
+}
+
 variable "location" {
   type    = string
   default = "uksouth"
