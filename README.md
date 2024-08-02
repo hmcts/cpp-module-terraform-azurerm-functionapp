@@ -55,6 +55,7 @@ When developing new features to this module, do not forget to update [for_terrat
 | <a name="input_location"></a> [location](#input\_location) | n/a | `string` | `"uksouth"` | no |
 | <a name="input_private_dns_zone_name"></a> [private\_dns\_zone\_name](#input\_private\_dns\_zone\_name) | Name for private dns zone | `string` | `""` | no |
 | <a name="input_private_endpoint"></a> [private\_endpoint](#input\_private\_endpoint) | NAme of private endpoint | `string` | `""` | no |
+| <a name="input_private_endpoint_skus"></a> [private\_endpoint\_skus](#input\_private\_endpoint\_skus) | n/a | `list` | <pre>[<br>  "EP1",<br>  "EP2",<br>  "EP3",<br>  "Y1",<br>  "FC1"<br>]</pre> | no |
 | <a name="input_private_endpoint_virtual_network_id"></a> [private\_endpoint\_virtual\_network\_id](#input\_private\_endpoint\_virtual\_network\_id) | vnet id for private endpoint | `string` | `""` | no |
 | <a name="input_private_service_connection"></a> [private\_service\_connection](#input\_private\_service\_connection) | Name for private service connection | `string` | `""` | no |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | n/a | `string` | n/a | yes |
