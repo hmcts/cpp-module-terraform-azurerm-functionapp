@@ -130,7 +130,6 @@ resource "azurerm_app_service_virtual_network_swift_connection" "private_functio
   count = var.asp_os_type == "Linux" && contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
   #app_service_id = var.function_app_name.id
   app_service_id = azurerm_private_endpoint.linux_private_endpoint[0].id
-  app_service_id = 
   subnet_id      = azurerm_subnet.main[0].id
 }
 
