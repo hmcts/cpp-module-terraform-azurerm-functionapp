@@ -125,14 +125,6 @@ resource "azurerm_app_service_virtual_network_swift_connection" "private_functio
   subnet_id      = data.azurerm_subnet.ingress.id
 }
 
-resource "azurerm_private_dns_zone_virtual_network_link" "dns_vnet_link" {
-  count                 = contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
-  name                  = var.dns_link
-  resource_group_name   = var.resource_group_name
-  registration_enabled  = true
-  private_dns_zone_name = var.private_dns_zone_name
-  virtual_network_id    = data.azurerm_virtual_network.vnet.id
-}
 
 resource "azurerm_subnet" "main" {
   count                = var.create_subnet && length(var.subnet_cidr) != 0 && length(var.subnet_name) == 0 ? 1 : 0
