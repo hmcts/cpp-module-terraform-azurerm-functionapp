@@ -102,7 +102,7 @@ resource "azurerm_private_endpoint" "private_endpoint" {
   private_service_connection {
     name                           = var.private_service_connection
     private_connection_resource_id = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.id : azurerm_windows_function_app.windows_function.0.id
-    subresource_names              = ["site"]
+    subresource_names              = ["sites"]
     is_manual_connection           = false
   }
 }
