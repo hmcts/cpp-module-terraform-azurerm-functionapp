@@ -119,13 +119,6 @@ data "azurerm_virtual_network" "vnet" {
   resource_group_name = var.vnet_rg_name
 }
 
-resource "azurerm_app_service_virtual_network_swift_connection" "private_function_vnet_link" {
-  count          = contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
-  app_service_id = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.id : azurerm_windows_function_app.windows_function.0.id
-  subnet_id      = data.azurerm_subnet.ingress.id
-}
-
-
 resource "azurerm_subnet" "main" {
   count                = var.create_subnet && length(var.subnet_cidr) != 0 && length(var.subnet_name) == 0 ? 1 : 0
   name                 = "SN-${upper(var.function_app_name)}"
