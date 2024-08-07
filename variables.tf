@@ -204,3 +204,8 @@ variable "dns_link" {
   description = "Name of DNS link connecting private DNS zone to VNet"
   default     = ""
 }
+
+variable "dns_resource_group_name" {
+  type = string
+  description = "Name of private DNS zone resource group"
+}

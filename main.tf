@@ -165,6 +165,7 @@ resource "azurerm_windows_function_app" "windows_function" {
   client_certificate_mode     = var.client_certificate_mode
   builtin_logging_enabled     = var.builtin_logging_enabled
   virtual_network_subnet_id   = length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : data.azurerm_subnet.main.0.id
+  public_network_access_enabled = false
   tags                        = var.tags
 
   dynamic "identity" {
@@ -220,3 +221,38 @@ resource "azurerm_app_service_public_certificate" "functionapp" {
   certificate_location = "CurrentUserMy"
   blob                 = each.value
 }
+
+# Link Private DNS zone to VNet and disable public address to Function App
+# Private DNS Zone should already exist via cpp-terraform-network
+
+data "azurerm_private_dns_zone" "dns_zone" {
+  name                = "privatelink.azurewebsites.net"
+  resource_group_name = var.dns_resource_group_name
+}
+
+resource "azurerm_private_dns_a_record" "dns_record" {
+  #name                = azurerm_function_app.function.name
+  name                = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.name : azurerm_windows_function_app.windows_function.0.name
+  #zone_name           = azurerm_private_dns_zone.rg.name
+  zone_name           = data.azurerm_private_dns_zone.dns_zone
+  resource_group_name = var.dns_resource_group_name
+  ttl                 = 300
+  #records             = [azurerm_private_endpoint.pe.private_service_connection[0].private_ip_address]
+  #records             = var.private_endpoint.private_service_connection[0].private_ip_address
+  records             = azurerm_private_endpoint.private_endpoint[0].private_service_connection[0].private_ip_address
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "dns_link" {
+  name                  = "LinkDNSZoneVNet"
+  resource_group_name   = var.dns_resource_group_name
+  private_dns_zone_name = data.azurerm_private_dns_zone.dns_zone
+  virtual_network_id    = data.azurerm_virtual_network.vnet.id
+}
+
+#resource "azurerm_app_service_ip_restriction" "ip_restriction" {
+#  name                = "denyPublicAccess"
+#  priority            = 100
+#  action              = "Deny"
+#  app_service_name    = var.function_app_name
+#  resource_group_name = var.resource_group_name
+# }
