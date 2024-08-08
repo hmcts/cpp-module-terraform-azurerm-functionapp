@@ -237,8 +237,6 @@ resource "azurerm_private_dns_a_record" "dns_record" {
   zone_name           = data.azurerm_private_dns_zone.dns_zone.name
   resource_group_name = var.dns_resource_group_name
   ttl                 = 300
-  #records             = [azurerm_private_endpoint.pe.private_service_connection[0].private_ip_address]
-  #records             = var.private_endpoint.private_service_connection[0].private_ip_address[0]
   records             = [azurerm_private_endpoint.private_endpoint[0].private_service_connection[0].private_ip_address]
 }
 
@@ -249,10 +247,3 @@ resource "azurerm_private_dns_zone_virtual_network_link" "dns_link" {
   virtual_network_id    = data.azurerm_virtual_network.vnet.id
 }
 
-#resource "azurerm_app_service_ip_restriction" "ip_restriction" {
-#  name                = "denyPublicAccess"
-#  priority            = 100
-#  action              = "Deny"
-#  app_service_name    = var.function_app_name
-#  resource_group_name = var.resource_group_name
-# }
