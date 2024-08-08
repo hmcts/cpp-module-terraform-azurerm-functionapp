@@ -226,7 +226,7 @@ resource "azurerm_app_service_public_certificate" "functionapp" {
 # Private DNS Zone should already exist via cpp-terraform-network
 
 data "azurerm_private_dns_zone" "dns_zone" {
-  name                = "privatelink.azurewebsites.net"
+  name                = "privatelink.azurewebsites.azure.net"
   resource_group_name = var.dns_resource_group_name
 }
 
