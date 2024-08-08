@@ -238,8 +238,8 @@ resource "azurerm_private_dns_a_record" "dns_record" {
   resource_group_name = var.dns_resource_group_name
   ttl                 = 300
   #records             = [azurerm_private_endpoint.pe.private_service_connection[0].private_ip_address]
-  records             = var.private_endpoint.private_service_connection[0].private_ip_address[0]
-  #records             = azurerm_private_endpoint.private_endpoint[0].private_service_connection[0].private_ip_address
+  #records             = var.private_endpoint.private_service_connection[0].private_ip_address[0]
+  records             = [azurerm_private_endpoint.private_endpoint[0].private_service_connection[0].private_ip_address]
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "dns_link" {
