@@ -234,7 +234,7 @@ resource "azurerm_private_dns_a_record" "dns_record" {
   #name                = azurerm_function_app.function.name
   name                = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.name : azurerm_windows_function_app.windows_function.0.name
   #zone_name           = azurerm_private_dns_zone.rg.name
-  zone_name           = data.azurerm_private_dns_zone.dns_zone
+  zone_name           = data.azurerm_private_dns_zone.dns_zone.name
   resource_group_name = var.dns_resource_group_name
   ttl                 = 300
   #records             = [azurerm_private_endpoint.pe.private_service_connection[0].private_ip_address]
