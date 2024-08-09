@@ -1,3 +1,8 @@
+variable "private_endpoint_skus" {
+  type    = list(any)
+  default = ["EP1", "EP2", "EP3", "Y1", "FC1"]
+}
+
 variable "location" {
   type    = string
   default = "uksouth"
@@ -140,6 +145,12 @@ variable "subnet_name" {
   default     = ""
 }
 
+variable "ingress_subnet_name" {
+  description = "Subnet Name to reuse"
+  type        = string
+  default     = ""
+}
+
 variable "subnet_id" {
   description = "Subnet ID to use"
   type        = string
@@ -168,4 +179,33 @@ variable "storage_account" {
   description = "storage account to mount"
   type        = any
   default     = {}
+}
+
+variable "private_endpoint" {
+  type        = string
+  description = "NAme of private endpoint"
+  default     = ""
+}
+
+variable "private_service_connection" {
+  type        = string
+  description = "Name for private service connection"
+  default     = "test"
+}
+
+variable "private_dns_zone_name" {
+  type        = string
+  description = "Name for private dns zone"
+  default     = "privatelink.azurewebsites.azure.net"
+}
+
+variable "dns_link" {
+  type        = string
+  description = "Name of DNS link connecting private DNS zone to VNet"
+  default     = ""
+}
+
+variable "dns_resource_group_name" {
+  type        = string
+  description = "Name of private DNS zone resource group"
 }
