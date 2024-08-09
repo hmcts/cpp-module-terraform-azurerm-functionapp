@@ -187,3 +187,9 @@ variable "vnet_rg_name" {
   type        = string
   default     = ""
 }
+
+variable "dns_resource_group_name" {
+  description = "Resource group name for private DNS"
+  type        = string
+  default     = ""
+}
