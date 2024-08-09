@@ -206,6 +206,6 @@ variable "dns_link" {
 }
 
 variable "dns_resource_group_name" {
-  type = string
+  type        = string
   description = "Name of private DNS zone resource group"
 }

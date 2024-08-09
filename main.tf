@@ -155,18 +155,18 @@ resource "azurerm_windows_function_app" "windows_function" {
   name            = var.function_app_name
   service_plan_id = data.azurerm_service_plan.sp.id
   # service_plan_id             = data.azurerm_service_plan.sp[0].id
-  location                    = var.location
-  resource_group_name         = var.resource_group_name
-  storage_account_name        = var.storage_account_name
-  storage_account_access_key  = var.storage_account_access_key
-  functions_extension_version = "~${var.function_app_version}"
-  https_only                  = var.https_only
-  client_certificate_enabled  = var.client_certificate_enabled
-  client_certificate_mode     = var.client_certificate_mode
-  builtin_logging_enabled     = var.builtin_logging_enabled
-  virtual_network_subnet_id   = length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : data.azurerm_subnet.main.0.id
+  location                      = var.location
+  resource_group_name           = var.resource_group_name
+  storage_account_name          = var.storage_account_name
+  storage_account_access_key    = var.storage_account_access_key
+  functions_extension_version   = "~${var.function_app_version}"
+  https_only                    = var.https_only
+  client_certificate_enabled    = var.client_certificate_enabled
+  client_certificate_mode       = var.client_certificate_mode
+  builtin_logging_enabled       = var.builtin_logging_enabled
+  virtual_network_subnet_id     = length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : data.azurerm_subnet.main.0.id
   public_network_access_enabled = false
-  tags                        = var.tags
+  tags                          = var.tags
 
   dynamic "identity" {
     for_each = var.identity == {} ? [] : [var.identity]
@@ -232,7 +232,8 @@ data "azurerm_private_dns_zone" "dns_zone" {
 
 resource "azurerm_private_dns_a_record" "dns_record" {
   #name                = azurerm_function_app.function.name
-  name                = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.name : azurerm_windows_function_app.windows_function.0.name
+  name  = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.name : azurerm_windows_function_app.windows_function.0.name
+  count = contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
   #zone_name           = azurerm_private_dns_zone.rg.name
   zone_name           = data.azurerm_private_dns_zone.dns_zone.name
   resource_group_name = var.dns_resource_group_name
@@ -242,6 +243,7 @@ resource "azurerm_private_dns_a_record" "dns_record" {
 
 resource "azurerm_private_dns_zone_virtual_network_link" "dns_link" {
   name                  = "LinkDNSZoneVNet"
+  count                 = contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
   resource_group_name   = var.dns_resource_group_name
   private_dns_zone_name = data.azurerm_private_dns_zone.dns_zone.name
   virtual_network_id    = data.azurerm_virtual_network.vnet.id
