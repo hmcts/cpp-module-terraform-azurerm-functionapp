@@ -165,7 +165,7 @@ resource "azurerm_windows_function_app" "windows_function" {
   client_certificate_mode       = var.client_certificate_mode
   builtin_logging_enabled       = var.builtin_logging_enabled
   virtual_network_subnet_id     = length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : data.azurerm_subnet.main.0.id
-  public_network_access_enabled = false
+  public_network_access_enabled = contains(var.private_endpoint_skus, var.asp_sku) ? false : true
   tags                          = var.tags
 
   dynamic "identity" {
