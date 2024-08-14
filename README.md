@@ -54,7 +54,7 @@ When developing new features to this module, do not forget to update [for_terrat
 | <a name="input_storage_account_access_key"></a> [storage\_account\_access\_key](#input\_storage\_account\_access\_key) | Storage account access key to be used by function app | `string` | n/a | yes |
 | <a name="input_storage_account_name"></a> [storage\_account\_name](#input\_storage\_account\_name) | Storage account to associate with function app | `string` | n/a | yes |
 | <a name="input_subnet_cidr"></a> [subnet\_cidr](#input\_subnet\_cidr) | Vnet Subnet CIDR | `list(string)` | `[]` | no |
-| <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | Subnet ID to use | `string` | `""` | no |
+| <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | Subnet ID to use | `string` | `null` | no |
 | <a name="input_subnet_name"></a> [subnet\_name](#input\_subnet\_name) | Subnet Name to reuse | `string` | `""` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(string)` | `{}` | no |
 | <a name="input_vnet_name"></a> [vnet\_name](#input\_vnet\_name) | Vnet Name for Private Subnets | `string` | `""` | no |
