@@ -38,6 +38,7 @@ resource "azurerm_linux_function_app" "linux_function" {
   client_certificate_mode     = var.client_certificate_mode
   builtin_logging_enabled     = var.builtin_logging_enabled
   virtual_network_subnet_id   = length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : data.azurerm_subnet.main.0.id
+
   tags                        = var.tags
 
   dynamic "identity" {
@@ -47,14 +48,16 @@ resource "azurerm_linux_function_app" "linux_function" {
       identity_ids = lookup(identity.value, "identity_ids", null)
     }
   }
-
-  storage_account {
-    access_key   = lookup(var.storage_account, "access_key", null)
-    account_name = lookup(var.storage_account, "account_name", null)
-    name         = lookup(var.storage_account, "name", "certs")
-    share_name   = lookup(var.storage_account, "share_name", "certs")
-    type         = lookup(var.storage_account, "type", "AzureFiles")
-    mount_path   = lookup(var.storage_account, "mount_path", "/certs")
+  dynamic "storage_account" {
+    for_each = var.storage_account == {} ? [] : ["cert"]
+    content {
+      access_key   = lookup(var.storage_account, "access_key", null)
+      account_name = lookup(var.storage_account, "account_name", null)
+      name         = lookup(var.storage_account, "name", "certs")
+      share_name   = lookup(var.storage_account, "share_name", "certs")
+      type         = lookup(var.storage_account, "type", "AzureFiles")
+      mount_path   = lookup(var.storage_account, "mount_path", "/certs")
+    }
   }
 
   dynamic "site_config" {

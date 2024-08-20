@@ -154,7 +154,7 @@ variable "ingress_subnet_name" {
 variable "subnet_id" {
   description = "Subnet ID to use"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "create_subnet" {
