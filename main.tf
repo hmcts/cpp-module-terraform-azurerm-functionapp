@@ -39,7 +39,7 @@ resource "azurerm_linux_function_app" "linux_function" {
   builtin_logging_enabled     = var.builtin_logging_enabled
   virtual_network_subnet_id   = length(var.subnet_name) == 0 ? azurerm_subnet.main[0].id : data.azurerm_subnet.main.0.id
 
-  tags                        = var.tags
+  tags = var.tags
 
   dynamic "identity" {
     for_each = var.identity == {} ? [] : [var.identity]
@@ -239,7 +239,7 @@ resource "azurerm_private_dns_a_record" "dns_record" {
   name  = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.name : azurerm_windows_function_app.windows_function.0.name
   count = contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
   #zone_name           = azurerm_private_dns_zone.rg.name
-  zone_name           = data.azurerm_private_dns_zone.dns_zone.name[count.index]
+  zone_name           = data.azurerm_private_dns_zone.dns_zone.name[0]
   resource_group_name = var.dns_resource_group_name
   ttl                 = 300
   records             = [azurerm_private_endpoint.private_endpoint[0].private_service_connection[0].private_ip_address]
@@ -249,6 +249,6 @@ resource "azurerm_private_dns_zone_virtual_network_link" "dns_link" {
   name                  = "LinkDNSZoneVNet"
   count                 = contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
   resource_group_name   = var.dns_resource_group_name
-  private_dns_zone_name = data.azurerm_private_dns_zone.dns_zone.name[count.index]
+  private_dns_zone_name = data.azurerm_private_dns_zone.dns_zone.name[0]
   virtual_network_id    = data.azurerm_virtual_network.vnet.id
 }
