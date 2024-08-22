@@ -194,7 +194,7 @@ variable "dns_resource_group_name" {
   default     = ""
 }
 
-variable "each.value.ingress_subnet_name" {
+variable "ingress_subnet_name" {
   description = "Ingress subnet for function app"
   type        = string
   default     = ""
