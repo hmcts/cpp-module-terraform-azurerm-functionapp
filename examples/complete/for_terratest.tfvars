@@ -31,6 +31,3 @@ type                = "functionapp"
 vnet_name           = "vnet-lab-cpp-faterratest"
 vnet_rg_name        = "rg-lab-cpp-faterratest"
 ingress_subnet_name = "functionapp-faterratest"
-
-
-
