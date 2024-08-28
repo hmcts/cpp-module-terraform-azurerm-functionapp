@@ -64,7 +64,6 @@ module "functionapp_terratest" {
   vnet_rg_name                 = var.vnet_rg_name
   create_subnet                = true
   subnet_cidr                  = ["10.0.1.0/24"]
-  ingress_subnet_cidr          = ["10.0.2.0/24"]  
   dns_resource_group_name      = var.dns_resource_group_name
   ingress_subnet_name          = var.ingress_subnet_name   
   depends_on = [
