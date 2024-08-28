@@ -199,3 +199,9 @@ variable "ingress_subnet_name" {
   type        = string
   default     = ""
 }
+
+variable "ingress_subnet_cidr" {
+  description = "Ingress Vnet Subnet CIDR"
+  type        = list(string)
+  default     = []
+}
