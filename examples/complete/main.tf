@@ -16,6 +16,13 @@ resource "azurerm_resource_group" "test" {
   tags     = module.tag_set.tags
 }
 
+resource "azurerm_subnet_name" "ingress_subnet_name" {
+  name                 = var.ingress_subnet_name
+  virtual_network_name = var.vnet_name
+  address_prefixes     = var.subnet_cidr
+  resource_group_name  = var.vnet_rg_name
+}
+
 resource "azurerm_virtual_network" "test" {
   name                = var.vnet_name
   location            = azurerm_resource_group.test.location
@@ -58,11 +65,9 @@ module "functionapp_terratest" {
   create_subnet                = true
   subnet_cidr                  = ["10.0.1.0/24"]
   dns_resource_group_name      = var.dns_resource_group_name
-  ingress_subnet_name          = var.ingress_subnet_name
-  subnet_name                  = null
+  ingress_subnet_name          = var.ingress_subnet_name   
   depends_on = [
     azurerm_virtual_network.test
   ]
 }
 
-  count                = var.create_subnet && length(var.subnet_cidr) != 0 && length(var.subnet_name) == 0 ? 1 : 0
