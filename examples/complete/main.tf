@@ -19,7 +19,7 @@ resource "azurerm_resource_group" "test" {
 resource "azurerm_subnet" "ingress_subnet_name" {
   name                 = var.ingress_subnet_name
   virtual_network_name = var.vnet_name
-  address_prefixes     = [var.ingress_subnet_cidr]
+  address_prefixes     = var.ingress_subnet_cidr
   resource_group_name  = var.vnet_rg_name
 }
 
