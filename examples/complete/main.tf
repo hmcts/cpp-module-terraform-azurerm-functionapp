@@ -18,9 +18,9 @@ resource "azurerm_resource_group" "test" {
 
 resource "azurerm_subnet" "ingress_subnet_name" {
   name                 = var.ingress_subnet_name
-  virtual_network_name = var.vnet_name
+  virtual_network_name = azurerm_virtual_network.test.name
   address_prefixes     = var.ingress_subnet_cidr
-  resource_group_name  = var.vnet_rg_name
+  resource_group_name  = azurerm_virtual_network.test.resource_group_name
 }
 
 resource "azurerm_virtual_network" "test" {
@@ -31,6 +31,7 @@ resource "azurerm_virtual_network" "test" {
   dns_servers         = ["10.0.0.4", "10.0.0.5"]
   tags                = module.tag_set.tags
 }
+
 
 resource "azurerm_storage_account" "test" {
   name                     = var.storage_account_name
