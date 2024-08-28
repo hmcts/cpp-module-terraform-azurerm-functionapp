@@ -68,7 +68,8 @@ module "functionapp_terratest" {
   dns_resource_group_name      = var.dns_resource_group_name
   ingress_subnet_name          = var.ingress_subnet_name   
   depends_on = [
-    azurerm_virtual_network.test
+    azurerm_virtual_network.test,
+    azurerm_subnet.ingress_subnet_name
   ]
 }
 
