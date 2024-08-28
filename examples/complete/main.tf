@@ -59,8 +59,10 @@ module "functionapp_terratest" {
   subnet_cidr                  = ["10.0.1.0/24"]
   dns_resource_group_name      = var.dns_resource_group_name
   ingress_subnet_name          = var.ingress_subnet_name
-
+  subnet_name                  = null
   depends_on = [
     azurerm_virtual_network.test
   ]
 }
+
+  count                = var.create_subnet && length(var.subnet_cidr) != 0 && length(var.subnet_name) == 0 ? 1 : 0
