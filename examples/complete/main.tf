@@ -16,7 +16,7 @@ resource "azurerm_resource_group" "test" {
   tags     = module.tag_set.tags
 }
 
-resource "azurerm_subnet_name" "ingress_subnet_name" {
+resource "azurerm_subnet" "ingress_subnet_name" {
   name                 = var.ingress_subnet_name
   virtual_network_name = var.vnet_name
   address_prefixes     = var.subnet_cidr
