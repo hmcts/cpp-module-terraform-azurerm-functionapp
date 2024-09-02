@@ -128,16 +128,51 @@ variable "vnet_rg_name" {
   default     = ""
 }
 
+variable "private_endpoint_skus" {
+  type    = list(any)
+  default = ["EP1", "EP2", "EP3", "Y1", "FC1"]
+}
+
+variable "private_endpoint" {
+  type        = string
+  description = "Name of private endpoint"
+  default     = ""
+}
+
+variable "private_service_connection" {
+  type        = string
+  description = "Name for private service connection"
+  default     = "test"
+}
+
+variable "private_dns_zone_name" {
+  type        = string
+  description = "Name for private dns zone"
+  default     = "privatelink.azurewebsites.azure.net"
+}
+
+variable "dns_link" {
+  type        = string
+  description = "Name of DNS link connecting private DNS zone to VNet"
+  default     = ""
+}
+
+variable "dns_resource_group_name" {
+  type        = string
+  description = "Name of private DNS zone resource group"
+  default     = ""
+}
+
 variable "subnet_cidr" {
   description = "Vnet Subnet CIDR"
   type        = list(string)
   default     = []
 }
 
-variable "subnet_name" {
-  description = "Subnet Name to reuse"
-  type        = string
-  default     = ""
+variable "subnet_ingress_cidr" {
+  description = "Vnet Subnet CIDR for PEs"
+  type        = list(string)
+  default     = []
 }
 
 variable "subnet_id" {
@@ -146,8 +181,20 @@ variable "subnet_id" {
   default     = null
 }
 
+variable "subnet_ingress_id" {
+  description = "Subnet ID to use for PE"
+  type        = string
+  default     = null
+}
+
 variable "create_subnet" {
   description = "Should Create Subnet"
+  type        = bool
+  default     = false
+}
+
+variable "create_ingress_subnet" {
+  description = "Should Create Subnet for PE"
   type        = bool
   default     = false
 }
