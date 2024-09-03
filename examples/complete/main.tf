@@ -16,11 +16,23 @@ resource "azurerm_resource_group" "test" {
   tags     = module.tag_set.tags
 }
 
+resource "azurerm_private_dns_zone" "test" {
+  name                = "privatelink.azurewebsites.azure.net"
+  resource_group_name = azurerm_resource_group.test.name
+}
+
+# resource "azurerm_subnet" "subnet_ingress_name" {
+#   name                 = var.subnet_ingress_name
+#   virtual_network_name = azurerm_virtual_network.test.name
+#   address_prefixes     = var.subnet_ingress_cidr
+#   resource_group_name  = azurerm_virtual_network.test.resource_group_name
+# }
+
 resource "azurerm_virtual_network" "test" {
   name                = var.vnet_name
   location            = azurerm_resource_group.test.location
   resource_group_name = azurerm_resource_group.test.name
-  address_space       = ["10.0.0.0/16"]
+  address_space       = var.vnet_cidr
   dns_servers         = ["10.0.0.4", "10.0.0.5"]
   tags                = module.tag_set.tags
 }
@@ -56,9 +68,13 @@ module "functionapp_terratest" {
   vnet_name                    = var.vnet_name
   vnet_rg_name                 = var.vnet_rg_name
   create_subnet                = true
-  subnet_cidr                  = ["10.0.1.0/24"]
-
+  create_ingress_subnet        = true
+  subnet_cidr                  = var.subnet_cidr
+  subnet_ingress_cidr          = var.subnet_ingress_cidr
+  dns_resource_group_name      = azurerm_resource_group.test.name
+  private_endpoint             = var.private_endpoint
   depends_on = [
-    azurerm_virtual_network.test
+    azurerm_virtual_network.test,
+    azurerm_private_dns_zone.test
   ]
 }

@@ -187,3 +187,39 @@ variable "vnet_rg_name" {
   type        = string
   default     = ""
 }
+
+variable "dns_resource_group_name" {
+  description = "Resource group name for private DNS"
+  type        = string
+  default     = ""
+}
+
+variable "subnet_ingress_name" {
+  description = "Ingress subnet for function app"
+  type        = string
+  default     = ""
+}
+
+variable "subnet_cidr" {
+  description = "Vnet Subnet CIDR"
+  type        = list(string)
+  default     = []
+}
+
+variable "subnet_ingress_cidr" {
+  description = "Ingress Vnet Subnet CIDR"
+  type        = list(string)
+  default     = []
+}
+
+variable "private_endpoint" {
+  type        = string
+  description = "Name of private endpoint"
+  default     = ""
+}
+
+variable "vnet_cidr" {
+  description = "Vnet CIDR"
+  type        = list(string)
+  default     = []
+}
