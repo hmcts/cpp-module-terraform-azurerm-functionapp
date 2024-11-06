@@ -240,10 +240,3 @@ resource "azurerm_private_dns_a_record" "dns_record" {
   records             = [azurerm_private_endpoint.private_endpoint[0].private_service_connection[0].private_ip_address]
 }
 
-resource "azurerm_private_dns_zone_virtual_network_link" "dns_link" {
-  name                  = "LinkDNSZoneVNet"
-  count                 = contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
-  resource_group_name   = var.dns_resource_group_name
-  private_dns_zone_name = data.azurerm_private_dns_zone.dns_zone[0].name
-  virtual_network_id    = data.azurerm_virtual_network.vnet.id
-}
