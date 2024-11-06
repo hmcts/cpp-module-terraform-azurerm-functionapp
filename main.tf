@@ -239,4 +239,3 @@ resource "azurerm_private_dns_a_record" "dns_record" {
   ttl                 = 300
   records             = [azurerm_private_endpoint.private_endpoint[0].private_service_connection[0].private_ip_address]
 }
-
