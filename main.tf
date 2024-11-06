@@ -1,4 +1,9 @@
 # App Service Plan
+
+locals {
+  post_private_endpoint_sleep_duration = "60s"
+}
+
 resource "azurerm_service_plan" "main" {
   count                    = var.create_service_plan ? 1 : 0
   name                     = var.service_plan_name
@@ -108,6 +113,16 @@ resource "azurerm_private_endpoint" "private_endpoint" {
     subresource_names              = ["sites"]
     is_manual_connection           = false
   }
+
+  private_dns_zone_group {
+    name                 = "private-dns-zone-group"
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.dns_zone[0].id]
+  }
+
+  provisioner "local-exec" {
+    command = "sleep ${local.post_private_endpoint_sleep_duration}"
+  }
+
   depends_on = [
     azurerm_subnet.ingress
   ]
