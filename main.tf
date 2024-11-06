@@ -38,6 +38,9 @@ resource "azurerm_linux_function_app" "linux_function" {
   builtin_logging_enabled       = var.builtin_logging_enabled
   virtual_network_subnet_id     = var.create_subnet && length(var.subnet_cidr) != 0 ? azurerm_subnet.main[0].id : var.subnet_id
   public_network_access_enabled = contains(var.private_endpoint_skus, var.asp_sku) ? false : true
+  app_settings = {
+    FUNCTIONS_WORKER_RUNTIME = "node"
+  }
 
   dynamic "identity" {
     for_each = var.identity == {} ? [] : [var.identity]
