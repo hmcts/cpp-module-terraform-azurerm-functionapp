@@ -54,7 +54,7 @@ When developing new features to this module, do not forget to update [for_terrat
 | <a name="input_identity"></a> [identity](#input\_identity) | Identity block Specifies the identity to assign to function app | `any` | `{}` | no |
 | <a name="input_key_vault_id"></a> [key\_vault\_id](#input\_key\_vault\_id) | keyvault id to lookup secret settings | `string` | `null` | no |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `string` | `"uksouth"` | no |
-| <a name="input_private_dns_zone_name"></a> [private\_dns\_zone\_name](#input\_private\_dns\_zone\_name) | Name for private dns zone | `string` | `"privatelink.azurewebsites.azure.net"` | no |
+| <a name="input_private_dns_zone_name"></a> [private\_dns\_zone\_name](#input\_private\_dns\_zone\_name) | Name for private dns zone | `string` | `"privatelink.azurewebsites.net"` | no |
 | <a name="input_private_endpoint"></a> [private\_endpoint](#input\_private\_endpoint) | Name of private endpoint | `string` | `""` | no |
 | <a name="input_private_endpoint_skus"></a> [private\_endpoint\_skus](#input\_private\_endpoint\_skus) | n/a | `list(any)` | <pre>[<br/>  "EP1",<br/>  "EP2",<br/>  "EP3",<br/>  "Y1",<br/>  "FC1"<br/>]</pre> | no |
 | <a name="input_private_service_connection"></a> [private\_service\_connection](#input\_private\_service\_connection) | Name for private service connection | `string` | `"test"` | no |
