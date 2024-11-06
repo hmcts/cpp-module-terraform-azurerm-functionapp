@@ -148,7 +148,7 @@ variable "private_service_connection" {
 variable "private_dns_zone_name" {
   type        = string
   description = "Name for private dns zone"
-  default     = "privatelink.azurewebsites.azure.net"
+  default     = "privatelink.azurewebsites.net"
 }
 
 variable "dns_link" {

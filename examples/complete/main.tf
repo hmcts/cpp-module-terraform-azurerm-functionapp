@@ -17,7 +17,7 @@ resource "azurerm_resource_group" "test" {
 }
 
 resource "azurerm_private_dns_zone" "test" {
-  name                = "privatelink.azurewebsites.azure.net"
+  name                = "privatelink.azurewebsites.net"
   resource_group_name = azurerm_resource_group.test.name
 }
 
