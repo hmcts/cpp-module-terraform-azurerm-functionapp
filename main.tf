@@ -171,7 +171,6 @@ resource "azurerm_windows_function_app" "windows_function" {
   location                      = var.location
   resource_group_name           = var.resource_group_name
   storage_account_name          = var.storage_account_name
-  public_network_access_enabled = var.public_network_access_enabled
   storage_account_access_key    = var.storage_account_access_key
   functions_extension_version   = "~${var.function_app_version}"
   https_only                    = var.https_only
@@ -179,7 +178,7 @@ resource "azurerm_windows_function_app" "windows_function" {
   client_certificate_mode       = var.client_certificate_mode
   builtin_logging_enabled       = var.builtin_logging_enabled
   virtual_network_subnet_id     = var.create_subnet && length(var.subnet_cidr) != 0 ? azurerm_subnet.main[0].id : var.subnet_id
-  public_network_access_enabled = contains(var.private_endpoint_skus, var.asp_sku) ? false : true
+  public_network_access_enabled = (var.public_network_access_override == null && contains(var.private_endpoint_skus, var.asp_sku)) ? false : true
 
   dynamic "identity" {
     for_each = var.identity == {} ? [] : [var.identity]
