@@ -63,6 +63,12 @@ variable "storage_account_name" {
   description = "Storage account to associate with function app"
 }
 
+variable "public_network_access_enabled" {
+  type        = bool
+  description = "Should public network access be enabled for the Function App"
+  default     = null
+}
+
 variable "storage_account_access_key" {
   type        = string
   description = "Storage account access key to be used by function app"
