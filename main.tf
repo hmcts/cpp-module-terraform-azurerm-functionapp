@@ -199,6 +199,7 @@ resource "azurerm_windows_function_app" "windows_function" {
       worker_count                           = lookup(site_config.value, "worker_count", null)
       application_insights_connection_string = lookup(site_config.value, "application_insights_connection_string", null)
       application_insights_key               = lookup(site_config.value, "application_insights_key", null)
+      runtime_scale_monitoring_enabled       = lookup(site_config.value, "runtime_scale_monitoring_enabled", null)
 
       dynamic "application_stack" {
         for_each = lookup(site_config.value, "application_stack", null) == null ? [] : ["application_stack"]
