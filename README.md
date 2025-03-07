@@ -58,6 +58,7 @@ When developing new features to this module, do not forget to update [for_terrat
 | <a name="input_private_endpoint"></a> [private\_endpoint](#input\_private\_endpoint) | Name of private endpoint | `string` | `""` | no |
 | <a name="input_private_endpoint_skus"></a> [private\_endpoint\_skus](#input\_private\_endpoint\_skus) | n/a | `list(any)` | <pre>[<br/>  "EP1",<br/>  "EP2",<br/>  "EP3",<br/>  "Y1",<br/>  "FC1"<br/>]</pre> | no |
 | <a name="input_private_service_connection"></a> [private\_service\_connection](#input\_private\_service\_connection) | Name for private service connection | `string` | `"test"` | no |
+| <a name="input_public_network_access_override"></a> [public\_network\_access\_override](#input\_public\_network\_access\_override) | Override the default logic of enabling public access only on non-private endpoint SKUs | `bool` | `null` | no |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | n/a | `string` | n/a | yes |
 | <a name="input_service_plan_name"></a> [service\_plan\_name](#input\_service\_plan\_name) | Service Plan Name | `string` | `null` | no |
 | <a name="input_site_config"></a> [site\_config](#input\_site\_config) | Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is not managed in this block. | `any` | `{}` | no |
