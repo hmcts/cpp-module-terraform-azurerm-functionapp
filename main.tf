@@ -178,7 +178,7 @@ resource "azurerm_windows_function_app" "windows_function" {
   client_certificate_mode       = var.client_certificate_mode
   builtin_logging_enabled       = var.builtin_logging_enabled
   virtual_network_subnet_id     = var.create_subnet && length(var.subnet_cidr) != 0 ? azurerm_subnet.main[0].id : var.subnet_id
-  public_network_access_enabled = contains(var.private_endpoint_skus, var.asp_sku) ? false : true
+  public_network_access_enabled = (var.public_network_access_override == null && contains(var.private_endpoint_skus, var.asp_sku)) ? false : true
 
   dynamic "identity" {
     for_each = var.identity == {} ? [] : [var.identity]
@@ -199,6 +199,15 @@ resource "azurerm_windows_function_app" "windows_function" {
       worker_count                           = lookup(site_config.value, "worker_count", null)
       application_insights_connection_string = lookup(site_config.value, "application_insights_connection_string", null)
       application_insights_key               = lookup(site_config.value, "application_insights_key", null)
+      runtime_scale_monitoring_enabled       = lookup(site_config.value, "runtime_scale_monitoring_enabled", null)
+
+      dynamic "app_service_logs" {
+        for_each = lookup(site_config.value, "app_service_logs", null) == null ? [] : ["app_service_logs"]
+        content {
+          disk_quota_mb         = lookup(var.site_config.app_service_logs, "disk_quota_mb", null)
+          retention_period_days = lookup(var.site_config.app_service_logs, "retention_period_days", null)
+        }
+      }
 
       dynamic "application_stack" {
         for_each = lookup(site_config.value, "application_stack", null) == null ? [] : ["application_stack"]

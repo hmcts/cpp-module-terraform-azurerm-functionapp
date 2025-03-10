@@ -63,6 +63,12 @@ variable "storage_account_name" {
   description = "Storage account to associate with function app"
 }
 
+variable "public_network_access_override" {
+  type        = bool
+  description = "Override the default logic of enabling public access only on non-private endpoint SKUs"
+  default     = null
+}
+
 variable "storage_account_access_key" {
   type        = string
   description = "Storage account access key to be used by function app"
