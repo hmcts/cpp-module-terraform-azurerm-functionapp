@@ -129,6 +129,8 @@ resource "azurerm_private_endpoint" "private_endpoint" {
 }
 
 data "azurerm_virtual_network" "vnet" {
+  # vnet should only exist when utilising a private endpoint compatible SKU
+  count               = contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
   name                = var.vnet_name
   resource_group_name = var.vnet_rg_name
 }
