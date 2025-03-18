@@ -136,7 +136,7 @@ variable "vnet_rg_name" {
 
 variable "private_endpoint_skus" {
   type    = list(any)
-  default = ["EP1", "EP2", "EP3", "Y1", "FC1"]
+  default = ["EP1", "EP2", "EP3", "FC1"]
 }
 
 variable "private_endpoint" {
