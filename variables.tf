@@ -13,6 +13,12 @@ variable "create_service_plan" {
   default     = true
 }
 
+variable "create_function_app" {
+  description = "If true, creates the Function App. Set to false to deploy only the App Service Plan for zone redundancy."
+  type        = bool
+  default     = true
+}
+
 variable "service_plan_name" {
   description = "Service Plan Name"
   type        = string
