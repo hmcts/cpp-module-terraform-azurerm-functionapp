@@ -42,6 +42,7 @@ When developing new features to this module, do not forget to update [for_terrat
 | <a name="input_cert_contents"></a> [cert\_contents](#input\_cert\_contents) | Root ca cert content | `map(string)` | `{}` | no |
 | <a name="input_client_certificate_enabled"></a> [client\_certificate\_enabled](#input\_client\_certificate\_enabled) | Should the function app use Client Certificates | `bool` | `null` | no |
 | <a name="input_client_certificate_mode"></a> [client\_certificate\_mode](#input\_client\_certificate\_mode) | (Optional) The mode of the Function App's client certificates requirement for incoming requests. Possible values are `Required`, `Optional`, and `OptionalInteractiveUser`. | `string` | `null` | no |
+| <a name="input_create_function_app"></a> [create\_function\_app](#input\_create\_function\_app) | If true, creates the Function App. Set to false to deploy only the App Service Plan for zone redundancy. | `bool` | `true` | no |
 | <a name="input_create_ingress_subnet"></a> [create\_ingress\_subnet](#input\_create\_ingress\_subnet) | Should Create Subnet for PE | `bool` | `false` | no |
 | <a name="input_create_service_plan"></a> [create\_service\_plan](#input\_create\_service\_plan) | If true a new service plan is created | `bool` | `true` | no |
 | <a name="input_create_subnet"></a> [create\_subnet](#input\_create\_subnet) | Should Create Subnet | `bool` | `false` | no |
@@ -83,4 +84,6 @@ When developing new features to this module, do not forget to update [for_terrat
 | <a name="output_function_app_worker_count"></a> [function\_app\_worker\_count](#output\_function\_app\_worker\_count) | The number of workers of the Function App. |
 | <a name="output_principal_id"></a> [principal\_id](#output\_principal\_id) | Principal ID of the Function APP |
 | <a name="output_resource_group_name"></a> [resource\_group\_name](#output\_resource\_group\_name) | The name of the Resource Group |
+| <a name="output_service_plan_id"></a> [service\_plan\_id](#output\_service\_plan\_id) | The ID of the App Service Plan |
+| <a name="output_service_plan_name"></a> [service\_plan\_name](#output\_service\_plan\_name) | The name of the App Service Plan |
 <!-- END_TF_DOCS -->
