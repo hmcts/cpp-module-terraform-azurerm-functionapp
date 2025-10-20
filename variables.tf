@@ -14,7 +14,7 @@ variable "create_service_plan" {
 }
 
 variable "create_function_app" {
-  description = "If true, creates the Function App. Set to false to deploy only the App Service Plan for zone redundancy."
+  description = "If true, creates the Function App. Set to false to deploy only the App Service Plan."
   type        = bool
   default     = true
 }
@@ -55,7 +55,9 @@ variable "asp_zone_balancing_enabled" {
 }
 
 variable "function_app_name" {
-  type = string
+  type        = string
+  description = "Name of the Function App"
+  default     = null
 }
 
 variable "function_app_version" {
@@ -67,6 +69,7 @@ variable "function_app_version" {
 variable "storage_account_name" {
   type        = string
   description = "Storage account to associate with function app"
+  default     = ""
 }
 
 variable "public_network_access_override" {
@@ -78,6 +81,8 @@ variable "public_network_access_override" {
 variable "storage_account_access_key" {
   type        = string
   description = "Storage account access key to be used by function app"
+  default     = null
+  sensitive   = true
 }
 
 variable "key_vault_id" {
