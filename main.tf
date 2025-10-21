@@ -28,7 +28,7 @@ data "azurerm_service_plan" "sp" {
 
 # Function App
 resource "azurerm_linux_function_app" "linux_function" {
-  count           = var.asp_os_type == "Linux" ? 1 : 0
+  count           = var.create_function_app && var.asp_os_type == "Linux" ? 1 : 0
   name            = var.function_app_name
   service_plan_id = data.azurerm_service_plan.sp.id
   #service_plan_id             = data.azurerm_service_plan.sp[0].id
@@ -101,7 +101,7 @@ resource "azurerm_linux_function_app" "linux_function" {
 
 # Check app_service_plan; for example, azurerm_app_service_plan.example.id
 resource "azurerm_private_endpoint" "private_endpoint" {
-  count               = contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
+  count               = var.create_function_app && contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
   name                = var.private_endpoint
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -166,7 +166,7 @@ resource "azurerm_subnet" "ingress" {
 }
 
 resource "azurerm_windows_function_app" "windows_function" {
-  count           = var.asp_os_type == "Windows" ? 1 : 0
+  count           = var.create_function_app && var.asp_os_type == "Windows" ? 1 : 0
   name            = var.function_app_name
   service_plan_id = data.azurerm_service_plan.sp.id
   # service_plan_id             = data.azurerm_service_plan.sp[0].id
@@ -235,12 +235,13 @@ resource "azurerm_windows_function_app" "windows_function" {
 }
 
 data "azurerm_function_app_host_keys" "main" {
+  count               = var.create_function_app ? 1 : 0
   name                = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.name : azurerm_windows_function_app.windows_function.0.name
   resource_group_name = var.resource_group_name
 }
 
 resource "azurerm_app_service_public_certificate" "functionapp" {
-  for_each             = var.cert_contents
+  for_each             = var.create_function_app ? var.cert_contents : {}
   resource_group_name  = var.resource_group_name
   app_service_name     = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.name : azurerm_windows_function_app.windows_function.0.name
   certificate_name     = each.key
@@ -259,7 +260,7 @@ data "azurerm_private_dns_zone" "dns_zone" {
 
 resource "azurerm_private_dns_a_record" "dns_record" {
   name                = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.name : azurerm_windows_function_app.windows_function.0.name
-  count               = contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
+  count               = var.create_function_app && contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
   zone_name           = data.azurerm_private_dns_zone.dns_zone[0].name
   resource_group_name = var.dns_resource_group_name
   ttl                 = 300
