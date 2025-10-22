@@ -130,7 +130,7 @@ resource "azurerm_private_endpoint" "private_endpoint" {
 
 data "azurerm_virtual_network" "vnet" {
   # vnet should only exist when utilising a private endpoint compatible SKU
-  count               = contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
+  count               = var.create_function_app && contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
   name                = var.vnet_name
   resource_group_name = var.vnet_rg_name
 }
@@ -254,7 +254,7 @@ resource "azurerm_app_service_public_certificate" "functionapp" {
 
 data "azurerm_private_dns_zone" "dns_zone" {
   name                = "privatelink.azurewebsites.net"
-  count               = contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
+  count               = var.create_function_app && contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
   resource_group_name = var.dns_resource_group_name
 }
 
