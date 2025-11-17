@@ -2,6 +2,7 @@
 
 locals {
   post_private_endpoint_sleep_duration = "60s"
+  service_plan_id                      = var.create_service_plan ? azurerm_service_plan.main[0].id : data.azurerm_service_plan.sp.id
 }
 
 resource "azurerm_service_plan" "main" {
@@ -17,6 +18,99 @@ resource "azurerm_service_plan" "main" {
   tags                     = var.tags
 }
 
+resource "azurerm_monitor_autoscale_setting" "auto" {
+  count               = var.enable_autoscale ? 1 : 0
+  name                = "auto-scale-set-${var.service_plan_name}"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  target_resource_id  = local.service_plan_id
+  tags                = var.tags
+  profile {
+    name = "default"
+    capacity {
+      default = var.autoscale_config.default_count
+      minimum = var.autoscale_config.minimum_instances_count == null ? var.autoscale_config.default_count : var.autoscale_config.minimum_instances_count
+      maximum = var.autoscale_config.maximum_instances_count
+    }
+
+    rule {
+      metric_trigger {
+        metric_name        = "Percentage CPU"
+        metric_resource_id = local.service_plan_id
+        time_grain         = "PT1M"
+        statistic          = "Average"
+        time_window        = "PT5M"
+        time_aggregation   = "Average"
+        operator           = "GreaterThan"
+        threshold          = var.autoscale_config.scale_out_cpu_percentage_threshold
+      }
+      scale_action {
+        direction = "Increase"
+        type      = "ChangeCount"
+        value     = var.autoscale_config.scaling_action_increase_cpu_instances_number
+        cooldown  = "PT5M"
+      }
+    }
+
+    rule {
+      metric_trigger {
+        metric_name        = "Percentage CPU"
+        metric_resource_id = local.service_plan_id
+        time_grain         = "PT1M"
+        statistic          = "Average"
+        time_window        = "PT5M"
+        time_aggregation   = "Average"
+        operator           = "LessThan"
+        threshold          = var.autoscale_config.scale_in_cpu_percentage_threshold
+      }
+      scale_action {
+        direction = "Decrease"
+        type      = "ChangeCount"
+        value     = var.autoscale_config.scaling_action_decrease_cpu_instances_number
+        cooldown  = "PT1M"
+      }
+    }
+    rule {
+      metric_trigger {
+        metric_name        = "MemoryPercentage"
+        metric_resource_id = local.service_plan_id
+        time_grain         = "PT1M"
+        statistic          = "Average"
+        time_window        = "PT5M"
+        time_aggregation   = "Average"
+        operator           = "GreaterThan"
+        threshold          = var.autoscale_config.scale_out_memory_percentage_threshold
+      }
+
+      scale_action {
+        direction = "Increase"
+        type      = "ChangeCount"
+        value     = var.autoscale_config.scaling_action_increase_memory_instances_number
+        cooldown  = "PT5M"
+      }
+    }
+
+    rule {
+      metric_trigger {
+        metric_name        = "MemoryPercentage"
+        metric_resource_id = local.service_plan_id
+        time_grain         = "PT1M"
+        statistic          = "Average"
+        time_window        = "PT5M"
+        time_aggregation   = "Average"
+        operator           = "LessThan"
+        threshold          = var.autoscale_config.scale_in_memory_percentage_threshold
+      }
+
+      scale_action {
+        direction = "Decrease"
+        type      = "ChangeCount"
+        value     = var.autoscale_config.scaling_action_decrease_memory_instances_number
+        cooldown  = "PT5M"
+      }
+    }
+  }
+}
 data "azurerm_service_plan" "sp" {
   #count               = length(azurerm_service_plan.main[0].id) != 0 ? 1 : 0
   name                = var.service_plan_name
