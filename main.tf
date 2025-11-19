@@ -201,7 +201,7 @@ resource "azurerm_private_endpoint" "private_endpoint" {
   location            = var.location
   resource_group_name = var.resource_group_name
   subnet_id           = var.subnet_ingress_id != null ? var.subnet_ingress_id : azurerm_subnet.ingress[0].id
-
+  tags = var.tags
   private_service_connection {
     name                           = var.private_service_connection
     private_connection_resource_id = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.id : azurerm_windows_function_app.windows_function.0.id
