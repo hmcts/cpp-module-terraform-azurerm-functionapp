@@ -15,7 +15,6 @@ resource "azurerm_service_plan" "main" {
   worker_count             = var.asp_instance_size
   per_site_scaling_enabled = var.asp_per_site_scaling_enabled
   zone_balancing_enabled   = var.asp_zone_balancing_enabled
-  maximum_elastic_worker_count = var.asp_maximum_elastic_worker_count
   tags                     = var.tags
 }
 
