@@ -48,6 +48,12 @@ variable "asp_instance_size" {
   default     = 1
 }
 
+variable "asp_maximum_elastic_worker_count" {
+  description = "Max burst size"
+  type        = number
+  default     = 1
+}
+
 variable "asp_per_site_scaling_enabled" {
   description = "Should Per Site Scaling be enabled"
   type        = bool
