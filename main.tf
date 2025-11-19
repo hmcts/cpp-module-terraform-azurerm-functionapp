@@ -353,11 +353,11 @@ data "azurerm_private_dns_zone" "dns_zone" {
   resource_group_name = var.dns_resource_group_name
 }
 
-resource "azurerm_private_dns_a_record" "dns_record" {
-  name                = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.name : azurerm_windows_function_app.windows_function.0.name
-  count               = var.create_function_app && contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
-  zone_name           = data.azurerm_private_dns_zone.dns_zone[0].name
-  resource_group_name = var.dns_resource_group_name
-  ttl                 = 300
-  records             = [azurerm_private_endpoint.private_endpoint[0].private_service_connection[0].private_ip_address]
-}
+# resource "azurerm_private_dns_a_record" "dns_record" {
+#   name                = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.name : azurerm_windows_function_app.windows_function.0.name
+#   count               = var.create_function_app && contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
+#   zone_name           = data.azurerm_private_dns_zone.dns_zone[0].name
+#   resource_group_name = var.dns_resource_group_name
+#   ttl                 = 300
+#   records             = [azurerm_private_endpoint.private_endpoint[0].private_service_connection[0].private_ip_address]
+# }
