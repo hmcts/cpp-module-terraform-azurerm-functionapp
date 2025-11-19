@@ -35,7 +35,6 @@ When developing new features to this module, do not forget to update [for_terrat
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_asp_instance_size"></a> [asp\_instance\_size](#input\_asp\_instance\_size) | The number of Workers (instances) to be allocated to the ASP | `number` | `1` | no |
-| <a name="input_asp_maximum_elastic_worker_count"></a> [asp\_maximum\_elastic\_worker\_count](#input\_asp\_maximum\_elastic\_worker\_count) | Max burst size | `number` | `1` | no |
 | <a name="input_asp_os_type"></a> [asp\_os\_type](#input\_asp\_os\_type) | OS of the App Service Plan for Function App hosting | `string` | n/a | yes |
 | <a name="input_asp_per_site_scaling_enabled"></a> [asp\_per\_site\_scaling\_enabled](#input\_asp\_per\_site\_scaling\_enabled) | Should Per Site Scaling be enabled | `bool` | `false` | no |
 | <a name="input_asp_sku"></a> [asp\_sku](#input\_asp\_sku) | SKU of the App Service Plan for Function App hosting | `string` | `"S1"` | no |
