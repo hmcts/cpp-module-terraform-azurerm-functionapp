@@ -137,7 +137,7 @@ resource "azurerm_linux_function_app" "linux_function" {
   client_certificate_mode       = var.client_certificate_mode
   builtin_logging_enabled       = var.builtin_logging_enabled
   virtual_network_subnet_id     = var.create_subnet && length(var.subnet_cidr) != 0 ? azurerm_subnet.main[0].id : var.subnet_id
-  public_network_access_enabled = (var.public_network_access_override == null && contains(var.private_endpoint_skus, var.asp_sku)) ? false : true
+  public_network_access_enabled = var.public_network_access_override
 
   dynamic "identity" {
     for_each = var.identity == {} ? [] : [var.identity]
@@ -275,7 +275,7 @@ resource "azurerm_windows_function_app" "windows_function" {
   client_certificate_mode       = var.client_certificate_mode
   builtin_logging_enabled       = var.builtin_logging_enabled
   virtual_network_subnet_id     = var.create_subnet && length(var.subnet_cidr) != 0 ? azurerm_subnet.main[0].id : var.subnet_id
-  public_network_access_enabled = (var.public_network_access_override == null && contains(var.private_endpoint_skus, var.asp_sku)) ? false : true
+  public_network_access_enabled = var.public_network_access_override
 
   dynamic "identity" {
     for_each = var.identity == {} ? [] : [var.identity]

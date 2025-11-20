@@ -87,7 +87,7 @@ variable "storage_account_name" {
 variable "public_network_access_override" {
   type        = bool
   description = "Override the default logic of enabling public access only on non-private endpoint SKUs"
-  default     = null
+  default     = true
 }
 
 variable "storage_account_access_key" {
