@@ -76,6 +76,7 @@ When developing new features to this module, do not forget to update [for_terrat
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(string)` | `{}` | no |
 | <a name="input_vnet_name"></a> [vnet\_name](#input\_vnet\_name) | Vnet Name for Private Subnets | `string` | `""` | no |
 | <a name="input_vnet_rg_name"></a> [vnet\_rg\_name](#input\_vnet\_rg\_name) | Vnet Resource Group Name for Private Subnets | `string` | `""` | no |
+| <a name="input_vnet_route_all_enabled"></a> [vnet\_route\_all\_enabled](#input\_vnet\_route\_all\_enabled) | vent enable | `bool` | `false` | no |
 
 ## Outputs
 
