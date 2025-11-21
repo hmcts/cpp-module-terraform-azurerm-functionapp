@@ -276,7 +276,6 @@ resource "azurerm_windows_function_app" "windows_function" {
   builtin_logging_enabled       = var.builtin_logging_enabled
   virtual_network_subnet_id     = var.create_subnet && length(var.subnet_cidr) != 0 ? azurerm_subnet.main[0].id : var.subnet_id
   public_network_access_enabled = var.public_network_access_override
-  vnet_route_all_enabled = true
 
   dynamic "identity" {
     for_each = var.identity == {} ? [] : [var.identity]
@@ -298,7 +297,7 @@ resource "azurerm_windows_function_app" "windows_function" {
       application_insights_connection_string = lookup(site_config.value, "application_insights_connection_string", null)
       application_insights_key               = lookup(site_config.value, "application_insights_key", null)
       runtime_scale_monitoring_enabled       = lookup(site_config.value, "runtime_scale_monitoring_enabled", null)
-
+      vnet_route_all_enabled = true
       dynamic "app_service_logs" {
         for_each = lookup(site_config.value, "app_service_logs", null) == null ? [] : ["app_service_logs"]
         content {
