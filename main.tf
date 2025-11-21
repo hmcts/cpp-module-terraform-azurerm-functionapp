@@ -196,7 +196,7 @@ resource "azurerm_linux_function_app" "linux_function" {
 
 # Check app_service_plan; for example, azurerm_app_service_plan.example.id
 resource "azurerm_private_endpoint" "private_endpoint" {
-  count               = var.create_function_app && contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
+  count               = var.create_function_app && var.public_network_access_override ? 1 : 0
   name                = var.private_endpoint
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -225,7 +225,7 @@ resource "azurerm_private_endpoint" "private_endpoint" {
 
 data "azurerm_virtual_network" "vnet" {
   # vnet should only exist when utilising a private endpoint compatible SKU
-  count               = var.create_function_app && contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
+  count               = var.create_function_app && var.public_network_access_override ? 1 : 0
   name                = var.vnet_name
   resource_group_name = var.vnet_rg_name
 }
@@ -349,7 +349,7 @@ resource "azurerm_app_service_public_certificate" "functionapp" {
 
 data "azurerm_private_dns_zone" "dns_zone" {
   name                = "privatelink.azurewebsites.net"
-  count               = var.create_function_app && contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
+  count               = var.create_function_app && var.public_network_access_override ? 1 : 0
   resource_group_name = var.dns_resource_group_name
 }
 
