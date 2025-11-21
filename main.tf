@@ -236,7 +236,8 @@ resource "azurerm_subnet" "main" {
   virtual_network_name = var.vnet_name
   address_prefixes     = var.subnet_cidr
   resource_group_name  = var.vnet_rg_name
-
+  private_endpoint_network_policies = "Disabled"
+  private_link_service_network_policies_enabled = false
   delegation {
     name = "delegation"
 
@@ -256,7 +257,8 @@ resource "azurerm_subnet" "ingress" {
   virtual_network_name              = var.vnet_name
   address_prefixes                  = var.subnet_ingress_cidr
   resource_group_name               = var.vnet_rg_name
-  private_endpoint_network_policies = "Enabled"
+  private_endpoint_network_policies = "Disabled"
+  private_link_service_network_policies_enabled = false
   service_endpoints                 = ["Microsoft.Storage"]
 }
 
