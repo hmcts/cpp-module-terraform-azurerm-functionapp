@@ -97,6 +97,13 @@ variable "storage_account_access_key" {
   sensitive   = true
 }
 
+variable "storage_account_connection_string" {
+  type        = string
+  description = "Storage account access key to be used by function app"
+  default     = null
+  sensitive   = true
+}
+
 variable "key_vault_id" {
   type        = string
   description = "keyvault id to lookup secret settings"
