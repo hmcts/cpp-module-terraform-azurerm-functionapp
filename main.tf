@@ -280,8 +280,6 @@ resource "azurerm_windows_function_app" "windows_function" {
   public_network_access_enabled = var.public_network_access_override
   app_settings = {
       WEBSITE_VNET_ROUTE_ALL = "1"
-      WEBSITE_CONTENTAZUREFILECONNECTIONSTRING = var.storage_account_access_key
-      WEBSITE_CONTENTSHARE = "test-share"
       WEBSITE_CONTENTOVERVNET = "1"
   }
   dynamic "identity" {
