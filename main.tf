@@ -278,12 +278,14 @@ resource "azurerm_windows_function_app" "windows_function" {
   builtin_logging_enabled       = var.builtin_logging_enabled
   virtual_network_subnet_id     = var.create_subnet && length(var.subnet_cidr) != 0 ? azurerm_subnet.main[0].id : var.subnet_id
   public_network_access_enabled = var.public_network_access_override
-  app_settings = {
-      WEBSITE_VNET_ROUTE_ALL = "1"
-      WEBSITE_CONTENTAZUREFILECONNECTIONSTRING = var.storage_account_connection_string
-      WEBSITE_CONTENTSHARE = "test-share"
-      WEBSITE_CONTENTOVERVNET = "1"
-  }
+  app_settings = (
+      var.asp_os_type == "Windows" && !var.storage_account_is_public_enable_map ? {
+        WEBSITE_VNET_ROUTE_ALL                   = "1"
+        WEBSITE_CONTENTAZUREFILECONNECTIONSTRING = var.storage_account_connection_string
+        WEBSITE_CONTENTSHARE                     = var.storage_content_share
+        WEBSITE_CONTENTOVERVNET                  = "1"
+      } : {}
+    )
   dynamic "identity" {
     for_each = var.identity == {} ? [] : [var.identity]
     content {
@@ -330,9 +332,7 @@ resource "azurerm_windows_function_app" "windows_function" {
   tags = var.tags
 
   lifecycle {
-    ignore_changes = [
-      app_settings,
-    ]
+    ignore_changes = [app_settings]
   }
 }
 

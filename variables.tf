@@ -84,6 +84,13 @@ variable "storage_account_name" {
   default     = ""
 }
 
+variable "storage_content_share" {
+  type        = string
+  description = "Storage account file share name only for windows and private storage account"
+  default     = ""
+}
+
+
 variable "public_network_access_override" {
   type        = bool
   description = "Override the default logic of enabling public access only on non-private endpoint SKUs"
@@ -263,4 +270,11 @@ variable "storage_account" {
   description = "storage account to mount"
   type        = any
   default     = {}
+}
+
+
+variable "storage_account_is_public_enable_map" {
+  type        = bool
+  description = "flag to create appsettings"
+  default     = true
 }
