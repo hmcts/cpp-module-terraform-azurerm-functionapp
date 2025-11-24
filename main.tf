@@ -327,9 +327,9 @@ resource "azurerm_windows_function_app" "windows_function" {
 
   tags = var.tags
 
-#   lifecycle {
-#     ignore_changes = [app_settings]
-#   }
+  lifecycle {
+    ignore_changes = [app_settings]
+  }
 }
 
 data "azurerm_function_app_host_keys" "main" {
