@@ -116,12 +116,6 @@ variable "key_vault_id" {
   description = "keyvault id to lookup secret settings"
   default     = null
 }
-variable "vnet_route_all_enabled" {
-  type        = bool
-  description = "vent enable"
-  default     = false
-}
-
 
 variable "site_config" {
   description = "Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is not managed in this block."

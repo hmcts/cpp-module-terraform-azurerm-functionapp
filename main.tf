@@ -302,7 +302,6 @@ resource "azurerm_windows_function_app" "windows_function" {
       application_insights_connection_string = lookup(site_config.value, "application_insights_connection_string", null)
       application_insights_key               = lookup(site_config.value, "application_insights_key", null)
       runtime_scale_monitoring_enabled       = lookup(site_config.value, "runtime_scale_monitoring_enabled", null)
-      vnet_route_all_enabled = true
       dynamic "app_service_logs" {
         for_each = lookup(site_config.value, "app_service_logs", null) == null ? [] : ["app_service_logs"]
         content {
