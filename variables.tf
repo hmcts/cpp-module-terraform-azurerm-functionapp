@@ -276,5 +276,5 @@ variable "storage_account" {
 variable "storage_account_is_public_enable_map" {
   type        = bool
   description = "flag to create appsettings"
-  default     = true
+  default     = false
 }
