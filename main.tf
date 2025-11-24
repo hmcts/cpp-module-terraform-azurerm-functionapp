@@ -275,7 +275,7 @@ resource "azurerm_windows_function_app" "windows_function" {
   virtual_network_subnet_id     = var.create_subnet && length(var.subnet_cidr) != 0 ? azurerm_subnet.main[0].id : var.subnet_id
   public_network_access_enabled = var.public_network_access_override
   app_settings = (
-      var.asp_os_type == "Windows" && var.storage_account_is_public_enable_map ? {
+      var.asp_os_type == "Windows" && !var.storage_account_is_public_enable_map ? {
         WEBSITE_VNET_ROUTE_ALL                   = "1"
         WEBSITE_CONTENTAZUREFILECONNECTIONSTRING = var.storage_account_connection_string
         WEBSITE_CONTENTSHARE                     = var.storage_content_share
