@@ -202,6 +202,12 @@ resource "azurerm_linux_function_app" "linux_function" {
   }
 }
 
+resource "azurerm_subnet_network_security_group_association" "nsg_association_fa" {
+  count                     = var.create_function_app && !var.public_network_access_override ? 1 : 0
+  subnet_id                 = var.subnet_ingress_id != null ? var.subnet_ingress_id : azurerm_subnet.ingress[0].id
+  network_security_group_id = var.nsg_id
+}
+
 # Check app_service_plan; for example, azurerm_app_service_plan.example.id
 resource "azurerm_private_endpoint" "private_endpoint" {
   count               = var.create_function_app && !var.public_network_access_override ? 1 : 0

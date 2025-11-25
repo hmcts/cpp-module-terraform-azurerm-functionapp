@@ -223,3 +223,9 @@ variable "vnet_cidr" {
   type        = list(string)
   default     = []
 }
+
+variable "nsg_id" {
+  description = "nsg id"
+  type        = string
+  default     = null
+}
