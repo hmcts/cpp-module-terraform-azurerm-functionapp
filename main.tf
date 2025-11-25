@@ -169,7 +169,7 @@ resource "azurerm_linux_function_app" "linux_function" {
       worker_count                           = lookup(site_config.value, "worker_count", null)
       application_insights_connection_string = lookup(site_config.value, "application_insights_connection_string", null)
       application_insights_key               = lookup(site_config.value, "application_insights_key", null)
-
+      vnet_route_all_enabled = lookup(site_config.value, "vnet_route_all_enabled", null)
       dynamic "cors" {
         for_each = lookup(site_config.value, "cors", null) == null ? [] : ["cors"]
         content {
