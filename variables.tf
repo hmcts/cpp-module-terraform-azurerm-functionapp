@@ -273,9 +273,3 @@ variable "storage_account_is_public_enable_map" {
   default     = false
 }
 
-
-variable "nsg_id" {
-  description = "nsg id"
-  type        = string
-  default     = null
-}

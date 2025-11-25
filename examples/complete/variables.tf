@@ -224,8 +224,3 @@ variable "vnet_cidr" {
   default     = []
 }
 
-variable "nsg_id" {
-  description = "nsg id"
-  type        = string
-  default     = null
-}
