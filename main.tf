@@ -169,7 +169,7 @@ resource "azurerm_linux_function_app" "linux_function" {
       worker_count                           = lookup(site_config.value, "worker_count", null)
       application_insights_connection_string = lookup(site_config.value, "application_insights_connection_string", null)
       application_insights_key               = lookup(site_config.value, "application_insights_key", null)
-      vnet_route_all_enabled = lookup(site_config.value, "vnet_route_all_enabled", null)
+      vnet_route_all_enabled                 = lookup(site_config.value, "vnet_route_all_enabled", null)
       dynamic "cors" {
         for_each = lookup(site_config.value, "cors", null) == null ? [] : ["cors"]
         content {
@@ -305,7 +305,7 @@ resource "azurerm_windows_function_app" "windows_function" {
     content {
       always_on                              = lookup(site_config.value, "always_on", null)
       app_scale_limit                        = lookup(site_config.value, "app_scale_limit", null)
-      vnet_route_all_enabled = lookup(site_config.value, "vnet_route_all_enabled", null)
+      vnet_route_all_enabled                 = lookup(site_config.value, "vnet_route_all_enabled", null)
       http2_enabled                          = lookup(site_config.value, "http2_enabled", null)
       minimum_tls_version                    = lookup(site_config.value, "minimum_tls_version", null)
       elastic_instance_minimum               = lookup(site_config.value, "elastic_instance_minimum", null)
