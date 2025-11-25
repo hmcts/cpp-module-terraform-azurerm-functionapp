@@ -13,6 +13,12 @@ variable "create_service_plan" {
   default     = true
 }
 
+variable "enable_autoscale" {
+  description = " If true a scaling rule is configured"
+  type        = bool
+  default     = false
+}
+
 variable "create_function_app" {
   description = "If true, creates the Function App. Set to false to deploy only the App Service Plan."
   type        = bool
@@ -40,6 +46,12 @@ variable "asp_instance_size" {
   description = "The number of Workers (instances) to be allocated to the ASP"
   type        = number
   default     = 1
+}
+
+variable "asp_maximum_elastic_worker_count" {
+  description = "Max burst size"
+  type        = number
+  default     = null
 }
 
 variable "asp_per_site_scaling_enabled" {
@@ -72,13 +84,27 @@ variable "storage_account_name" {
   default     = ""
 }
 
+variable "storage_content_share" {
+  type        = string
+  description = "Storage account file share name only for windows and private storage account"
+  default     = ""
+}
+
+
 variable "public_network_access_override" {
   type        = bool
   description = "Override the default logic of enabling public access only on non-private endpoint SKUs"
-  default     = null
+  default     = true
 }
 
 variable "storage_account_access_key" {
+  type        = string
+  description = "Storage account access key to be used by function app"
+  default     = null
+  sensitive   = true
+}
+
+variable "storage_account_connection_string" {
   type        = string
   description = "Storage account access key to be used by function app"
   default     = null
@@ -93,6 +119,12 @@ variable "key_vault_id" {
 
 variable "site_config" {
   description = "Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is not managed in this block."
+  type        = any
+  default     = {}
+}
+
+variable "autoscale_config" {
+  description = "if autoscale is enabled for app service plan, required configuration to be passed"
   type        = any
   default     = {}
 }
@@ -232,4 +264,11 @@ variable "storage_account" {
   description = "storage account to mount"
   type        = any
   default     = {}
+}
+
+
+variable "storage_account_is_public_enable_map" {
+  type        = bool
+  description = "flag to create appsettings"
+  default     = false
 }
