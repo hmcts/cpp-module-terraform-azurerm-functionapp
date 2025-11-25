@@ -13,7 +13,7 @@ resource "azurerm_service_plan" "main" {
   os_type                      = var.asp_os_type
   sku_name                     = var.asp_sku
   worker_count                 = var.asp_instance_size
-  maximum_elastic_worker_count = var.asp_maximum_elastic_worker_count != null ? var.asp_maximum_elastic_worker_count : "1"
+  maximum_elastic_worker_count = var.asp_maximum_elastic_worker_count != null ? var.asp_maximum_elastic_worker_count : 1
   per_site_scaling_enabled     = var.asp_per_site_scaling_enabled
   zone_balancing_enabled       = var.asp_zone_balancing_enabled
   tags                         = var.tags
