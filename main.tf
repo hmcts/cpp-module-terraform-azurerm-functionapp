@@ -305,6 +305,7 @@ resource "azurerm_windows_function_app" "windows_function" {
     content {
       always_on                              = lookup(site_config.value, "always_on", null)
       app_scale_limit                        = lookup(site_config.value, "app_scale_limit", null)
+      vnet_route_all_enabled = lookup(site_config.value, "vnet_route_all_enabled", null)
       http2_enabled                          = lookup(site_config.value, "http2_enabled", null)
       minimum_tls_version                    = lookup(site_config.value, "minimum_tls_version", null)
       elastic_instance_minimum               = lookup(site_config.value, "elastic_instance_minimum", null)
