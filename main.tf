@@ -2,21 +2,116 @@
 
 locals {
   post_private_endpoint_sleep_duration = "60s"
+  service_plan_id                      = var.create_service_plan ? azurerm_service_plan.main[0].id : data.azurerm_service_plan.sp.id
 }
 
 resource "azurerm_service_plan" "main" {
-  count                    = var.create_service_plan ? 1 : 0
-  name                     = var.service_plan_name
-  location                 = var.location
-  resource_group_name      = var.resource_group_name
-  os_type                  = var.asp_os_type
-  sku_name                 = var.asp_sku
-  worker_count             = var.asp_instance_size
-  per_site_scaling_enabled = var.asp_per_site_scaling_enabled
-  zone_balancing_enabled   = var.asp_zone_balancing_enabled
-  tags                     = var.tags
+  count                        = var.create_service_plan ? 1 : 0
+  name                         = var.service_plan_name
+  location                     = var.location
+  resource_group_name          = var.resource_group_name
+  os_type                      = var.asp_os_type
+  sku_name                     = var.asp_sku
+  worker_count                 = var.asp_instance_size
+  maximum_elastic_worker_count = var.asp_maximum_elastic_worker_count != null ? var.asp_maximum_elastic_worker_count : 1
+  per_site_scaling_enabled     = var.asp_per_site_scaling_enabled
+  zone_balancing_enabled       = var.asp_zone_balancing_enabled
+  tags                         = var.tags
 }
 
+resource "azurerm_monitor_autoscale_setting" "auto" {
+  count               = var.enable_autoscale ? 1 : 0
+  name                = "auto-scale-set-${var.service_plan_name}"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  target_resource_id  = local.service_plan_id
+  tags                = var.tags
+  profile {
+    name = "default"
+    capacity {
+      default = var.autoscale_config.default_count
+      minimum = var.autoscale_config.minimum_instances_count == null ? var.autoscale_config.default_count : var.autoscale_config.minimum_instances_count
+      maximum = var.autoscale_config.maximum_instances_count
+    }
+
+    rule {
+      metric_trigger {
+        metric_name        = "Percentage CPU"
+        metric_resource_id = local.service_plan_id
+        time_grain         = "PT1M"
+        statistic          = "Average"
+        time_window        = "PT5M"
+        time_aggregation   = "Average"
+        operator           = "GreaterThan"
+        threshold          = var.autoscale_config.scale_out_cpu_percentage_threshold
+      }
+      scale_action {
+        direction = "Increase"
+        type      = "ChangeCount"
+        value     = var.autoscale_config.scaling_action_increase_cpu_instances_number
+        cooldown  = "PT5M"
+      }
+    }
+
+    rule {
+      metric_trigger {
+        metric_name        = "Percentage CPU"
+        metric_resource_id = local.service_plan_id
+        time_grain         = "PT1M"
+        statistic          = "Average"
+        time_window        = "PT5M"
+        time_aggregation   = "Average"
+        operator           = "LessThan"
+        threshold          = var.autoscale_config.scale_in_cpu_percentage_threshold
+      }
+      scale_action {
+        direction = "Decrease"
+        type      = "ChangeCount"
+        value     = var.autoscale_config.scaling_action_decrease_cpu_instances_number
+        cooldown  = "PT1M"
+      }
+    }
+    rule {
+      metric_trigger {
+        metric_name        = "MemoryPercentage"
+        metric_resource_id = local.service_plan_id
+        time_grain         = "PT1M"
+        statistic          = "Average"
+        time_window        = "PT5M"
+        time_aggregation   = "Average"
+        operator           = "GreaterThan"
+        threshold          = var.autoscale_config.scale_out_memory_percentage_threshold
+      }
+
+      scale_action {
+        direction = "Increase"
+        type      = "ChangeCount"
+        value     = var.autoscale_config.scaling_action_increase_memory_instances_number
+        cooldown  = "PT5M"
+      }
+    }
+
+    rule {
+      metric_trigger {
+        metric_name        = "MemoryPercentage"
+        metric_resource_id = local.service_plan_id
+        time_grain         = "PT1M"
+        statistic          = "Average"
+        time_window        = "PT5M"
+        time_aggregation   = "Average"
+        operator           = "LessThan"
+        threshold          = var.autoscale_config.scale_in_memory_percentage_threshold
+      }
+
+      scale_action {
+        direction = "Decrease"
+        type      = "ChangeCount"
+        value     = var.autoscale_config.scaling_action_decrease_memory_instances_number
+        cooldown  = "PT5M"
+      }
+    }
+  }
+}
 data "azurerm_service_plan" "sp" {
   #count               = length(azurerm_service_plan.main[0].id) != 0 ? 1 : 0
   name                = var.service_plan_name
@@ -42,7 +137,7 @@ resource "azurerm_linux_function_app" "linux_function" {
   client_certificate_mode       = var.client_certificate_mode
   builtin_logging_enabled       = var.builtin_logging_enabled
   virtual_network_subnet_id     = var.create_subnet && length(var.subnet_cidr) != 0 ? azurerm_subnet.main[0].id : var.subnet_id
-  public_network_access_enabled = (var.public_network_access_override == null && contains(var.private_endpoint_skus, var.asp_sku)) ? false : true
+  public_network_access_enabled = var.public_network_access_override
 
   dynamic "identity" {
     for_each = var.identity == {} ? [] : [var.identity]
@@ -109,12 +204,12 @@ resource "azurerm_linux_function_app" "linux_function" {
 
 # Check app_service_plan; for example, azurerm_app_service_plan.example.id
 resource "azurerm_private_endpoint" "private_endpoint" {
-  count               = var.create_function_app && contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
+  count               = var.create_function_app && !var.public_network_access_override ? 1 : 0
   name                = var.private_endpoint
   location            = var.location
   resource_group_name = var.resource_group_name
   subnet_id           = var.subnet_ingress_id != null ? var.subnet_ingress_id : azurerm_subnet.ingress[0].id
-
+  tags                = var.tags
   private_service_connection {
     name                           = var.private_service_connection
     private_connection_resource_id = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.id : azurerm_windows_function_app.windows_function.0.id
@@ -138,7 +233,7 @@ resource "azurerm_private_endpoint" "private_endpoint" {
 
 data "azurerm_virtual_network" "vnet" {
   # vnet should only exist when utilising a private endpoint compatible SKU
-  count               = var.create_function_app && contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
+  count               = var.create_function_app && !var.public_network_access_override ? 1 : 0
   name                = var.vnet_name
   resource_group_name = var.vnet_rg_name
 }
@@ -188,8 +283,15 @@ resource "azurerm_windows_function_app" "windows_function" {
   client_certificate_mode       = var.client_certificate_mode
   builtin_logging_enabled       = var.builtin_logging_enabled
   virtual_network_subnet_id     = var.create_subnet && length(var.subnet_cidr) != 0 ? azurerm_subnet.main[0].id : var.subnet_id
-  public_network_access_enabled = (var.public_network_access_override == null && contains(var.private_endpoint_skus, var.asp_sku)) ? false : true
-
+  public_network_access_enabled = var.public_network_access_override
+  app_settings = (
+    var.asp_os_type == "Windows" && var.storage_account_is_public_enable_map ? {
+      WEBSITE_VNET_ROUTE_ALL                   = "1"
+      WEBSITE_CONTENTAZUREFILECONNECTIONSTRING = var.storage_account_connection_string
+      WEBSITE_CONTENTSHARE                     = var.storage_content_share
+      WEBSITE_CONTENTOVERVNET                  = "1"
+    } : {}
+  )
   dynamic "identity" {
     for_each = var.identity == {} ? [] : [var.identity]
     content {
@@ -244,9 +346,7 @@ resource "azurerm_windows_function_app" "windows_function" {
   tags = var.tags
 
   lifecycle {
-    ignore_changes = [
-      app_settings,
-    ]
+    ignore_changes = [app_settings]
   }
 }
 
@@ -270,15 +370,15 @@ resource "azurerm_app_service_public_certificate" "functionapp" {
 
 data "azurerm_private_dns_zone" "dns_zone" {
   name                = "privatelink.azurewebsites.net"
-  count               = var.create_function_app && contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
+  count               = var.create_function_app && !var.public_network_access_override ? 1 : 0
   resource_group_name = var.dns_resource_group_name
 }
 
-resource "azurerm_private_dns_a_record" "dns_record" {
-  name                = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.name : azurerm_windows_function_app.windows_function.0.name
-  count               = var.create_function_app && contains(var.private_endpoint_skus, var.asp_sku) ? 1 : 0
-  zone_name           = data.azurerm_private_dns_zone.dns_zone[0].name
-  resource_group_name = var.dns_resource_group_name
-  ttl                 = 300
-  records             = [azurerm_private_endpoint.private_endpoint[0].private_service_connection[0].private_ip_address]
-}
+# resource "azurerm_private_dns_a_record" "dns_record" {
+#   name                = var.asp_os_type == "Linux" ? azurerm_linux_function_app.linux_function.0.name : azurerm_windows_function_app.windows_function.0.name
+#   count               = var.create_function_app && !var.public_network_access_override ? 1 : 0
+#   zone_name           = data.azurerm_private_dns_zone.dns_zone[0].name
+#   resource_group_name = var.dns_resource_group_name
+#   ttl                 = 300
+#   records             = [azurerm_private_endpoint.private_endpoint[0].private_service_connection[0].private_ip_address]
+# }
