@@ -5,7 +5,7 @@ locals {
   is_ep                                = contains(["EP1", "EP2", "EP3"], var.asp_sku)
 }
 
-resource "azurerm_service_plan" "main_ep" {
+resource "azurerm_service_plan" "main" {
   count                        = var.create_service_plan && local.is_ep ? 1 : 0
   name                         = var.service_plan_name
   location                     = var.location
@@ -13,24 +13,24 @@ resource "azurerm_service_plan" "main_ep" {
   os_type                      = var.asp_os_type
   sku_name                     = var.asp_sku
   worker_count                 = var.asp_instance_size
-  maximum_elastic_worker_count = var.asp_maximum_elastic_worker_count != null ? var.asp_maximum_elastic_worker_count : var.asp_instance_size
+  maximum_elastic_worker_count = var.asp_maximum_elastic_worker_count
   per_site_scaling_enabled     = var.asp_per_site_scaling_enabled
   zone_balancing_enabled       = var.asp_zone_balancing_enabled
   tags                         = var.tags
 }
 
-resource "azurerm_service_plan" "main" {
-  count                    = var.create_service_plan && !local.is_ep ? 1 : 0
-  name                     = var.service_plan_name
-  location                 = var.location
-  resource_group_name      = var.resource_group_name
-  os_type                  = var.asp_os_type
-  sku_name                 = var.asp_sku
-  worker_count             = var.asp_instance_size
-  per_site_scaling_enabled = var.asp_per_site_scaling_enabled
-  zone_balancing_enabled   = var.asp_zone_balancing_enabled
-  tags                     = var.tags
-}
+# resource "azurerm_service_plan" "main" {
+#   count                    = var.create_service_plan && !local.is_ep ? 1 : 0
+#   name                     = var.service_plan_name
+#   location                 = var.location
+#   resource_group_name      = var.resource_group_name
+#   os_type                  = var.asp_os_type
+#   sku_name                 = var.asp_sku
+#   worker_count             = var.asp_instance_size
+#   per_site_scaling_enabled = var.asp_per_site_scaling_enabled
+#   zone_balancing_enabled   = var.asp_zone_balancing_enabled
+#   tags                     = var.tags
+# }
 
 resource "azurerm_monitor_autoscale_setting" "auto" {
   count               = var.enable_autoscale ? 1 : 0
