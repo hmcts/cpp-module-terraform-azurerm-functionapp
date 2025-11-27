@@ -130,8 +130,7 @@ data "azurerm_service_plan" "sp" {
   name                = var.service_plan_name
   resource_group_name = var.resource_group_name
   depends_on = [
-    azurerm_service_plan.main,
-    azurerm_service_plan.main_ep
+    azurerm_service_plan.main
   ]
 }
 
@@ -268,8 +267,7 @@ resource "azurerm_subnet" "main" {
     }
   }
   depends_on = [
-    azurerm_service_plan.main,
-    azurerm_service_plan.main_ep
+    azurerm_service_plan.main
   ]
 }
 
