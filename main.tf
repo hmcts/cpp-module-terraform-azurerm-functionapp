@@ -2,7 +2,7 @@
 
 locals {
   post_private_endpoint_sleep_duration = "60s"
-  is_ep                                = contains(["EP1", "EP2", "EP3"], upper(var.asp_sku))
+  is_ep                                = contains(["EP1", "EP2", "EP3"], var.asp_sku)
 }
 
 resource "azurerm_service_plan" "main_ep" {
@@ -20,7 +20,7 @@ resource "azurerm_service_plan" "main_ep" {
 }
 
 resource "azurerm_service_plan" "main" {
-  count                    = var.create_service_plan && local.is_ep ? 1 : 0
+  count                    = var.create_service_plan && !local.is_ep ? 1 : 0
   name                     = var.service_plan_name
   location                 = var.location
   resource_group_name      = var.resource_group_name
