@@ -31,7 +31,7 @@ output "principal_id" {
 
 output "service_plan_id" {
   description = "The ID of the App Service Plan"
-  value = var.create_service_plan ? coalesce(try(azurerm_service_plan.main_ep[0].id, null), try(azurerm_service_plan.main[0].id, null)) : data.azurerm_service_plan.sp.id
+  value       = var.create_service_plan ? coalesce(try(azurerm_service_plan.main_ep[0].id, null), try(azurerm_service_plan.main[0].id, null)) : data.azurerm_service_plan.sp.id
 }
 
 
