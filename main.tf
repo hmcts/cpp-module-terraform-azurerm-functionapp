@@ -2,7 +2,6 @@
 
 locals {
   post_private_endpoint_sleep_duration = "60s"
-  #is_ep                                = contains(["EP1", "EP2", "EP3"], var.asp_sku)
 }
 
 resource "azurerm_service_plan" "main" {
