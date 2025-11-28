@@ -2,7 +2,6 @@
 
 locals {
   post_private_endpoint_sleep_duration = "60s"
-  service_plan_id                      = var.create_service_plan ? azurerm_service_plan.main[0].id : data.azurerm_service_plan.sp.id
 }
 
 resource "azurerm_service_plan" "main" {
@@ -13,7 +12,7 @@ resource "azurerm_service_plan" "main" {
   os_type                      = var.asp_os_type
   sku_name                     = var.asp_sku
   worker_count                 = var.asp_instance_size
-  maximum_elastic_worker_count = var.asp_maximum_elastic_worker_count != null ? var.asp_maximum_elastic_worker_count : var.asp_instance_size
+  maximum_elastic_worker_count = var.asp_maximum_elastic_worker_count
   per_site_scaling_enabled     = var.asp_per_site_scaling_enabled
   zone_balancing_enabled       = var.asp_zone_balancing_enabled
   tags                         = var.tags
@@ -24,7 +23,7 @@ resource "azurerm_monitor_autoscale_setting" "auto" {
   name                = "auto-scale-set-${var.service_plan_name}"
   resource_group_name = var.resource_group_name
   location            = var.location
-  target_resource_id  = local.service_plan_id
+  target_resource_id  = data.azurerm_service_plan.sp.id
   tags                = var.tags
   profile {
     name = "default"
@@ -37,7 +36,7 @@ resource "azurerm_monitor_autoscale_setting" "auto" {
     rule {
       metric_trigger {
         metric_name        = "Percentage CPU"
-        metric_resource_id = local.service_plan_id
+        metric_resource_id = data.azurerm_service_plan.sp.id
         time_grain         = "PT1M"
         statistic          = "Average"
         time_window        = "PT5M"
@@ -56,7 +55,7 @@ resource "azurerm_monitor_autoscale_setting" "auto" {
     rule {
       metric_trigger {
         metric_name        = "Percentage CPU"
-        metric_resource_id = local.service_plan_id
+        metric_resource_id = data.azurerm_service_plan.sp.id
         time_grain         = "PT1M"
         statistic          = "Average"
         time_window        = "PT5M"
@@ -74,7 +73,7 @@ resource "azurerm_monitor_autoscale_setting" "auto" {
     rule {
       metric_trigger {
         metric_name        = "MemoryPercentage"
-        metric_resource_id = local.service_plan_id
+        metric_resource_id = data.azurerm_service_plan.sp.id
         time_grain         = "PT1M"
         statistic          = "Average"
         time_window        = "PT5M"
@@ -94,7 +93,7 @@ resource "azurerm_monitor_autoscale_setting" "auto" {
     rule {
       metric_trigger {
         metric_name        = "MemoryPercentage"
-        metric_resource_id = local.service_plan_id
+        metric_resource_id = data.azurerm_service_plan.sp.id
         time_grain         = "PT1M"
         statistic          = "Average"
         time_window        = "PT5M"
@@ -313,7 +312,6 @@ resource "azurerm_windows_function_app" "windows_function" {
       application_insights_connection_string = lookup(site_config.value, "application_insights_connection_string", null)
       application_insights_key               = lookup(site_config.value, "application_insights_key", null)
       runtime_scale_monitoring_enabled       = lookup(site_config.value, "runtime_scale_monitoring_enabled", null)
-
       dynamic "cors" {
         for_each = lookup(site_config.value, "cors", null) == null ? [] : ["cors"]
         content {
