@@ -345,7 +345,7 @@ resource "azurerm_windows_function_app" "windows_function" {
   tags = var.tags
 
   lifecycle {
-    ignore_changes = [app_settings]
+    ignore_changes = [app_settings, auth_settings_v2]
   }
 }
 
