@@ -3,6 +3,65 @@
 
 When developing new features to this module, do not forget to update [for_terratest.tfvars](examples/complete/for_terratest.tfvars) file so terratest does not fail. You can read [README.md](tests/terratest/README.md) for more details
 
+## FTP Publishing Contract
+
+Both Linux and Windows Function Apps explicitly map the existing nested
+`site_config.ftps_state` input to the app resource. No top-level FTP input is added.
+
+| Input | Resource FTP state |
+| --- | --- |
+| Omitted `site_config`, `{}`, or null `site_config` | `Disabled` |
+| Omitted or null nested `ftps_state` | `Disabled` |
+| Exact `"Disabled"` | `Disabled` |
+| Exact `"FtpsOnly"` | `FtpsOnly` |
+
+`site_config` remains an object or map accepted through the existing `any` input.
+Its unrelated fields retain their existing mappings. Non-object configuration,
+invalid FTP value types, `AllAllowed`, empty strings, whitespace, wrong case and
+other FTP states are rejected at the module boundary.
+
+`Disabled` turns off FTP and FTPS publishing. Use `FtpsOnly` only where encrypted
+FTP publishing is required. This contract does not change publishing
+authentication, HTTP access, networking, identities or app settings.
+
+### Adoption Notes
+
+Nested FTP values were previously ignored. Existing `FtpsOnly` values will now
+take effect, while `AllAllowed` callers will fail validation. The known PRD
+`ccm01-notifyatt` caller in `cpp-terraform-functionapp-deployment` currently uses
+`AllAllowed` and requires a separately coordinated consumer correction before
+adoption. This change does not edit that consumer or decide whether it needs FTPS.
+
+Known callers reference this module using floating `main` refs. Coordinate their
+publishing requirements and adoption before any later merge or apply. Keep the
+work on the delivery branch until that coordination is complete. ZIP deployment
+does not itself require FTP, but it does not rule out manual, emergency or
+third-party FTPS publishers. Source changes and mock tests do not establish the
+configuration of deployed Azure resources.
+
+### Mocked Contract Tests
+
+Use Terraform 1.7 or later for the mocked test runner. The provider-only fixture
+pins AzureRM 4.18.0 for these tests, matching a known consumer without adding a
+production provider constraint. From the repository root:
+
+```sh
+terraform init -backend=false -input=false
+terraform fmt -check main.tf variables.tf tests/ftps_state.tftest.hcl tests/fixtures/providers/main.tf
+terraform validate
+terraform test -filter=tests/ftps_state.tftest.hcl
+```
+
+Initialization downloads the provider. All test runs are plan-only and use a
+mocked Azure provider and dummy inputs. They do not need Azure credentials or
+remote state, and do not execute provisioners or the live Terratest suite.
+
+Verified with Terraform 1.16.1 and AzureRM 4.18.0: 33 runs passed, including the
+provider-only fixture and 32 contract checks. Coverage includes both OS paths,
+null and missing values, caller-style merging, unrelated nested settings,
+service-plan-only behavior and rejected inputs. Other Terraform/provider versions
+have not been certified by this run.
+
 <!-- BEGIN_TF_DOCS -->
 
 
@@ -65,7 +124,7 @@ When developing new features to this module, do not forget to update [for_terrat
 | <a name="input_public_network_access_override"></a> [public\_network\_access\_override](#input\_public\_network\_access\_override) | Override the default logic of enabling public access only on non-private endpoint SKUs | `bool` | `true` | no |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | n/a | `string` | n/a | yes |
 | <a name="input_service_plan_name"></a> [service\_plan\_name](#input\_service\_plan\_name) | Service Plan Name | `string` | `null` | no |
-| <a name="input_site_config"></a> [site\_config](#input\_site\_config) | Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is not managed in this block. | `any` | `{}` | no |
+| <a name="input_site_config"></a> [site\_config](#input\_site\_config) | Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is not managed in this block. Nested ftps_state accepts only Disabled or FtpsOnly. Omitted or null FTP settings resolve to Disabled. | `any` | `{}` | no |
 | <a name="input_storage_account"></a> [storage\_account](#input\_storage\_account) | storage account to mount | `any` | `{}` | no |
 | <a name="input_storage_account_access_key"></a> [storage\_account\_access\_key](#input\_storage\_account\_access\_key) | Storage account access key to be used by function app | `string` | `null` | no |
 | <a name="input_storage_account_connection_string"></a> [storage\_account\_connection\_string](#input\_storage\_account\_connection\_string) | Storage account access key to be used by function app | `string` | `null` | no |
