@@ -57,12 +57,24 @@ is asserted without retirement evidence.
 | Crime IDAM Function App | PaaS environments under live BAE/PRD/PRP/PRX and non-live DEV/NFT/SIT/STE, plus a provisioning test fixture | Local scan found 39 environment module calls in 36 files, plus the separate test call. Counts include two calls in some SCSL files. The live/non-live source organization establishes CPP environment coverage, not actual selected runner versions or deployment activity. |
 | DLRM Function App | Landing component's `function_app` module call | Uses `deploy_function_app`, default false. Only sbox explicitly enables it in the checked environment files. The pipeline includes sbox/stg/prod landing stages, which alone do not imply Function Apps are created in every stage. |
 | DLRM IP Kit Logic App | Landing component's `logic` module call | Iterates all landing zones without the Function App enablement filter. Pipeline names sbox/stg/prod landing stages and DTS-DATAINGEST connections. Provider aliases include CNP subscriptions. This is CNP/SDS source context, not a verified Entra tenant identity. |
-| CNP Web App | Module-native tests and `hmcts/terraform-utils` whitelist test fixtures | Whitelist fixtures are not production consumers. Courtstranscribe only mentions this module in a comment explaining it uses direct resources instead. CNP's module-test pipeline uses DTS-SHAREDSERVICES-TEST. No actual production consumer was established. |
+| CNP Web App | Module-native tests, `hmcts/terraform-utils` whitelist fixtures and Jenkins approval-policy references | Fixtures and allowlists are not production consumers. Courtstranscribe explicitly uses direct resources instead. CNP's module-test pipeline uses DTS-SHAREDSERVICES-TEST. The knowledge-store adoption report independently records no module callers at the assessed baseline. No actual production consumer was established. |
 | MI Logic App | Notification Logic App root | Pipeline declares SBOX/DEV/TEST/ITHC/STG/PROD and DTS-SHAREDSERVICES connections. The static service-connection catalog groups shared-services subscriptions with CNP restoration access. This is source-level CNP/shared-services context, not proof of current deployment activity. |
 | ARIA Function App | Sandbox Terraform root's `AzureFunctions` module call | Source belongs to the ARIA Migration project. Caller pins AzureRM 4.1.0 but has empty subscription/tenant fields. Reviewed pipelines build/sync Databricks content rather than establishing Function App Terraform deployment activity. Do not infer retirement or tenant membership from this. |
 
 Public metadata on the evidence date reports CNP Web App and ARIA as neither
 archived nor disabled. Metadata and push dates do not establish production use.
+
+An unfiltered CNP reference search also found `cnp-jenkins-config` approval
+entries for IDAM API, IDAM Web Public, Ethos Docmosis and Plum infrastructure,
+including historical or modernization branch refs. These are adoption leads,
+not proof those projects currently instantiate the module. The indexed
+`cnp-knowledge-store` adoption report says the module has no callers and is
+named only in Jenkins config/library. Its provenance record identifies the
+same `71e7184b85beb8347411a01a2fbf694834345ef0` baseline assessed here. This is
+corroborating snapshot evidence, not an owner retirement decision. A raw request
+for the knowledge-store relationship record returned 404, so its full JSON
+contents were not independently retrieved. The local deprecation map and
+runbooks yielded no explicit CNP/ARIA retirement or migration decision.
 
 ## Additional Resource Candidates: Root-Level Exclusions
 
@@ -190,5 +202,7 @@ not a claim that it was fetched at those local revisions.
 - MI caller/pipeline: `https://github.com/hmcts/mi-logic-apps/blob/master/terraform/logic-apps/30-notification-logic-app.tf` and `https://github.com/hmcts/mi-logic-apps/blob/master/azure-pipelines-infrastructure.yml`.
 - CNP CI: `https://github.com/hmcts/cnp-module-webapp/blob/master/azure-pipelines.yml`.
 - CNP fixture-only consumer: `https://github.com/hmcts/terraform-utils/tree/master/tfwhitelist/test-fixtures`.
+- CNP approval references: `https://github.com/hmcts/cnp-jenkins-config/tree/master/terraform-infra-approvals`.
+- CNP adoption/provenance corroboration: `https://github.com/hmcts/cnp-knowledge-store`, indexed paths `docs/module-adoption.html`, `knowledge/provenance.json` and `knowledge/relationships/by-repo/cnp-module-webapp.json`.
 - ARIA caller/provider: `https://github.com/hmcts/ARIA-Infrastructure/tree/master/01-Sandbox/Terraform`.
 - Provider default: `https://github.com/hashicorp/terraform-provider-azurerm/blob/v4.1.0/internal/services/appservice/helpers/function_app_schema.go`.
