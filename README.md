@@ -39,6 +39,10 @@ does not itself require FTP, but it does not rule out manual, emergency or
 third-party FTPS publishers. Source changes and mock tests do not establish the
 configuration of deployed Azure resources.
 
+The cross-repository [module inventory and review evidence](docs/ftp-module-inventory.md)
+records both known CPP consumers, the other named modules, additional candidate
+dispositions and the remaining inventory-review decisions for DTSPO-35680.
+
 ### Mocked Contract Tests
 
 Use Terraform 1.7 or later for the mocked test runner. The provider-only fixture
@@ -60,7 +64,10 @@ Verified with Terraform 1.16.1 and AzureRM 4.18.0: 33 runs passed, including the
 provider-only fixture and 32 contract checks. Coverage includes both OS paths,
 null and missing values, caller-style merging, unrelated nested settings,
 service-plan-only behavior and rejected inputs. Other Terraform/provider versions
-have not been certified by this run.
+have not been certified by this run. A separate isolated export, changing only
+the test fixture's provider pin to AzureRM 3.103.1, also passed all 33 runs. This
+matches the additional `cpp-terraform-azurerm-graphhourlyusage` consumer's pinned
+provider. No production provider constraint or consumer was changed.
 
 <!-- BEGIN_TF_DOCS -->
 
