@@ -39,10 +39,6 @@ does not itself require FTP, but it does not rule out manual, emergency or
 third-party FTPS publishers. Source changes and mock tests do not establish the
 configuration of deployed Azure resources.
 
-The cross-repository [module inventory and review evidence](docs/ftp-module-inventory.md)
-records both known CPP consumers, the other named modules, additional candidate
-dispositions and the remaining inventory-review decisions for DTSPO-35680.
-
 ### Mocked Contract Tests
 
 Use Terraform 1.7 or later for the mocked test runner. The provider-only fixture
