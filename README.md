@@ -66,13 +66,17 @@ matches the additional `cpp-terraform-azurerm-graphhourlyusage` consumer's pinne
 provider. No production provider constraint or consumer was changed.
 
 <!-- BEGIN_TF_DOCS -->
+## Requirements
 
+| Name | Version |
+|------|---------|
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | < 5.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | n/a |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | < 5.0 |
 
 ## Resources
 
