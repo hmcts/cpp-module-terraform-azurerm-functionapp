@@ -1,7 +1,18 @@
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "< 5.0"
+    }
+  }
+}
+
 # App Service Plan
 
 locals {
   post_private_endpoint_sleep_duration = "60s"
+  site_config                          = try(merge({}, var.site_config), {})
+  ftps_state                           = try(coalesce(local.site_config.ftps_state, "Disabled"), "Disabled")
 }
 
 resource "azurerm_service_plan" "main" {
@@ -158,8 +169,9 @@ resource "azurerm_linux_function_app" "linux_function" {
   }
 
   dynamic "site_config" {
-    for_each = [var.site_config]
+    for_each = [local.site_config]
     content {
+      ftps_state                             = local.ftps_state
       always_on                              = lookup(site_config.value, "always_on", null)
       app_scale_limit                        = lookup(site_config.value, "app_scale_limit", null)
       http2_enabled                          = lookup(site_config.value, "http2_enabled", null)
@@ -300,8 +312,9 @@ resource "azurerm_windows_function_app" "windows_function" {
   }
 
   dynamic "site_config" {
-    for_each = [var.site_config]
+    for_each = [local.site_config]
     content {
+      ftps_state                             = local.ftps_state
       always_on                              = lookup(site_config.value, "always_on", null)
       app_scale_limit                        = lookup(site_config.value, "app_scale_limit", null)
       vnet_route_all_enabled                 = lookup(site_config.value, "vnet_route_all_enabled", null)
