@@ -30,7 +30,9 @@ Nested FTP values were previously ignored. Existing `FtpsOnly` values will now
 take effect, while `AllAllowed` callers will fail validation. The known PRD
 `ccm01-notifyatt` caller in `cpp-terraform-functionapp-deployment` currently uses
 `AllAllowed` and requires a separately coordinated consumer correction before
-adoption. This change does not edit that consumer or decide whether it needs FTPS.
+adoption. Change that caller to `Disabled` before merging this module to preserve
+the previously expected provider default. Keep the existing explicit `Disabled`
+caller unchanged. Confirm representative deployed settings before release.
 
 Known callers reference this module using floating `main` refs. Coordinate their
 publishing requirements and adoption before any later merge or apply. Keep the
@@ -43,12 +45,16 @@ configuration of deployed Azure resources.
 
 Use Terraform 1.7 or later for the mocked test runner. The provider-only fixture
 pins AzureRM 4.18.0 for these tests, matching a known consumer without adding a
-production provider constraint. From the repository root:
+production provider constraint. Static validation uses the same fixture in a
+disposable copy and validates the example with its own provider requirements.
+The pre-commit hook invokes this helper instead of resolving an unconstrained
+latest provider in the production module. This does not certify AzureRM 5.x
+compatibility. From the repository root:
 
 ```sh
 terraform init -backend=false -input=false
 terraform fmt -check main.tf variables.tf tests/ftps_state.tftest.hcl tests/fixtures/providers/main.tf
-terraform validate
+bash tests/validate-static.sh
 terraform test -filter=tests/ftps_state.tftest.hcl
 ```
 
@@ -66,17 +72,12 @@ matches the additional `cpp-terraform-azurerm-graphhourlyusage` consumer's pinne
 provider. No production provider constraint or consumer was changed.
 
 <!-- BEGIN_TF_DOCS -->
-## Requirements
-
-| Name | Version |
-|------|---------|
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | < 5.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | < 5.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | n/a |
 
 ## Resources
 
