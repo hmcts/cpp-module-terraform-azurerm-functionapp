@@ -12,7 +12,14 @@ repos:
   rev: v1.48.0
   hooks:
     - id: terraform_fmt
+- repo: local
+  hooks:
     - id: terraform_validate
+      name: Terraform validate with isolated test providers
+      entry: bash tests/validate-static.sh
+      language: system
+      files: \.tf$
+      pass_filenames: false
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v4.3.0
   hooks:

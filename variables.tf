@@ -118,9 +118,18 @@ variable "key_vault_id" {
 }
 
 variable "site_config" {
-  description = "Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is not managed in this block."
+  description = "Site config for App Service. See documentation https://www.terraform.io/docs/providers/azurerm/r/app_service.html#site_config. IP restriction attribute is not managed in this block. Nested ftps_state accepts only Disabled or FtpsOnly. Omitted or null FTP settings resolve to Disabled."
   type        = any
   default     = {}
+
+  validation {
+    condition = var.site_config == null ? true : try(
+      can(keys(var.site_config)) &&
+      (lookup(var.site_config, "ftps_state", null) == null ? true : contains(["Disabled", "FtpsOnly"], var.site_config.ftps_state)),
+      false
+    )
+    error_message = "site_config must be an object or map. Its ftps_state must be exactly Disabled or FtpsOnly, or omitted or null."
+  }
 }
 
 variable "autoscale_config" {
