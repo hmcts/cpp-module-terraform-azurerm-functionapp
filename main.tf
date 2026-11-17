@@ -126,17 +126,18 @@ resource "azurerm_linux_function_app" "linux_function" {
   name            = var.function_app_name
   service_plan_id = data.azurerm_service_plan.sp.id
   #service_plan_id             = data.azurerm_service_plan.sp[0].id
-  location                      = var.location
-  resource_group_name           = var.resource_group_name
-  storage_account_name          = var.storage_account_name
-  storage_account_access_key    = var.storage_account_access_key
-  functions_extension_version   = "~${var.function_app_version}"
-  https_only                    = var.https_only
-  client_certificate_enabled    = var.client_certificate_enabled
-  client_certificate_mode       = var.client_certificate_mode
-  builtin_logging_enabled       = var.builtin_logging_enabled
-  virtual_network_subnet_id     = var.create_subnet && length(var.subnet_cidr) != 0 ? azurerm_subnet.main[0].id : var.subnet_id
-  public_network_access_enabled = var.public_network_access_override
+  location                                 = var.location
+  resource_group_name                      = var.resource_group_name
+  storage_account_name                     = var.storage_account_name
+  storage_account_access_key               = var.storage_account_access_key
+  functions_extension_version              = "~${var.function_app_version}"
+  https_only                               = var.https_only
+  ftp_publish_basic_authentication_enabled = var.ftp_publish_basic_authentication_enabled
+  client_certificate_enabled               = var.client_certificate_enabled
+  client_certificate_mode                  = var.client_certificate_mode
+  builtin_logging_enabled                  = var.builtin_logging_enabled
+  virtual_network_subnet_id                = var.create_subnet && length(var.subnet_cidr) != 0 ? azurerm_subnet.main[0].id : var.subnet_id
+  public_network_access_enabled            = var.public_network_access_override
 
   dynamic "identity" {
     for_each = var.identity == {} ? [] : [var.identity]
@@ -272,17 +273,18 @@ resource "azurerm_windows_function_app" "windows_function" {
   name            = var.function_app_name
   service_plan_id = data.azurerm_service_plan.sp.id
   # service_plan_id             = data.azurerm_service_plan.sp[0].id
-  location                      = var.location
-  resource_group_name           = var.resource_group_name
-  storage_account_name          = var.storage_account_name
-  storage_account_access_key    = var.storage_account_access_key
-  functions_extension_version   = "~${var.function_app_version}"
-  https_only                    = var.https_only
-  client_certificate_enabled    = var.client_certificate_enabled
-  client_certificate_mode       = var.client_certificate_mode
-  builtin_logging_enabled       = var.builtin_logging_enabled
-  virtual_network_subnet_id     = var.create_subnet && length(var.subnet_cidr) != 0 ? azurerm_subnet.main[0].id : var.subnet_id
-  public_network_access_enabled = var.public_network_access_override
+  location                                 = var.location
+  resource_group_name                      = var.resource_group_name
+  storage_account_name                     = var.storage_account_name
+  storage_account_access_key               = var.storage_account_access_key
+  functions_extension_version              = "~${var.function_app_version}"
+  https_only                               = var.https_only
+  ftp_publish_basic_authentication_enabled = var.ftp_publish_basic_authentication_enabled
+  client_certificate_enabled               = var.client_certificate_enabled
+  client_certificate_mode                  = var.client_certificate_mode
+  builtin_logging_enabled                  = var.builtin_logging_enabled
+  virtual_network_subnet_id                = var.create_subnet && length(var.subnet_cidr) != 0 ? azurerm_subnet.main[0].id : var.subnet_id
+  public_network_access_enabled            = var.public_network_access_override
   app_settings = (
     var.asp_os_type == "Windows" && var.storage_account_is_public_enable_map ? {
       WEBSITE_VNET_ROUTE_ALL                   = "1"
