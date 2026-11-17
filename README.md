@@ -52,6 +52,7 @@ When developing new features to this module, do not forget to update [for_terrat
 | <a name="input_dns_resource_group_name"></a> [dns\_resource\_group\_name](#input\_dns\_resource\_group\_name) | Name of private DNS zone resource group | `string` | `""` | no |
 | <a name="input_enable_autoscale"></a> [enable\_autoscale](#input\_enable\_autoscale) | If true a scaling rule is configured | `bool` | `false` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment into which resource is deployed | `string` | `""` | no |
+| <a name="input_ftp_publish_basic_authentication_enabled"></a> [ftp\_publish\_basic\_authentication\_enabled](#input\_ftp\_publish\_basic\_authentication\_enabled) | Should FTP basic authentication publishing be enabled. Does not affect SCM (Kudu) basic auth used by zip deploy. | `bool` | `true` | no |
 | <a name="input_function_app_name"></a> [function\_app\_name](#input\_function\_app\_name) | Name of the Function App | `string` | `null` | no |
 | <a name="input_function_app_version"></a> [function\_app\_version](#input\_function\_app\_version) | Version of the function app runtime to use (Allowed values 2, 3 or 4) | `number` | `4` | no |
 | <a name="input_https_only"></a> [https\_only](#input\_https\_only) | Disable http procotol and keep only https | `bool` | `true` | no |

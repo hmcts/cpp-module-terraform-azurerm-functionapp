@@ -141,6 +141,12 @@ variable "https_only" {
   default     = true
 }
 
+variable "ftp_publish_basic_authentication_enabled" {
+  description = "Should FTP basic authentication publishing be enabled. Does not affect SCM (Kudu) basic auth used by zip deploy."
+  type        = bool
+  default     = true
+}
+
 variable "builtin_logging_enabled" {
   description = "Should built in logging be enabled"
   type        = bool
