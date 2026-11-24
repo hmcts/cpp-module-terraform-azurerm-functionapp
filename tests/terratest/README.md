@@ -6,6 +6,12 @@ function app and related resources which will be tested to ensure they are built
 
 ## Usage
 
+For the isolated, credential-free FTP contract checks, use the mocked Terraform
+test commands in the [module README](../../README.md#mocked-contract-tests).
+They validate planned Linux and Windows resource settings without applying or
+destroying anything. The Go integration test below provisions Azure resources
+and is not part of those checks.
+
 From the root of the repo run
 go mod init github.com/hmcts/cpp-module-terraform-azurerm-functionapp
 
